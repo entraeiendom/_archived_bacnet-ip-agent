@@ -10,9 +10,9 @@ import java.net.*;
 public class Server implements Runnable {
     private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger( Server.class );
 
-    public static final int DEFAULT_PORT = 47808;
     public static final String DEFAULT_BIND_IP = "0.0.0.0";
     private static final String WILDCARD_LISTENER = "0.0.0.0";
+    private static final int BACNET_DEFAULT_PORT = 47808;
 
     public void run() {
         DatagramSocket socket = null;
@@ -20,7 +20,7 @@ public class Server implements Runnable {
         byte[] buffer = null;
 
         try {
-            int listenPort = 48707;
+            int listenPort = BACNET_DEFAULT_PORT;
             InetAddress bindToAddress = InetAddress.getByName("192.168.1.31");
             socket = new DatagramSocket( listenPort, bindToAddress);
             socket.setReuseAddress(true);
@@ -42,7 +42,8 @@ public class Server implements Runnable {
     }
 
      void handlePacket(DatagramPacket packet, byte[] buffer) {
-        log.info("Received packet: {}, in buffer: {}", packet, buffer.toString());
+        String received = new String(packet.getData(),0,packet.getLength());
+        log.info("Received packet: {}, in buffer: {}", received, buffer.toString());
     }
 
     public static void main(String[] args) {
