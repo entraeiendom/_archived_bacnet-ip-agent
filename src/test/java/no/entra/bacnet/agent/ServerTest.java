@@ -1,7 +1,6 @@
 package no.entra.bacnet.agent;
 
 import no.entra.bacnet.agent.echo.EchoClient;
-import no.entra.bacnet.agent.echo.EchoServer;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,14 +9,17 @@ import java.io.IOException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class ServerTest {
     EchoClient client;
+    UdpServer udpServer;
 
     @Before
     public void setup() throws SocketException, UnknownHostException {
-        new EchoServer().start();
+        udpServer = new UdpServer();
+        udpServer.start();
         client = new EchoClient();
     }
 
@@ -31,7 +33,8 @@ public class ServerTest {
 
     @After
     public void tearDown() throws IOException {
-        client.sendEcho("end");
+        udpServer.setRunning(false);
+//        client.sendEcho("end");
         client.close();
     }
 
