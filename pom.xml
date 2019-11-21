@@ -14,11 +14,16 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.12</maven.compiler.source>
-    <maven.compiler.target>1.12</maven.compiler.target>
+    <maven.compiler.source>12</maven.compiler.source>
+    <maven.compiler.target>12</maven.compiler.target>
   </properties>
 
   <dependencies>
+    <dependency>
+      <groupId>no.entra.bacnet</groupId>
+      <artifactId>bacnet2json</artifactId>
+      <version>0.1-SNAPSHOT</version>
+    </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
