@@ -3,12 +3,13 @@ package no.entra.bacnet.agent;
 public class RealEstateCoreMessage {
 
     private String backnetJson = null;
+    private String hexString = null;
 
     public RealEstateCoreMessage() {
     }
 
-    public RealEstateCoreMessage(String bacnetJson) {
-        this.backnetJson = bacnetJson;
+    public RealEstateCoreMessage(String hexString) {
+        this.hexString = hexString;
     }
 
     public String getBacknetJson() {
@@ -17,5 +18,13 @@ public class RealEstateCoreMessage {
 
     public void setBacknetJson(String backnetJson) {
         this.backnetJson = backnetJson;
+    }
+
+    public String getHexString() {
+        return hexString;
+    }
+
+    public void setHexString(String hexString) {
+        this.hexString = hexString;
     }
 }

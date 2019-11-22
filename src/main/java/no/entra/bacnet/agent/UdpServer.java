@@ -1,21 +1,34 @@
 package no.entra.bacnet.agent;
 
+import no.entra.bacnet.agent.rec.ProcessRecordedFile;
+import org.slf4j.Logger;
+
+import java.io.File;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
 public class UdpServer extends Thread {
+    private static final Logger log = getLogger(UdpServer.class);
     private DatagramSocket socket;
     private boolean listening;
-    private byte[] buf = new byte[256];
+    private boolean recording;
+    private byte[] buf = new byte[256]; //TODO 2048
     public static final int BACNET_DEFAULT_PORT = 47808;
 
     private long messageCount = 0;
+    ProcessRecordedFile processRecordedFile = null;
+    File recordingFile = null;
 
     public UdpServer() throws SocketException {
         socket = new DatagramSocket(BACNET_DEFAULT_PORT);
+        String path = "bacnet-hexstring-recording";
+        recordingFile = new File(path);
+        processRecordedFile = new ProcessRecordedFile(recordingFile);
     }
 
     public void run() {
@@ -35,9 +48,17 @@ public class UdpServer extends Thread {
             packet = new DatagramPacket(buf, buf.length, address, port);
             String received = new String(packet.getData(), 0, packet.getLength());
             addMessageCount();
+            convertAndForward(received);
             sendReply(packet, received);
         }
         socket.close();
+    }
+
+    void convertAndForward(String hexString) {
+        log.trace("Received message: {}", hexString);
+        if(recording) {
+            processRecordedFile.writeToFile(hexString);
+        }
     }
 
     void sendReply(DatagramPacket packet, String received) {
@@ -73,5 +94,21 @@ public class UdpServer extends Thread {
 
     public void setListening(boolean listening) {
         this.listening = listening;
+    }
+
+    public boolean isRecording() {
+        return recording;
+    }
+
+    public void setRecording(boolean recording) {
+        this.recording = recording;
+    }
+
+    public File getRecordingFile() {
+        return recordingFile;
+    }
+
+    public void setRecordingFile(File recordingFile) {
+        this.recordingFile = recordingFile;
     }
 }
