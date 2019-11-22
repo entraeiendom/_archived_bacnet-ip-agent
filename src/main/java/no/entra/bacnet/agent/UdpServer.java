@@ -11,7 +11,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 
-import static no.entra.bacnet.agent.utils.ByteHexConverter.bytesToHexString;
+import static no.entra.bacnet.agent.utils.ByteHexConverter.bytesToHex;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class UdpServer extends Thread {
@@ -49,10 +49,11 @@ public class UdpServer extends Thread {
             int port = packet.getPort();
             packet = new DatagramPacket(buf, buf.length, address, port);
             byte[] receivedBytes = packet.getData();
-            String hexString = bytesToHexString(receivedBytes);
+            int lenghtOfData = packet.getLength();
+            String hexString = bytesToHex(receivedBytes);
             String received = new String(packet.getData(), 0, packet.getLength());
             addMessageCount();
-            convertAndForward(received);
+            convertAndForward(hexString);
             sendReply(packet, received);
         }
         socket.close();
