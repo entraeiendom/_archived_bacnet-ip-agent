@@ -1,6 +1,7 @@
 package no.entra.bacnet.agent;
 
 import no.entra.bacnet.agent.rec.ProcessRecordedFile;
+import no.entra.bacnet.agent.utils.ByteHexConverter;
 import org.slf4j.Logger;
 
 import java.io.File;
@@ -10,6 +11,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 
+import static no.entra.bacnet.agent.utils.ByteHexConverter.bytesToHexString;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class UdpServer extends Thread {
@@ -46,6 +48,8 @@ public class UdpServer extends Thread {
             InetAddress address = packet.getAddress();
             int port = packet.getPort();
             packet = new DatagramPacket(buf, buf.length, address, port);
+            byte[] receivedBytes = packet.getData();
+            String hexString = bytesToHexString(receivedBytes);
             String received = new String(packet.getData(), 0, packet.getLength());
             addMessageCount();
             convertAndForward(received);
