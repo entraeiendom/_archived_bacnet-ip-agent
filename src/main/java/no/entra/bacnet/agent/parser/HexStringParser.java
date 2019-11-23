@@ -24,7 +24,7 @@ public class HexStringParser {
             char[] length = bvlc.getNumberOfBvllOctetsLength();
             if (length != null) {
                 numberOfCharsBvllOnly = Integer.parseInt(new String(length), 16);
-                totalNumberOfCharInMessage = numberOfCharsBvllOnly + 4;
+                totalNumberOfCharInMessage = (numberOfCharsBvllOnly * 2);
             }
         }
 
@@ -45,13 +45,33 @@ public class HexStringParser {
     public static boolean hasApdu(String hexString) {
         boolean hasApdu = false;
         if (isBacnet(hexString)) {
-            Npdu npdu = NpduParser.parseFullBacnetIpHex(hexString);
-            char[] controlOctet = npdu.getControlOctet();
-            int control = Integer.parseInt(new String(controlOctet), 16);
-            if (control == 0) {
-                hasApdu = true;
+            if (findNumberOfCharactersInMessage(hexString) >= 12) {
+                try {
+                    Npdu npdu = NpduParser.parseFullBacnetIpHex(hexString);
+                    char[] controlOctet = npdu.getControlOctet();
+                    int control = Integer.parseInt(new String(controlOctet), 16);
+                    if (control == 0) {
+                        hasApdu = true;
+                    }
+                } catch (StringIndexOutOfBoundsException e) {
+                    log.trace("Failed to find NPDU from {}. Reason: {}", hexString, e.getMessage());
+                }
             }
         }
         return hasApdu;
+    }
+
+    public static String findApduHexString(String hexString) {
+        String apduHexString = null;
+        String bacnetIpMessage = findBacnetIpMessage(hexString);
+        if (hasContent(bacnetIpMessage) && hasApdu(bacnetIpMessage)) {
+            int length = findNumberOfCharactersInMessage(hexString);
+            apduHexString = hexString.substring(12,length);
+        }
+        return apduHexString;
+    }
+
+    static boolean hasContent(String content) {
+        return  content != null && !content.isEmpty();
     }
 }

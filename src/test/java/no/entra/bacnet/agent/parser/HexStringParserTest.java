@@ -37,4 +37,12 @@ public class HexStringParserTest {
         assertFalse(HexStringParser.hasApdu(I_AM_REQUEST));
         assertTrue(HexStringParser.hasApdu(APDU_REQUEST));
     }
+
+    @Test
+    public void findApduHexString() {
+        assertNull(HexStringParser.findApduHexString(I_AM_REQUEST));
+        String expected = "100209001c020004d22c020004d239004e09702e91002f09cb2e2ea4770b1605b40f06303b2f2f09c42e91002f4f";
+        String apduHexString = HexStringParser.findApduHexString(APDU_REQUEST);
+        assertEquals(expected, apduHexString);
+    }
 }
