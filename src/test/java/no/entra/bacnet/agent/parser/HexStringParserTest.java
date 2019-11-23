@@ -3,7 +3,8 @@ package no.entra.bacnet.agent.parser;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class HexStringParserTest {
 
@@ -16,5 +17,11 @@ public class HexStringParserTest {
     @Test
     public void isBacnet() {
         assertTrue(HexStringParser.isBacnet(I_AM_REQUEST));
+    }
+
+    @Test
+    public void findNumberOfCharactersInMessage() {
+        int numberOChars = HexStringParser.findNumberOfCharactersInMessage(I_AM_REQUEST);
+        assertEquals(11, numberOChars);
     }
 }
