@@ -28,4 +28,15 @@ public class HexStringParser {
 
         return totalNumberOfCharInMessage;
     }
+
+    public static String findBacnetIpMessage(String hexString) {
+        String bacnetIpMessage = null;
+        if (isBacnet(hexString)) {
+            int messageLength = findNumberOfCharactersInMessage(hexString);
+            if (messageLength > 0 && messageLength <= hexString.length()) {
+                bacnetIpMessage = hexString.substring(0, messageLength);
+            }
+        }
+        return bacnetIpMessage;
+    }
 }

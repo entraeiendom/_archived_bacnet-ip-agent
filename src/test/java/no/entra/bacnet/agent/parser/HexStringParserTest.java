@@ -24,4 +24,11 @@ public class HexStringParserTest {
         int numberOChars = HexStringParser.findNumberOfCharactersInMessage(I_AM_REQUEST);
         assertEquals(11, numberOChars);
     }
+
+    @Test
+    public void findBacnetIpMessage() {
+        String expected = "810b0007018";
+        String bacnetIpMessage = HexStringParser.findBacnetIpMessage(I_AM_REQUEST);
+        assertEquals(expected, bacnetIpMessage);
+    }
 }
