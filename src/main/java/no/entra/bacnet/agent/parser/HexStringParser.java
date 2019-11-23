@@ -2,6 +2,8 @@ package no.entra.bacnet.agent.parser;
 
 import no.entra.bacnet.ip.bvlc.Bvlc;
 import no.entra.bacnet.ip.bvlc.BvlcParser;
+import no.entra.bacnet.ip.npdu.Npdu;
+import no.entra.bacnet.ip.npdu.NpduParser;
 import org.slf4j.Logger;
 
 import static org.slf4j.LoggerFactory.getLogger;
@@ -38,5 +40,18 @@ public class HexStringParser {
             }
         }
         return bacnetIpMessage;
+    }
+
+    public static boolean hasApdu(String hexString) {
+        boolean hasApdu = false;
+        if (isBacnet(hexString)) {
+            Npdu npdu = NpduParser.parseFullBacnetIpHex(hexString);
+            char[] controlOctet = npdu.getControlOctet();
+            int control = Integer.parseInt(new String(controlOctet), 16);
+            if (control == 0) {
+                hasApdu = true;
+            }
+        }
+        return hasApdu;
     }
 }
