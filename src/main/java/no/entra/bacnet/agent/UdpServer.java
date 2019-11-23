@@ -1,7 +1,8 @@
 package no.entra.bacnet.agent;
 
+import no.entra.bacnet.agent.parser.HexStringParser;
 import no.entra.bacnet.agent.rec.ProcessRecordedFile;
-import no.entra.bacnet.agent.utils.ByteHexConverter;
+import no.entra.bacnet.json.BacNetParser;
 import org.slf4j.Logger;
 
 import java.io.File;
@@ -11,6 +12,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 
+import static no.entra.bacnet.agent.parser.HexStringParser.hasValue;
 import static no.entra.bacnet.agent.utils.ByteHexConverter.bytesToHex;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -63,6 +65,16 @@ public class UdpServer extends Thread {
         log.trace("Received message: {}", hexString);
         if(recording) {
             processRecordedFile.writeToFile(hexString);
+        }
+        String apduHexString = HexStringParser.findApduHexString(hexString);
+        try {
+            //TODO fix BacNetParser in constructor
+            if (hasValue(apduHexString)) {
+                String json = new BacNetParser().jasonFromApdu(apduHexString);
+                log.debug("Apdu Json: {}", json);
+            }
+        } catch (Exception e) {
+            log.debug("Failed to build json from {}. Reason: {}", apduHexString, e.getMessage());
         }
     }
 

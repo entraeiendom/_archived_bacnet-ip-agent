@@ -64,14 +64,14 @@ public class HexStringParser {
     public static String findApduHexString(String hexString) {
         String apduHexString = null;
         String bacnetIpMessage = findBacnetIpMessage(hexString);
-        if (hasContent(bacnetIpMessage) && hasApdu(bacnetIpMessage)) {
+        if (hasValue(bacnetIpMessage) && hasApdu(bacnetIpMessage)) {
             int length = findNumberOfCharactersInMessage(hexString);
             apduHexString = hexString.substring(12,length);
         }
         return apduHexString;
     }
 
-    static boolean hasContent(String content) {
+    public static boolean hasValue(String content) {
         return  content != null && !content.isEmpty();
     }
 }
