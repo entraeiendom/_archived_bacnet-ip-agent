@@ -7,10 +7,7 @@ import org.slf4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
+import java.net.*;
 
 import static no.entra.bacnet.agent.parser.HexStringParser.hasValue;
 import static no.entra.bacnet.agent.utils.ByteHexConverter.bytesToHex;
@@ -29,7 +26,11 @@ public class UdpServer extends Thread {
     File recordingFile = null;
 
     public UdpServer() throws SocketException {
-        socket = new DatagramSocket(BACNET_DEFAULT_PORT);
+        socket = new DatagramSocket(null);
+        socket.setBroadcast(true);
+        socket.setReuseAddress(true);
+        SocketAddress inetAddress = new InetSocketAddress(BACNET_DEFAULT_PORT);
+        socket.bind(inetAddress);
         String path = "bacnet-hexstring-recording";
         recordingFile = new File(path);
         processRecordedFile = new ProcessRecordedFile(recordingFile);
