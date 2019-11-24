@@ -8,17 +8,24 @@ import no.entra.bacnet.json.BacNetParser;
 import org.slf4j.Logger;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static java.nio.file.StandardOpenOption.*;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class ProcessRecordedFile implements Bacnet2RealEstateCore {
     private static final Logger log = getLogger(ProcessRecordedFile.class);
 
     private final File recordingsFile;
+    private final Path recordingsPath;
     private final BacNetParser bacNetParser;
     private final BacnetHexStringRecorder recorder;
 
@@ -28,6 +35,7 @@ public class ProcessRecordedFile implements Bacnet2RealEstateCore {
 
     public ProcessRecordedFile(File recordingsFile, BacNetParser bacNetParser) {
         this.recordingsFile = recordingsFile;
+        recordingsPath = Paths.get(recordingsFile.getAbsolutePath());
         recorder = new FileBacnetHexStringRecorder(recordingsFile);
         this.bacNetParser = bacNetParser;
     }
@@ -38,8 +46,12 @@ public class ProcessRecordedFile implements Bacnet2RealEstateCore {
     }
 
     public void writeToFile(String hexString) {
-        //FIXME write to file
         log.info("ToRecord;{}", hexString);
+        try {
+            Files.writeString(recordingsPath, hexString + "\n", Charset.forName("UTF-8"), CREATE, WRITE, APPEND);
+        } catch (IOException e) {
+            log.trace("Could not write to {}. Reason: {}", recordingsFile, e);
+        }
     }
 
     public List<RealEstateCoreMessage> fetchFromFile() {
