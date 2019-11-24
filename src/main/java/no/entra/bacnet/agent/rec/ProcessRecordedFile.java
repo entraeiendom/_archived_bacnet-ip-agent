@@ -39,6 +39,7 @@ public class ProcessRecordedFile implements Bacnet2RealEstateCore {
 
     public void writeToFile(String hexString) {
         //FIXME write to file
+        log.info("ToRecord;{}", hexString);
     }
 
     public List<RealEstateCoreMessage> fetchFromFile() {

@@ -73,6 +73,9 @@ public class UdpServer extends Thread {
             if (hasValue(apduHexString)) {
                 String json = new BacNetParser().jasonFromApdu(apduHexString);
                 log.debug("Apdu Json: {}", json);
+            } else {
+                //#2 TODO write unknown hexString to mqtt topic
+                log.debug("No Apdu found for: {}");
             }
         } catch (Exception e) {
             log.debug("Failed to build json from {}. Reason: {}", apduHexString, e.getMessage());
