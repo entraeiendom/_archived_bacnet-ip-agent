@@ -18,17 +18,17 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class ProcessRecordedFile implements Bacnet2RealEstateCore {
     private static final Logger log = getLogger(ProcessRecordedFile.class);
 
-    private final File recodedFile;
+    private final File recordingsFile;
     private final BacNetParser bacNetParser;
     private final BacnetHexStringRecorder recorder;
 
-    public ProcessRecordedFile(File recodedFile) {
-        this(recodedFile, new BacNetParser());
+    public ProcessRecordedFile(File recordingsFile) {
+        this(recordingsFile, new BacNetParser());
     }
 
-    public ProcessRecordedFile(File recodedFile, BacNetParser bacNetParser) {
-        this.recodedFile = recodedFile;
-        recorder = new FileBacnetHexStringRecorder(recodedFile);
+    public ProcessRecordedFile(File recordingsFile, BacNetParser bacNetParser) {
+        this.recordingsFile = recordingsFile;
+        recorder = new FileBacnetHexStringRecorder(recordingsFile);
         this.bacNetParser = bacNetParser;
     }
 
