@@ -29,3 +29,4 @@ hs_err_pid*
 # local sh script
 *baardl.sh
 *priv.sh
+dependency-reduced-pom.xml
