@@ -19,6 +19,23 @@ mvn clean install
 java -jar target/bacnet-ip-agent-*.jar
 ``` 
 
+## Docker
+
+### Ubuntu
+
+Update <your docker user> in all docker/*.sh files.
+
+```
+mvn clean install
+docker/build-alpine-amd64.sh
+docker/run-alpine.sh
+```
+### Raspberry PI
+
+
+```
+//TODO Support for Java 13
+```
 ## Echo example
 
 UDP might be hard to understand. 

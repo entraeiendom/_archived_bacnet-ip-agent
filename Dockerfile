@@ -8,7 +8,7 @@ MAINTAINER Bard Lind <bard.lind@gmail.com>
 #RUN adduser bacnetagent
 # Create a group and user
 #RUN addgroup -S bacnet && adduser -S bacnetagent -G bacnet
-ADD target/bacnetagent*.jar /home/bacnetagent/bacnetagent.jar
+ADD target/bacnet-ip-agent-*.jar /home/bacnetagent/bacnet-ip-agent.jar
 #ADD docker/bacnetagent_override.properties /home/bacnetagent/bacnetagent-override.properties
 #RUN chown bacnetagent:bacnetagent /home/bacnetagent/bacnetagent.properties
 

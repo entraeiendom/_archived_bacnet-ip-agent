@@ -7,18 +7,18 @@ MAINTAINER Bard Lind <bard.lind@gmail.com>
 
 # Install Application
 # Create a group and user
-RUN addgroup -S bacnet && adduser -S bacnetagent -G bacnet
+RUN addgroup -S bacnet && adduser -S bacnet-ip-agent -G bacnet
 
 # Tell docker that all future commands should run as the appuser user
 # USER appuser
-#RUN adfilduser bacnetagent
-ADD target/bacnetagent*.jar /home/bacnetagent/bacnetagent.jar
-#ADD docker/bacnetagent_override.properties /home/bacnetagent/bacnetagent-override.properties
-#RUN chown bacnetagent:bacnetagent /home/bacnetagent/bacnetagent.properties
+#RUN adfilduser bacnet-ip-agent
+ADD target/bacnet-ip-agent*.jar /home/bacnet-ip-agent/bacnet-ip-agent.jar
+#ADD docker/bacnet-ip-agent_override.properties /home/bacnet-ip-agent/bacnet-ip-agent-override.properties
+#RUN chown bacnet-ip-agent:bacnet-ip-agent /home/bacnet-ip-agent/bacnet-ip-agent.properties
 
 #EXPOSE 21500:21599
 
-WORKDIR "/home/bacnetagent"
+WORKDIR "/home/bacnet-ip-agent"
 CMD [ \
     "java", \
     "-Xdebug", \
@@ -30,7 +30,7 @@ CMD [ \
 #    "-Dcom.sun.management.jmxremote.authenticate=false", \
 #    "-Djava.rmi.server.hostname=localhost", \
     "-jar", \
-    "bacnetagent.jar" \
+    "bacnet-ip-agent.jar" \
 ]
 
 
