@@ -31,7 +31,7 @@ public class UdpServer extends Thread {
         socket.setReuseAddress(true);
         SocketAddress inetAddress = new InetSocketAddress(BACNET_DEFAULT_PORT);
         socket.bind(inetAddress);
-        String path = "bacnet-hexstring-recording";
+        String path = "bacnet-hexstring-recording.log";
         recordingFile = new File(path);
         processRecordedFile = new ProcessRecordedFile(recordingFile);
     }
