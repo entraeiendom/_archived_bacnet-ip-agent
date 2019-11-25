@@ -1,7 +1,5 @@
 package no.entra.bacnet.agent.utils;
 
-import java.nio.charset.StandardCharsets;
-
 public class ByteHexConverter {
 
     public static String bytesToHex(byte[] receivedBytes) {
@@ -10,12 +8,6 @@ public class ByteHexConverter {
             hexString += byteToHex(receivedByte);
         }
         return hexString;
-    }
-
-
-    public static byte[] hexToBytes(String hexString) {
-        byte[] bytes = hexString.getBytes(StandardCharsets.UTF_8);
-        return bytes;
     }
 
     public static byte[] hexStringToByteArray(String s) {
