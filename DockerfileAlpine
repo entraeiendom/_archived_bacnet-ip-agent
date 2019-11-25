@@ -17,6 +17,9 @@ ADD target/bacnet-ip-agent*.jar /home/bacnet-ip-agent/bacnet-ip-agent.jar
 #RUN chown bacnet-ip-agent:bacnet-ip-agent /home/bacnet-ip-agent/bacnet-ip-agent.properties
 
 #EXPOSE 21500:21599
+ENV BACNET_PORT 47808
+EXPOSE ${BACNET_PORT}
+EXPOSE ${BACNET_PORT}/udp
 
 WORKDIR "/home/bacnet-ip-agent"
 CMD [ \
