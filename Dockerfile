@@ -1,4 +1,4 @@
-FROM arm32v7/openjdk:11.0.1
+FROM arm32v7/openjdk:11.0.3-jre
 MAINTAINER Bard Lind <bard.lind@gmail.com>
 #RUN yum -y install yum-cron
 #RUN yum -y update
