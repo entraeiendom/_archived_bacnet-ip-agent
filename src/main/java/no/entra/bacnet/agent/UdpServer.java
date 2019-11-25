@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.net.*;
 
 import static no.entra.bacnet.agent.parser.HexStringParser.hasValue;
-import static no.entra.bacnet.agent.utils.ByteHexConverter.bytesToHex;
+import static no.entra.bacnet.agent.utils.ByteHexConverter.integersToHex;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class UdpServer extends Thread {
@@ -53,7 +53,7 @@ public class UdpServer extends Thread {
             packet = new DatagramPacket(buf, buf.length, address, port);
             byte[] receivedBytes = packet.getData();
             int lenghtOfData = packet.getLength();
-            String hexString = bytesToHex(receivedBytes);
+            String hexString = integersToHex(receivedBytes);
             String received = new String(packet.getData(), 0, packet.getLength());
             addMessageCount();
             convertAndForward(hexString);

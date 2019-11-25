@@ -13,30 +13,20 @@ public class ByteHexConverterTest {
     public void bytesToHexString() {
 
         String expected = "81105a";
-        byte[] expectedInBytes = {56, 49, 49, 48, 53, 97};
-        assertTrue(Arrays.equals(expected.getBytes(), expectedInBytes));
+        byte[] expectedInHexBytes = {56, 49, 49, 48, 53, 97};
+        assertTrue(Arrays.equals(expected.getBytes(), expectedInHexBytes));
+        byte[] receivedUdpDataInIntegers = {-127, 16, 90};
 
-        /*
-        String expected = "81105a";
-        String hexString = bytesToHex(expected.getBytes());
-        String received = bytesToHex(hexInBytes);
-        assertEquals(expected, received);
-        byte[] hexInBytes = {56, 49, 49, 48, 53, 97};
-//        byte[] hexInBytes = {-127};
-        String received = bytesToHex(hexInBytes);
-        assertEquals(expected, received);
-        hexInBytes = expected.getBytes();
-        assertTrue(Arrays.equals(hexInBytes, hexToBytes(expected)));
-        received = bytesToHex(hexInBytes);
-        assertEquals(expected, received);
-        */
-        assertTrue(true);
+        String hexString = ByteHexConverter.integersToHex(receivedUdpDataInIntegers);
+        assertEquals(expected, hexString);
+
+
     }
 
     @Test
-    public void byteToHex() {
+    public void integerByteToHex() {
         byte hexAsInt = -127;
-        String hex = ByteHexConverter.byteToHex(hexAsInt);
+        String hex = ByteHexConverter.integerByteToHex(hexAsInt);
         assertEquals("81", hex);
     }
 }
