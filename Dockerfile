@@ -29,7 +29,7 @@ CMD [ \
 #    "-Dcom.sun.management.jmxremote.authenticate=false", \
 #    "-Djava.rmi.server.hostname=localhost", \
     "-jar", \
-    "bacnetagent.jar" \
+    "bacnet-ip-agent.jar" \
 ]
 
 
