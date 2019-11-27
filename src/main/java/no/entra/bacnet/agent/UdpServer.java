@@ -1,15 +1,13 @@
 package no.entra.bacnet.agent;
 
-import no.entra.bacnet.agent.parser.HexStringParser;
+import no.entra.bacnet.agent.observer.BacnetObserver;
 import no.entra.bacnet.agent.rec.ProcessRecordedFile;
-import no.entra.bacnet.json.BacNetParser;
 import org.slf4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.*;
 
-import static no.entra.bacnet.agent.parser.HexStringParser.hasValue;
 import static no.entra.bacnet.agent.utils.ByteHexConverter.integersToHex;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -22,18 +20,18 @@ public class UdpServer extends Thread {
     public static final int BACNET_DEFAULT_PORT = 47808;
 
     private long messageCount = 0;
+    private final BacnetObserver bacnetObserver;
     ProcessRecordedFile processRecordedFile = null;
     File recordingFile = null;
 
-    public UdpServer() throws SocketException {
+    public UdpServer(BacnetObserver bacnetObserver) throws SocketException {
+        this.bacnetObserver = bacnetObserver;
         socket = new DatagramSocket(null);
         socket.setBroadcast(true);
         socket.setReuseAddress(true);
         SocketAddress inetAddress = new InetSocketAddress(BACNET_DEFAULT_PORT);
         socket.bind(inetAddress);
-        String path = "bacnet-hexstring-recording.log";
-        recordingFile = new File(path);
-        processRecordedFile = new ProcessRecordedFile(recordingFile);
+
     }
 
     public void run() {
@@ -64,22 +62,8 @@ public class UdpServer extends Thread {
 
     void convertAndForward(String hexString) {
         log.trace("Received message: {}", hexString);
-        if(recording) {
-            processRecordedFile.writeToFile(hexString);
-        }
-        String apduHexString = HexStringParser.findApduHexString(hexString);
-        try {
-            //TODO fix BacNetParser in constructor
-            if (hasValue(apduHexString)) {
-                String json = new BacNetParser().jasonFromApdu(apduHexString);
-                log.debug("Apdu {}\n{}", hexString,json);
-            } else {
-                //#2 TODO write unknown hexString to mqtt topic
-                log.debug("No Apdu found for: {}", hexString);
-            }
-        } catch (Exception e) {
-            log.debug("Failed to build json from {}. Reason: {}", apduHexString, e.getMessage());
-        }
+        bacnetObserver.bacnetHexStringReceived(hexString);
+
     }
 
     void sendReply(DatagramPacket packet, String received) {

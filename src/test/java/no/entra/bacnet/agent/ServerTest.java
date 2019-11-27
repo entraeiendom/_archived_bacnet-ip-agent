@@ -1,5 +1,6 @@
 package no.entra.bacnet.agent;
 
+import no.entra.bacnet.agent.observer.BacnetObserver;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,14 +11,17 @@ import java.net.UnknownHostException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.mockito.Mockito.mock;
 
 public class ServerTest {
     BacnetTestClient client;
+    BacnetObserver bacnetObserver;
     UdpServer udpServer;
 
     @Before
     public void setup() throws SocketException, UnknownHostException {
-        udpServer = new UdpServer();
+        bacnetObserver =  mock(BacnetObserver.class);
+        udpServer = new UdpServer(bacnetObserver);
         udpServer.start();
         client = new BacnetTestClient();
     }
