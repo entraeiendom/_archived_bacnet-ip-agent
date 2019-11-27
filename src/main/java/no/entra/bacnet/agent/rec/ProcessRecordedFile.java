@@ -46,6 +46,7 @@ public class ProcessRecordedFile implements Bacnet2RealEstateCore {
     }
 
     public void writeToFile(String hexString) {
+        //TODO #7 move to FileBacnetHexStringRecorder
         log.info("ToRecord;{}", hexString);
         try {
             Files.writeString(recordingsPath, hexString + "\n", Charset.forName("UTF-8"), CREATE, WRITE, APPEND);
