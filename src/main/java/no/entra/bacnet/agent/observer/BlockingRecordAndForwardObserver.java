@@ -46,6 +46,7 @@ public class BlockingRecordAndForwardObserver implements BacnetObserver {
                 } else {
                     //#2 TODO write unknown hexString to mqtt topic
                     log.debug("No Apdu found for: {}", hexString);
+                    mqttClient.publishUnknownHexString(hexString);
                 }
             } catch (Exception e) {
                 log.debug("Failed to build json from {}. Reason: {}", apduHexString, e.getMessage());

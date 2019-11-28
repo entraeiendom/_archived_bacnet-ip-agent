@@ -62,9 +62,9 @@ public class AzureIoTMqttClient implements MqttClient {
     void sendMessage(Message azureMessage) {
 
         try {
-
             SendReceive.EventCallback eventCallback = new SendReceive.EventCallback();
             client.sendEventAsync(azureMessage, eventCallback, azureMessage);
+            log.debug("Message is sent: {}", azureMessage.getMessageId());
         } catch (Exception e) {
             log.info("Failed to send azureMessage: {}", azureMessage);
             e.printStackTrace(); // Trace the exception
