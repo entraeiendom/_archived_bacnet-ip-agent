@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Scanner;
 
 import static no.entra.bacnet.agent.mqtt.azureiot.SendReceive.D2C_MESSAGE_TIMEOUT;
 import static no.entra.bacnet.agent.utils.PropertyReader.findProperty;
@@ -115,10 +114,11 @@ public class AzureIoTMqttClient implements MqttClient {
             System.exit(1);
         }
 
+
         try {
             AzureIoTMqttClient mqttClient = new AzureIoTMqttClient(deviceConnectionString);
-            String hexString = "810b00190120ffff00ff1000c4020004d22205c4910022036100000000000";
-            mqttClient.publishUnknownHexString(hexString);
+//            String hexString = "810b00190120ffff00ff1000c4020004d22205c4910022036100000000000";
+//            mqttClient.publishUnknownHexString(hexString);
 
             log.debug("Wait for " + D2C_MESSAGE_TIMEOUT / 1000 + " second(s) for response from the IoT Hub...");
 
@@ -130,8 +130,8 @@ public class AzureIoTMqttClient implements MqttClient {
             }
 
             log.info("In receive mode. Waiting for receiving C2D messages. Press ENTER to close");
-            Scanner scanner = new Scanner(System.in);
-            scanner.nextLine();
+//            Scanner scanner = new Scanner(System.in);
+//            scanner.nextLine();
 
             // close the connection
             log.debug("Closing");
