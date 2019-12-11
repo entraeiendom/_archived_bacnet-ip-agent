@@ -5,7 +5,6 @@ import com.microsoft.azure.sdk.iot.device.IotHubClientProtocol;
 import com.microsoft.azure.sdk.iot.device.Message;
 import no.entra.bacnet.agent.mqtt.azureiot.SendReceive;
 import no.entra.bacnet.rec.RealEstateCore;
-import org.apache.commons.lang3.NotImplementedException;
 import org.slf4j.Logger;
 
 import java.io.IOException;
@@ -35,15 +34,15 @@ public class AzureIoTMqttClient implements MqttClient {
 
     @Override
     public void publishRealEstateCore(RealEstateCore message) {
-        throw new NotImplementedException("To be developed");
-        /*
-        Message msg = new Message(msgStr);
-        msg.setContentTypeFinal("application/json");
-        msg.setProperty(MESSAGE_TYPE, REAL_ESTATE_CORE);
-        msg.setMessageId(java.util.UUID.randomUUID().toString());
-        msg.setExpiryTime(D2C_MESSAGE_TIMEOUT);
-        log.debug(msgStr);
-        */
+        if (message != null) {
+            String msgStr = message.toJson();
+            Message msg = new Message(msgStr);
+            msg.setContentTypeFinal("application/json");
+            msg.setProperty(MESSAGE_TYPE, REAL_ESTATE_CORE);
+            msg.setMessageId(java.util.UUID.randomUUID().toString());
+            msg.setExpiryTime(D2C_MESSAGE_TIMEOUT);
+            log.debug(msgStr);
+        }
 
     }
 

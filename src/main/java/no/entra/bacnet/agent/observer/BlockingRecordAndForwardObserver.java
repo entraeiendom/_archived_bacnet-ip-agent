@@ -3,6 +3,8 @@ package no.entra.bacnet.agent.observer;
 import no.entra.bacnet.agent.mqtt.MqttClient;
 import no.entra.bacnet.agent.recording.BacnetHexStringRecorder;
 import no.entra.bacnet.json.Bacnet2Json;
+import no.entra.bacnet.rec.Bacnet2Rec;
+import no.entra.bacnet.rec.RealEstateCore;
 import org.slf4j.Logger;
 
 import static no.entra.bacnet.agent.parser.HexStringParser.hasValue;
@@ -38,8 +40,12 @@ public class BlockingRecordAndForwardObserver implements BacnetObserver {
         if (publishToMqtt) {
             try {
                 if (hasValue(hexString)) {
-                    String json = Bacnet2Json.hexStringToJson(hexString);
-                    log.debug("Apdu {}\n{}", hexString, json);
+                    String bacnetJson = Bacnet2Json.hexStringToJson(hexString);
+                    log.trace("BacnetJson {}\n{}", hexString, bacnetJson);
+                    if (bacnetJson != null) {
+                        RealEstateCore message = Bacnet2Rec.bacnetToRec(bacnetJson);
+                        mqttClient.publishRealEstateCore(message);
+                    }
                 } else {
                     //#2 TODO write unknown hexString to mqtt topic
                     log.debug("No Apdu found for: {}", hexString);
