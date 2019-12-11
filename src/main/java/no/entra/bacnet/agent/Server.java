@@ -1,12 +1,16 @@
 package no.entra.bacnet.agent;
 
 import java.io.IOException;
-import java.net.*;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
 
 /**
  * Listen to Bacnet Ip traffic.
  * <p>
  * Later also listen to MQTT commands, and send these to Bacnet Ip.
+ * @Deprecated not in use.
  */
 public class Server extends Thread {
     private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger( Server.class );
