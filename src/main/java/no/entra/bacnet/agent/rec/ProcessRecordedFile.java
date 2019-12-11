@@ -9,9 +9,6 @@ import no.entra.bacnet.rec.RealEstateCore;
 import org.slf4j.Logger;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -19,7 +16,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static java.nio.file.StandardOpenOption.*;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class ProcessRecordedFile implements Bacnet2RealEstateCore {
@@ -39,16 +35,6 @@ public class ProcessRecordedFile implements Bacnet2RealEstateCore {
     @Override
     public RealEstateCoreMessage buildFromBacnetJson(String bacnetJson) {
         return null;
-    }
-
-    public void writeToFile(String hexString) {
-        //TODO #7 move to FileBacnetHexStringRecorder
-        log.info("ToRecord;{}", hexString);
-        try {
-            Files.writeString(recordingsPath, hexString + "\n", Charset.forName("UTF-8"), CREATE, WRITE, APPEND);
-        } catch (IOException e) {
-            log.trace("Could not write to {}. Reason: {}", recordingsFile, e);
-        }
     }
 
     public List<RealEstateCore> fetchFromFile() {
