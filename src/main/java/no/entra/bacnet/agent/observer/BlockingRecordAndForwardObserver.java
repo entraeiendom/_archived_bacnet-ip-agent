@@ -1,9 +1,8 @@
 package no.entra.bacnet.agent.observer;
 
 import no.entra.bacnet.agent.mqtt.MqttClient;
-import no.entra.bacnet.agent.parser.HexStringParser;
 import no.entra.bacnet.agent.recording.BacnetHexStringRecorder;
-import no.entra.bacnet.json.BacNetParser;
+import no.entra.bacnet.json.Bacnet2Json;
 import org.slf4j.Logger;
 
 import static no.entra.bacnet.agent.parser.HexStringParser.hasValue;
@@ -37,11 +36,9 @@ public class BlockingRecordAndForwardObserver implements BacnetObserver {
             hexStringRecorder.persist(hexString);
         }
         if (publishToMqtt) {
-            String apduHexString = HexStringParser.findApduHexString(hexString);
             try {
-                //TODO fix BacNetParser in constructor
-                if (hasValue(apduHexString)) {
-                    String json = new BacNetParser().jasonFromApdu(apduHexString);
+                if (hasValue(hexString)) {
+                    String json = Bacnet2Json.hexStringToJson(hexString);
                     log.debug("Apdu {}\n{}", hexString, json);
                 } else {
                     //#2 TODO write unknown hexString to mqtt topic
@@ -49,7 +46,7 @@ public class BlockingRecordAndForwardObserver implements BacnetObserver {
                     mqttClient.publishUnknownHexString(hexString);
                 }
             } catch (Exception e) {
-                log.debug("Failed to build json from {}. Reason: {}", apduHexString, e.getMessage());
+                log.debug("Failed to build json from {}. Reason: {}", hexString, e.getMessage());
             }
         }
     }

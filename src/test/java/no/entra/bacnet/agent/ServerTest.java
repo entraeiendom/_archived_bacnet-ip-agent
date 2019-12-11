@@ -1,6 +1,7 @@
 package no.entra.bacnet.agent;
 
 import no.entra.bacnet.agent.observer.BacnetObserver;
+import no.entra.bacnet.agent.observer.BlockingRecordAndForwardObserver;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +21,7 @@ public class ServerTest {
 
     @Before
     public void setup() throws SocketException, UnknownHostException {
-        bacnetObserver =  mock(BacnetObserver.class);
+        bacnetObserver =  mock(BlockingRecordAndForwardObserver.class);
         udpServer = new UdpServer(bacnetObserver);
         udpServer.start();
         client = new BacnetTestClient();
