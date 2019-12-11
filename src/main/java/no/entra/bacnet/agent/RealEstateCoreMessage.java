@@ -1,5 +1,8 @@
 package no.entra.bacnet.agent;
 
+/*
+@Deprecated use no.entra.bacnet.rec.RealEstateCore
+ */
 public class RealEstateCoreMessage {
 
     private String backnetJson = null;

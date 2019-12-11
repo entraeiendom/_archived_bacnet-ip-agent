@@ -57,14 +57,42 @@
   <dependencies>
     <dependency>
       <groupId>no.entra.bacnet</groupId>
-      <artifactId>bacnet2json</artifactId>
+      <artifactId>bacnet2rec</artifactId>
       <version>0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>no.entra.bacnet</groupId>
-      <artifactId>bacnet-ip-parser</artifactId>
-      <version>0.1-SNAPSHOT</version>
+      <artifactId>bacnet2json</artifactId>
+      <version>0.3</version>
     </dependency>
+    <!--<dependency>-->
+      <!--<groupId>no.entra.bacnet</groupId>-->
+      <!--<artifactId>bacnet-ip-parser</artifactId>-->
+      <!--<version>0.1-SNAPSHOT</version>-->
+    <!--</dependency>-->
+
+    <!-- Azure IoT -->
+    <dependency>
+      <groupId>com.microsoft.azure.sdk.iot</groupId>
+      <artifactId>iot-device-client</artifactId>
+      <version>1.17.5</version>
+    </dependency>
+    <dependency>
+      <groupId>com.microsoft.azure</groupId>
+      <artifactId>azure-eventhubs</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.microsoft.azure</groupId>
+      <artifactId>azure-eventhubs-eph</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.8.5</version>
+    </dependency>
+
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
@@ -75,10 +103,18 @@
       <artifactId>logback-classic</artifactId>
       <version>1.2.3</version>
     </dependency>
+
+    <!-- Test -->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>2.12.0</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
