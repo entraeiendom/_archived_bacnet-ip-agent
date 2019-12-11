@@ -16,7 +16,7 @@ public class UdpServer extends Thread {
     private DatagramSocket socket;
     private boolean listening;
     private boolean recording;
-    private byte[] buf = new byte[256]; //TODO 2048
+    private byte[] buf = new byte[2048];
     public static final int BACNET_DEFAULT_PORT = 47808;
 
     private long messageCount = 0;
