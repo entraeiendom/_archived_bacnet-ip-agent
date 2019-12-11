@@ -1,6 +1,5 @@
 package no.entra.bacnet.agent.rec;
 
-import no.entra.bacnet.agent.RealEstateCoreMessage;
 import no.entra.bacnet.agent.recording.BacnetHexStringRecorder;
 import no.entra.bacnet.agent.recording.FileBacnetHexStringRecorder;
 import no.entra.bacnet.json.Bacnet2Json;
@@ -33,7 +32,7 @@ public class ProcessRecordedFile implements Bacnet2RealEstateCore {
     }
 
     @Override
-    public RealEstateCoreMessage buildFromBacnetJson(String bacnetJson) {
+    public RealEstateCore buildFromBacnetJson(String bacnetJson) {
         return null;
     }
 

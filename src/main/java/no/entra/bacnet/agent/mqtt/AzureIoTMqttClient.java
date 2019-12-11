@@ -3,8 +3,8 @@ package no.entra.bacnet.agent.mqtt;
 import com.microsoft.azure.sdk.iot.device.DeviceClient;
 import com.microsoft.azure.sdk.iot.device.IotHubClientProtocol;
 import com.microsoft.azure.sdk.iot.device.Message;
-import no.entra.bacnet.agent.RealEstateCoreMessage;
 import no.entra.bacnet.agent.mqtt.azureiot.SendReceive;
+import no.entra.bacnet.rec.RealEstateCore;
 import org.apache.commons.lang3.NotImplementedException;
 import org.slf4j.Logger;
 
@@ -35,7 +35,7 @@ public class AzureIoTMqttClient implements MqttClient {
     }
 
     @Override
-    public void publishRealEstateCore(RealEstateCoreMessage message) {
+    public void publishRealEstateCore(RealEstateCore message) {
         throw new NotImplementedException("To be developed");
         /*
         Message msg = new Message(msgStr);
