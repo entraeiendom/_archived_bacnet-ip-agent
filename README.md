@@ -5,7 +5,7 @@ Listen to UDP packages, and send UDP packages.
 
 ```
 mvn clean install
-java -jar target/bacnet-ip-agent-*.jar
+java -DDEVICE_CONNECTION_STRING="Hostname=....<from portal.azure.com>" -jar target/bacnet-ip-agent-*.jar 
 ``` 
 
 ## Docker
