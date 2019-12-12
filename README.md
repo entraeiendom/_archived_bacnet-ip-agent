@@ -33,3 +33,8 @@ The simulator is found in [BacnetUdpSimulator](https://github.com/entraeiendom/b
 Running the simulator is easy. Start the main method from your IDE. The simulator will then
 put a WhoIs Bacnet message to your local net. 
 If you want to run a specific Bacnet message, you may provide a HexString as the first program parameter.
+
+## Listen to Azure IoT hub
+
+`az iot hub monitor-events --hub-name <your-hub-name>`
+How? Look at https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest
