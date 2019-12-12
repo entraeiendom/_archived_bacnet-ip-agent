@@ -55,7 +55,7 @@ public class UdpServer extends Thread {
             String received = new String(packet.getData(), 0, packet.getLength());
             addMessageCount();
             convertAndForward(hexString);
-            sendReply(packet, received);
+            //sendReply(packet, received);
         }
         socket.close();
     }

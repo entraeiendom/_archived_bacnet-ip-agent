@@ -41,7 +41,7 @@ public class AzureIoTMqttClient implements MqttClient {
             msg.setProperty(MESSAGE_TYPE, REAL_ESTATE_CORE);
             msg.setMessageId(java.util.UUID.randomUUID().toString());
             msg.setExpiryTime(D2C_MESSAGE_TIMEOUT);
-            log.debug(msgStr);
+            sendMessage(msg);
         }
 
     }
@@ -49,7 +49,7 @@ public class AzureIoTMqttClient implements MqttClient {
     @Override
     public void publishUnknownHexString(String hexString) {
         Message msg = new Message(hexString);
-        msg.setContentTypeFinal("text/plain; charset=UTF-8");
+        msg.setContentTypeFinal("text/plain;charset=UTF-8");
         msg.setProperty(MESSAGE_TYPE, UNKNOWN_HEX_STRING);
         msg.setMessageId(java.util.UUID.randomUUID().toString());
         msg.setExpiryTime(D2C_MESSAGE_TIMEOUT);
