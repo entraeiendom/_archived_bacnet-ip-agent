@@ -9,8 +9,22 @@
   <version>0.1-SNAPSHOT</version>
 
   <name>bacnet-ip-agent</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
+  <url>https://github.com/entraeiendom/bacnet-ip-agent/blob/master/README.md</url>
+  <developers>
+    <developer>
+      <id>baardl</id>
+      <name>Bard Lind</name>
+      <email>bard.lind@gmail.com</email>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+  </developers>
+  <scm>
+    <developerConnection>scm:git:ssh://git@github.com/entraeiendom/bacnet-ip-agent.git</developerConnection>
+    <connection>scm:git:https://github.com/entraeiendom/bacnet-ip-agent.git</connection>
+    <url>https://github.com/entraeiendom/bacnet-ip-agent</url>
+  </scm>
 
   <properties>
     <java.version>11</java.version>
