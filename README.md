@@ -25,7 +25,11 @@ docker/run-alpine.sh
 ```
 //TODO Support for Java 13
 ```
-## Echo example
+## Simulator
 
-UDP might be hard to understand. 
-Please have a look at [UDPTest] to get a quick intro.
+We provide a simulator for easy coding of the functionality you need. No need for working with a live Bacnet. 
+The simulator is found in no.entra.bacnet.agent.simulators.BacnetUdpSimulator.
+
+Running the simulator is easy. Start the main method from your IDE. The simulator will then
+put a WhoIs Bacnet message to your local net. 
+If you want to run a specific Bacnet message, you may provide a HexString as the first program parameter.
