@@ -54,13 +54,13 @@ public class BlockingRecordAndForwardObserver implements BacnetObserver {
                             }
                         } catch (Exception e) {
                             log.trace("Failed to send message to AzureIoT. hexString: {}\nMessage: {},\n reason {}", hexString, message, e.getMessage());
-                            mqttClient.publishUnknownHexString(hexString);
+                            //mqttClient.publishUnknownHexString(hexString);
                         }
                     }
                 } else {
                     //#2 TODO write unknown hexString to mqtt topic
                     log.debug("No Apdu found for: {}", hexString);
-                    mqttClient.publishUnknownHexString(hexString);
+                   // mqttClient.publishUnknownHexString(hexString);
                 }
             } catch (Exception e) {
                 log.debug("Failed to build json from {}. Reason: {}", hexString, e.getMessage());

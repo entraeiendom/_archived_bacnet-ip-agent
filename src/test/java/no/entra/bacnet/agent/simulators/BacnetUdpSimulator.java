@@ -36,7 +36,7 @@ public class BacnetUdpSimulator {
         log.info("Sending hexString: {}", hexString);
         try {
             simulator = new BacnetUdpSimulator();
-            simulator.sendPeriodically(60, hexString);
+            simulator.sendPeriodically(1, hexString);
         } catch (SocketException e) {
             e.printStackTrace();
         } catch (IOException e) {
