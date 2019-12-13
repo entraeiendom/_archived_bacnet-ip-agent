@@ -26,7 +26,7 @@ public class FileBacnetHexStringRecorder implements BacnetHexStringRecorder {
 
     @Override
     public void persist(String hexString) {
-        log.info("ToRecord;{}", hexString);
+        log.trace("ToRecord;{}", hexString);
         try {
             Files.writeString(recordingsPath, hexString + "\n", Charset.forName("UTF-8"), CREATE, WRITE, APPEND);
         } catch (IOException e) {

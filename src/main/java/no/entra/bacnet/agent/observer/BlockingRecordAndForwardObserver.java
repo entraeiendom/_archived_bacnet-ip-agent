@@ -48,7 +48,7 @@ public class BlockingRecordAndForwardObserver implements BacnetObserver {
                             message = Bacnet2Rec.bacnetToRec(bacnetJson);
                             if (message != null) {
                                 mqttClient.publishRealEstateCore(message);
-                                log.trace("Message is published from bacnetJson: {}", bacnetJson);
+                                log.info("Message is published from bacnetJson: {}", bacnetJson);
                             } else {
                                 log.trace("Could not send empty message from bacnetJson: {}", bacnetJson);
                             }
