@@ -8,7 +8,9 @@ import no.entra.bacnet.rec.RealEstateCore;
 import org.slf4j.Logger;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.URISyntaxException;
+import java.util.Optional;
 
 import static no.entra.bacnet.agent.mqtt.azureiot.SendReceive.D2C_MESSAGE_TIMEOUT;
 import static no.entra.bacnet.agent.utils.PropertyReader.findProperty;
@@ -19,6 +21,7 @@ public class AzureIoTMqttClient implements MqttClient {
 
     public static final String DEVICE_CONNECTION_STRING = "DEVICE_CONNECTION_STRING";
     public static final String REAL_ESTATE_CORE = "REAL_ESTATE_CORE";
+    public static final String MESSAGE_FROM = "MESSAGE_FROM";
     public static final String MESSAGE_TYPE = "MESSAGE_TYPE";
     public static final String UNKNOWN_HEX_STRING = "UNKNOWN_HEX_STRING";
     boolean isConnected = false;
@@ -33,11 +36,14 @@ public class AzureIoTMqttClient implements MqttClient {
     }
 
     @Override
-    public void publishRealEstateCore(RealEstateCore message) {
+    public void publishRealEstateCore(RealEstateCore message, Optional<InetAddress> senderAddress) {
         if (message != null) {
             String msgStr = message.toJson();
             Message msg = new Message(msgStr);
             msg.setContentTypeFinal("application/json");
+            if (senderAddress.isPresent()) {
+                msg.setProperty(MESSAGE_FROM, senderAddress.get().toString());
+            }
             msg.setProperty(MESSAGE_TYPE, REAL_ESTATE_CORE);
             msg.setMessageId(java.util.UUID.randomUUID().toString());
             msg.setExpiryTime(D2C_MESSAGE_TIMEOUT);

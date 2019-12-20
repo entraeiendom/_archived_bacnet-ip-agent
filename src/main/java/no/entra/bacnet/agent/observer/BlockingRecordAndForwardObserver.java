@@ -7,6 +7,9 @@ import no.entra.bacnet.rec.Bacnet2Rec;
 import no.entra.bacnet.rec.RealEstateCore;
 import org.slf4j.Logger;
 
+import java.net.InetAddress;
+import java.util.Optional;
+
 import static no.entra.bacnet.agent.parser.HexStringParser.hasValue;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -33,7 +36,7 @@ public class BlockingRecordAndForwardObserver implements BacnetObserver {
     }
 
     @Override
-    public void bacnetHexStringReceived(String hexString) {
+    public void bacnetHexStringReceived(InetAddress sourceAddress, String hexString) {
         if(recording) {
             hexStringRecorder.persist(hexString);
         }
@@ -47,7 +50,8 @@ public class BlockingRecordAndForwardObserver implements BacnetObserver {
                         try {
                             message = Bacnet2Rec.bacnetToRec(bacnetJson);
                             if (message != null) {
-                                mqttClient.publishRealEstateCore(message);
+                                message.setSenderAddress(sourceAddress.toString());
+                                mqttClient.publishRealEstateCore(message, Optional.of(sourceAddress));
                                 log.info("Message is published from bacnetJson: {}", bacnetJson);
                             } else {
                                 log.trace("Could not send empty message from bacnetJson: {}", bacnetJson);
