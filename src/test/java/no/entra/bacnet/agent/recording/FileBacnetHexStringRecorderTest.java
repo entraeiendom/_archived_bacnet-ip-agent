@@ -21,8 +21,9 @@ public class FileBacnetHexStringRecorderTest {
         String path = "src/test/resources/bacnet-hexstring";
 
         file = new File(path);
+        assertTrue("File should exist: " + path, file.exists());
         String absolutePath = file.getAbsolutePath();
-        assertTrue(absolutePath.endsWith(path));
+        assertTrue("File should exist: " + absolutePath, file.exists());
     }
 
     @After
