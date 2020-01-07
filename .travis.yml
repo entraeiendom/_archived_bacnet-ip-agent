@@ -16,3 +16,5 @@ script:
   - docker run --rm --privileged multiarch/qemu-user-static:register --reset
   # build image
   - docker build -t baardl/bacnet-ip-agent-java:tmpTravis -f DockerfileRaspberryPi4 .
+  - docker login -u="$DOCKER_USER" -p="$DOCKER_PASSWORD"
+  - docker push baardl/bacnet-ip-agent-java:tmpTravis
