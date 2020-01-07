@@ -1,0 +1,9 @@
+dist: trusty
+language: java
+# We now cache the Maven dependencies directory for faster builds
+cache:
+  apt: true
+  directories:
+  - $HOME/.m2
+  - $HOME/.downloads
+sudo: true
