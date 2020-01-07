@@ -1,0 +1,19 @@
+FROM balenalib/raspberrypi4-64-debian-openjdk:latest
+MAINTAINER Bard Lind <bard.lind@gmail.com>
+
+# Install Application
+ADD target/bacnet-ip-agent-*.jar /home/bacnetagent/bacnet-ip-agent.jar
+
+ENV BACNET_PORT 47808
+EXPOSE ${BACNET_PORT}
+EXPOSE ${BACNET_PORT}/udp
+
+WORKDIR "/home/bacnetagent"
+CMD [ \
+    "java", \
+    "-Xdebug", \
+    "-jar", \
+    "bacnet-ip-agent.jar" \
+]
+
+
