@@ -1,9 +1,9 @@
 dist: trusty
 language: java
 # We now cache the Maven dependencies directory for faster builds
-env:
-  - DOCKER_USER=baardl
-  - TAG=tmpTravis
+#env:
+#  - DOCKER_USER=baardl
+#  - TAG=tmpTravis
 cache:
   apt: true
   directories:
@@ -15,4 +15,4 @@ script:
   # prepare qemu - multi platform build
   - docker run --rm --privileged multiarch/qemu-user-static:register --reset
   # build image
-  - docker build -t $DOCKER_USER/bacnet-ip-agent-java:$TAG -f DockerfileRaspberryPi4 .
+  - docker build -t baardl/bacnet-ip-agent-java:tmpTravis -f DockerfileRaspberryPi4 .
