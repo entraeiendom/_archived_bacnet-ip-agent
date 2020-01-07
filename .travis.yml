@@ -1,6 +1,9 @@
 dist: trusty
 language: java
 # We now cache the Maven dependencies directory for faster builds
+env:
+  - DOCKER_USER=baardl
+  - TAG=tmpTravis
 cache:
   apt: true
   directories:
@@ -8,8 +11,8 @@ cache:
   - $HOME/.downloads
 sudo: true
 jdk: openjdk11
-#script:
-#  - jdk_switcher use openjdk10
-#  - export JAVA_HOME=$HOME/openjdk11
-#  - $TRAVIS_BUILD_DIR/install-jdk.sh --install openjdk11 --target $JAVA_HOME
-#  - # do stuff with open OpenJDK 11
+script:
+  # prepare qemu - multi platform build
+  - docker run --rm --privileged multiarch/qemu-user-static:register --reset
+  # build image
+  - docker build -t $DOCKER_USER/bacnet-ip-agent-java:$TAG -f DockerfileRaspberryPi4 .
