@@ -21,21 +21,15 @@ jobs:
 #    script: mvn deploy --settings deploy/maven-settings.xml
 #    if: branch = master
   - stage: dockerAlpine
-    env:
-      PLATFORM=alpine
-      DOCERFILE=DockerfileAlpine
     script:
-      docker build -t baardl/bacnet-ip-agent-java:$PLATFORM -f $DOCKERFILE .
+      docker build -t baardl/bacnet-ip-agent-java:alpine -f DockerfileAlpine .
       docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-      docker push baardl/bacnet-ip-agent-java:$PLATFORM
+      docker push baardl/bacnet-ip-agent-java:alpine
   - stage: dockerArmv7
-    env:
-      PLATFORM=armv7
-      DOCERFILE=DockerfileRaspberryPi4
     script:
-      docker build -t baardl/bacnet-ip-agent-java:$PLATFORM -f $DOCKERFILE .
+      docker build -t baardl/bacnet-ip-agent-java:armv7 -f DockerfileRaspberryPi4 .
       docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-      docker push baardl/bacnet-ip-agent-java:$PLATFORM
+      docker push baardl/bacnet-ip-agent-java:armv7
 
 
 
