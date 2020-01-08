@@ -24,9 +24,7 @@ jobs:
     env:
     - PLATFORM=alpine DOCKERFILE=DockerfileAlpine
     - PLATFORM=armv7 DOCKERFILE=DockerRaspberryPi4
-    script:
-    - docker run --rm --privileged multiarch/qemu-user-static:register --reset
-    - echo DOCKER_USER=$DOCKER_USERNAME
+    script: echo dockerfile=$DOCKERFILE
     - echo dockerfile=$DOCKERFILE
 
 # Docker
