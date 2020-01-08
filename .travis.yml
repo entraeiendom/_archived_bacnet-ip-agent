@@ -22,9 +22,9 @@ jobs:
 #    if: branch = master
   - stage: dockerAlpine
     script:
-      docker build -t baardl/bacnet-ip-agent-java:alpine -f DockerfileAlpine .
-      docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-      docker push baardl/bacnet-ip-agent-java:alpine
+    - docker build -t baardl/bacnet-ip-agent-java:alpine -f DockerfileAlpine .
+    - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+    - docker push baardl/bacnet-ip-agent-java:alpine
   - stage: dockerArmv7
     script:
       docker build -t baardl/bacnet-ip-agent-java:armv7 -f DockerfileRaspberryPi4 .
