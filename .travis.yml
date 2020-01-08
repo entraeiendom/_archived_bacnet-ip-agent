@@ -13,8 +13,8 @@ env:
   - secure: 0XEYLWuuZjlQzSvm4GDpHEje+cG38tLrlSmc26ibjKGLI4Xv7m5FmJ+V32h7gSzOXpxKO+q+ceM2yHTukv02qKA+GJ7TKDbA457Vc4TL1Mpw1cZqwn6316q8Y+uW18J1N3i1hsXjPZd2cU8i0jPXc8+NBvM8Z9+bzzdNtbr7gI+fadCltUYkEFcAlUZY4FdMuiLykNzQOs/BtmiBRXGcJ6yd6SjlSzFDySF+6LwiXYDtVQPmU+6IiXm80w6wcKiYzyTBtUfqd4tBy5lL8BdAyTPUeZLk+Cx+OHUBS9vt2Zhwu7hp0UCpUZgOOtj18QERM/PBQaPENqdRu4SyfT+tjCGZKh8RGzntt2hS1+Zr/UyTPIFoZXSCGGxKbADG1Jk8qVPP8jS4Y2m7z8BmaEdO4jmAYlOA5yLZxXe6Pln/seJJ/uSW/XZBE7Xd08uLzJ+hwC5JpL3/MhcaTGRWiGF4d4OXjw09FhiIJt3JL7Wp18KtU17iMeuiZfr/VzIxrmyIhRpqeR8Ue4xi41N6csqdaLiKKyxNpw5UkDcmE0Wwl8TOK1uW2aqU9wGTngSX6Ix/GW6/k4TXhnvQXz8kLYX27JDKF4XiQBWnNYxpfIasoSmcjrgH/mtEuiVMMH0EBTC2c9YcJzjDhcmC+FabEGxYPAH7H8Yi9ohHI0ExmNFmeVA=
 jobs:
   include:
-#  - stage: test
-#    script: mvn clean test
+  - stage: test
+    script: mvn clean test
 #  - stage: install
 #    script: mvn -Dmaven.test.skip=true install
 #  - stage: deployJar
