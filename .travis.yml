@@ -19,12 +19,18 @@ env:
 script:
 - mvn clean compile package install
 # Docker
-- docker run --rm --privileged multiarch/qemu-user-static:register --reset
-- echo DOCKER_USER=$DOCKER_USERNAME
-- echo dockerfile=$DOCKERFILE
-- docker build -t baardl/bacnet-ip-agent-java:$PLATFORM -f $DOCKERFILE .
-- docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-- docker push baardl/bacnet-ip-agent-java:tmpTravis
+docker:
+  provider: script
+  script:
+  - docker run --rm --privileged multiarch/qemu-user-static:register --reset
+  - echo DOCKER_USER=$DOCKER_USERNAME
+  - echo dockerfile=$DOCKERFILE
+  - docker build -t baardl/bacnet-ip-agent-java:$PLATFORM -f $DOCKERFILE .
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - docker push baardl/bacnet-ip-agent-java:$PLATFORM
+  on:
+    branch: master
+    tags: false
 
 # Deployment
 deploy:
