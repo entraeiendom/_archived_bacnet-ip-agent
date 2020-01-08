@@ -29,9 +29,9 @@ deploy:
   provider: script
   script:
   - >
-  if [ "$PLATFORM" == "alpine" ]; then
-    mvn deploy --settings deploy/maven-settings.xml
-  fi
+    if [ "$PLATFORM" == "alpine" ]; then
+      mvn deploy --settings deploy/maven-settings.xml
+    fi
   on:
     branch: master
     tags: false
