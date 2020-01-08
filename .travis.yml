@@ -7,9 +7,6 @@ cache:
   - "$HOME/.downloads"
 jdk: openjdk11
 env:
-  jobs:
-  - PLATFORM=alpine DOCKERFILE=DockerfileAlpine
-  - PLATFORM=armv7 DOCKERFILE=DockerRaspberryPi4
   global:
   - secure: OoeWsOfN6xEBks/NVZZ3z5HmJ1JOl4IIdbhH7rnXdfk2/M5jOFgWH7gsR01uoeeG5TNqqvaE9CdPK6PkpXFpaQf/dnaM6xNi+1E1itWOVyxtJ+mI6nsEn0sNwrm1oVZsxi09fpRWSSxORJcJvr8S74ZROPjgrkLwJs2v8WOtbx2ZeFKwZxJ09JOU/57I8GQMJkbmLsESRo/QRE8QQ4hzWp3T1NwBIMT7Hn/iYoZRbiWYGNjYmXuPFHMuqmC4E0r5Y+tz2/ahKht6z7XhO10BTNb2PpurvevXJ1Pgcvg8/se+b85siKhbm9DP0EaZXhaFsDEcYpsJp9bVfsULNyv4aO2AkxZ1+OQjzhXDN/ZqVk8RRRoaH5WFEto011QqcGHSux1NVKPKSr5fTHwJUBN8TvSwC6T8KFMDhp77rCaLr3OL3e1L6lxiu/NwUCCgmlLeetfGJHCdFGpRgTdEFRQREred6QYoV+PZfJYVX89eHlmeBBo1NBP7V+YiFpq9p75N90JQ/b6NdCo3Kqishkmz//0UFc39omZ9ay7lQQ0jlHEN/A5EQudF4c1CYl0BG1c/O5Ey5wktOwoQWrNgIhHKM48NOcmy6pnj3pSN+eivmf6Bm4TunjIUqp234kFcaNfMCNXmS/WIVmkH2JKNjJRnBbZM6Hl0m6Q7pxUKpIY7ABE=
   - secure: km1weTr7j7f12xgIUEwAtLA/6i2MAUP1g3XG1d8LnfgUY/dGMQlXft6F3aSxA92bfEHNMyt6fGYWbq4As1/h8++go9OquPm1h3j0CWC0D3Mvyqfhqlt8jH6O5CaFgHI/0kzyNG6rOzzzIg1YDzAg5hRb1asfasJSL2hCDmwT86FLRNJb7Kg4Zw1fI+bAmJt3omUy0Lc/h/H771673dM4rKfnwHi1Zr+5Wa0jkRy8dlsNqHbA/pWvJWzGoRcbJuEtBUZkaqHuINnhrXnpP/gQEL9j+PDYYZr5f7YKaxBWMv9Ahc0CgPTqmaAbMoMr/Cjc3RX3OuANVVTHx56Hd2nJJlFgJ+BzBI3/vct3BjAXGbKpRFegqG07URAt8K97FA5fdxBfq5PZ/upv5YcmZR79Z7+AD2vhMghUj8Vuk/wa4JtssxZza8jOSdhZs+bkFU8CVplpDjCD1umdpXwch+KLugEFdqA2RsciIyif10B9xNGcjFNXLK1CSgSDXRbwhNyoiWZupr+AeK0o4szGKN4RZT9aNk/WXKZ0jgJHvPhtr7pYWw4u88P1oHCfPUjrIcgmA47PXFrn8nFok1f+pQhJeiMyeWHBW5QyIb538Ax+U9LpxwYUYkpwXY6Y6f/UoxJkGo3AvUlVG2XMY3e6Eq6xctglhhsebXWdgsNUwFeq0Fs=
@@ -24,6 +21,9 @@ jobs:
     script: mvn deploy --settings deploy/maven-settings.xml
     if: branch = master
   - stage: docker
+    env:
+    - PLATFORM=alpine DOCKERFILE=DockerfileAlpine
+    - PLATFORM=armv7 DOCKERFILE=DockerRaspberryPi4
     script:
     - docker run --rm --privileged multiarch/qemu-user-static:register --reset
     - echo DOCKER_USER=$DOCKER_USERNAME
