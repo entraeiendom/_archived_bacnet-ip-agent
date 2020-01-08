@@ -22,12 +22,21 @@ jobs:
 #    if: branch = master
   - stage: dockerAlpine
     env:
-    - PLATFORM=alpine DOCKERFILE=DockerfileAlpine
-    script: echo dockerfile=$DOCKERFILE
+      PLATFORM=alpine
+      DOCERFILE=DockerfileAlpine
+    script:
+      docker build -t baardl/bacnet-ip-agent-java:$PLATFORM -f $DOCKERFILE .
+      docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+      docker push baardl/bacnet-ip-agent-java:$PLATFORM
   - stage: dockerArmv7
     env:
-    - PLATFORM=armv7 DOCKERFILE=DockerfileRaspberryPi4
-    script: echo dockerfile=$DOCKERFILE
+      PLATFORM=armv7
+      DOCERFILE=DockerfileRaspberryPi4
+    script:
+      docker build -t baardl/bacnet-ip-agent-java:$PLATFORM -f $DOCKERFILE .
+      docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+      docker push baardl/bacnet-ip-agent-java:$PLATFORM
+
 
 
 
