@@ -27,24 +27,7 @@ jobs:
     - docker push baardl/bacnet-ip-agent-java:alpine
   - stage: dockerArmv7
     script:
-      docker build -t baardl/bacnet-ip-agent-java:armv7 -f DockerfileRaspberryPi4 .
-      docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-      docker push baardl/bacnet-ip-agent-java:armv7
-
-
-
-
-
-# Docker
-#docker:
-#  provider: script
-#  script:
-#  - docker run --rm --privileged multiarch/qemu-user-static:register --reset
-#  - echo DOCKER_USER=$DOCKER_USERNAME
-#  - echo dockerfile=$DOCKERFILE
-#  - docker build -t baardl/bacnet-ip-agent-java:$PLATFORM -f $DOCKERFILE .
-#  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-#  - docker push baardl/bacnet-ip-agent-java:$PLATFORM
-#  on:
-#    branch: master
-#    tags: false
+    - docker run --rm --privileged multiarch/qemu-user-static:register --reset
+    - docker build -t baardl/bacnet-ip-agent-java:armv7 -f DockerfileRaspberryPi4 .
+    - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+    - docker push baardl/bacnet-ip-agent-java:armv7
