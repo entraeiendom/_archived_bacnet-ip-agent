@@ -14,7 +14,7 @@ script:
 # Docker
 - >
   if [ "$PLATFORM" == "alpine" ]; then
-    DOCKERFILE=Dockerfile
+    DOCKERFILE=DockerfileAlpine
   else
     DOCKERFILE=DockerRaspberryPi4
   fi
