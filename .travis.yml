@@ -21,11 +21,13 @@ jobs:
     script: mvn deploy --settings deploy/maven-settings.xml
     if: branch = master
   - stage: docker
+    script: echo dockerfile=$DOCKERFILE
     env:
     - PLATFORM=alpine DOCKERFILE=DockerfileAlpine
-    - PLATFORM=armv7 DOCKERFILE=DockerRaspberryPi4
-    script: echo dockerfile=$DOCKERFILE
-    - echo dockerfile=$DOCKERFILE
+    - PLATFORM=armv7 DOCKERFILE=DockerfileRaspberryPi4
+
+
+
 
 # Docker
 #docker:
