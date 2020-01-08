@@ -18,11 +18,12 @@ script:
   else
     DOCKERFILE=DockerRaspberryPi4
   fi
-- docker run --rm --privileged multiarch/qemu-user-static:register --reset
-- echo DOCKER_USER=$DOCKER_USERNAME
-- docker build -t baardl/bacnet-ip-agent-java:$PLATFORM -f $DOCKERFILE .
-- docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-- docker push baardl/bacnet-ip-agent-java:tmpTravis
+#- docker run --rm --privileged multiarch/qemu-user-static:register --reset
+#- echo DOCKER_USER=$DOCKER_USERNAME
+- echo dockerfile=$DOCKERFILE
+#- docker build -t baardl/bacnet-ip-agent-java:$PLATFORM -f $DOCKERFILE .
+#- docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+#- docker push baardl/bacnet-ip-agent-java:tmpTravis
 
 # Deployment
 deploy:
