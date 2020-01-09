@@ -22,12 +22,14 @@ jobs:
 #    if: branch = master
   - stage: dockerAlpine
     script:
+    - VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
     - docker build -t baardl/bacnet-ip-agent-java:alpine -f DockerfileAlpine .
     - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-    - docker push baardl/bacnet-ip-agent-java:alpine
+    - docker push baardl/bacnet-ip-agent-java:alpine-$VERSION
   - stage: dockerArmv7
     script:
+    - VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
     - docker run --rm --privileged multiarch/qemu-user-static:register --reset
     - docker build -t baardl/bacnet-ip-agent-java:armv7 -f DockerfileRaspberryPi4 .
     - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-    - docker push baardl/bacnet-ip-agent-java:armv7
+    - docker push baardl/bacnet-ip-agent-java:armv7-$VERSION
