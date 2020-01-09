@@ -23,7 +23,7 @@ jobs:
   - stage: dockerAlpine
     script:
     - VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-    - echo version: $VERSION
+    - echo version is $VERSION
     - docker build -t baardl/bacnet-ip-agent-java:alpine -f DockerfileAlpine .
     - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
     - docker push baardl/bacnet-ip-agent-java:alpine-$VERSION
