@@ -5,7 +5,7 @@
 
   <groupId>no.entra.bacnet</groupId>
   <artifactId>bacnet-ip-agent</artifactId>
-  <version>0.2</version>
+  <version>0.3-SNAPSHOT</version>
 
   <name>bacnet-ip-agent</name>
   <url>https://github.com/entraeiendom/bacnet-ip-agent/blob/master/README.md</url>
@@ -23,7 +23,7 @@
     <developerConnection>scm:git:ssh://git@github.com/entraeiendom/bacnet-ip-agent.git</developerConnection>
     <connection>scm:git:https://github.com/entraeiendom/bacnet-ip-agent.git</connection>
     <url>https://github.com/entraeiendom/bacnet-ip-agent</url>
-    <tag>bacnet-ip-agent-0.2</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <properties>
