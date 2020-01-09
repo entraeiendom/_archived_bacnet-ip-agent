@@ -24,13 +24,13 @@ jobs:
     script:
     - VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
     - echo version is $VERSION
-    - docker build -t baardl/bacnet-ip-agent-java:alpine -f DockerfileAlpine .
+    - docker build -t baardl/bacnet-ip-agent-java:alpine-$VERSION -f DockerfileAlpine .
     - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
     - docker push baardl/bacnet-ip-agent-java:alpine-$VERSION
   - stage: dockerArmv7
     script:
     - VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
     - docker run --rm --privileged multiarch/qemu-user-static:register --reset
-    - docker build -t baardl/bacnet-ip-agent-java:armv7 -f DockerfileRaspberryPi4 .
+    - docker build -t baardl/bacnet-ip-agent-java:armv7-$VERSION -f DockerfileRaspberryPi4 .
     - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
     - docker push baardl/bacnet-ip-agent-java:armv7-$VERSION
