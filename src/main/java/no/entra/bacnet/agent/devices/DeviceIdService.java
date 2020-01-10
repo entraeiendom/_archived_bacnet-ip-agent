@@ -21,7 +21,7 @@ public class DeviceIdService {
      * @return deviceId with Id parameter set.
      */
     public DeviceId add(DeviceId deviceId) {
-        if (deviceId != null) {
+        if (deviceId != null && deviceId.isValid()) {
             if (deviceId.getId() == null) {
                 String id = UUID.randomUUID().toString();
                 deviceId.setId(id);

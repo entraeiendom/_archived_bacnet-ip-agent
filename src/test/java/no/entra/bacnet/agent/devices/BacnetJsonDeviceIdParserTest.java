@@ -61,4 +61,12 @@ public class BacnetJsonDeviceIdParserTest {
         assertNull(deviceId.getPortNumber());
         assertNull(deviceId.getInstanceNumber());
     }
+
+    @Test
+    public void parseIamRequest() {
+        String bacnetJson = "{\"configurationRequest\":{\"observedAt\":\"2020-01-10T12:46:32.021648\",\"id\":\"TODO\",\"properties\":{\"ObjectType\":\"Device\",\"InstanceNumber\":\"2002\",\"MaxADPULengthAccepted\":\"1476\",\"SegmentationSupported\":\"SegmentedBoth\"}},\"sender\":\"unknown\",\"service\":\"IAm\"}";
+        DeviceId deviceId = BacnetJsonDeviceIdParser.parse(bacnetJson);
+        assertNotNull(deviceId);
+        assertEquals(2002, deviceId.getInstanceNumber().intValue());
+    }
 }

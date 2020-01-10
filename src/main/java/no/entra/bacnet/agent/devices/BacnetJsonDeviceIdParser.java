@@ -1,9 +1,13 @@
 package no.entra.bacnet.agent.devices;
 
+import org.slf4j.Logger;
+
 import static no.entra.bacnet.agent.json.JsonPathHelper.getStringFailsafeNull;
 import static no.entra.bacnet.json.utils.StringUtils.hasValue;
+import static org.slf4j.LoggerFactory.getLogger;
 
 public class BacnetJsonDeviceIdParser {
+    private static final Logger log = getLogger(BacnetJsonDeviceIdParser.class);
 
     /**
      * {
@@ -34,12 +38,37 @@ public class BacnetJsonDeviceIdParser {
         deviceId.setPortNumber(port);
         String instanceNumberKey = "$.sender.instanceNumber";
         String instanceNumberString = getStringFailsafeNull(bacnetJson, instanceNumberKey);
-        if (hasValue(instanceNumberString)) {
-            Integer instanceNumber = Integer.valueOf(instanceNumberString);
-            if (instanceNumber != null) {
-                deviceId.setInstanceNumber(instanceNumber);
-            }
+        Integer instanceNumber = findIntegerInString(instanceNumberString);
+        if (instanceNumber == null) {
+            instanceNumber = lookForInstanceNumberProperty(bacnetJson);
+        }
+        if (instanceNumber != null) {
+            deviceId.setInstanceNumber(instanceNumber);
         }
         return deviceId;
+    }
+
+    private static Integer findIntegerInString(String instanceNumberString) {
+        Integer instanceNumber = null;
+        if (hasValue(instanceNumberString)) {
+            try {
+                instanceNumber = Integer.valueOf(instanceNumberString);
+            } catch (NumberFormatException e) {
+                log.trace("Could not parse {} to integer.", instanceNumberString);
+            }
+        }
+        return instanceNumber;
+    }
+
+    static Integer lookForInstanceNumberProperty(String bacnetJson) {
+        Integer instanceNumber = null;
+        String serviceKey = "$.service";
+        String serviceValue = getStringFailsafeNull(bacnetJson,serviceKey);
+        if (serviceValue != null && serviceValue.equals("IAm")) {
+            String instanceNumberKey = "$.configurationRequest.properties.InstanceNumber";
+            String instanceNumberString = getStringFailsafeNull(bacnetJson, instanceNumberKey);
+            instanceNumber = findIntegerInString(instanceNumberString);
+        }
+        return instanceNumber;
     }
 }

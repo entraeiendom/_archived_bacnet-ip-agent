@@ -2,6 +2,8 @@ package no.entra.bacnet.agent.devices;
 
 import java.io.Serializable;
 
+import static no.entra.bacnet.json.utils.StringUtils.hasValue;
+
 public class DeviceId implements Serializable {
 
     private String id;
@@ -89,6 +91,20 @@ public class DeviceId implements Serializable {
 
     public void setVendorId(String vendorId) {
         this.vendorId = vendorId;
+    }
+
+    public boolean isValid() {
+        boolean isValid = false;
+        if (hasValue(id)) {
+            isValid = true;
+        } else if (hasValue(tfmTag)) {
+            isValid = true;
+        } else if (hasValue(ipAddress)) {
+            isValid = true;
+        } else if (instanceNumber != null) {
+            isValid = true;
+        }
+        return isValid;
     }
 
     @Override
