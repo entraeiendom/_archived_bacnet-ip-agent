@@ -15,8 +15,8 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class JsonPathHelper {
     private static final Logger log = getLogger(no.entra.bacnet.rec.json.JsonPathHelper.class);
 
-    public static String getStringFailsafe(String jsonString, String expression) {
-        String value = "";
+    public static String getStringFailsafeNull(String jsonString, String expression) {
+        String value = null;
         try {
             value = getStringFromJsonpathExpression(jsonString, expression);
         } catch (PathNotFoundException e) {

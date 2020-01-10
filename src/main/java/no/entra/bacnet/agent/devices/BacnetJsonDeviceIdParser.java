@@ -1,7 +1,7 @@
 package no.entra.bacnet.agent.devices;
 
+import static no.entra.bacnet.agent.json.JsonPathHelper.getStringFailsafeNull;
 import static no.entra.bacnet.json.utils.StringUtils.hasValue;
-import static no.entra.bacnet.rec.json.JsonPathHelper.getStringFromJsonpathExpression;
 
 public class BacnetJsonDeviceIdParser {
 
@@ -27,13 +27,13 @@ public class BacnetJsonDeviceIdParser {
     public static DeviceId parse(String bacnetJson) {
         DeviceId deviceId = new DeviceId();
         String ipAddressKey = "$.sender.ip";
-        String ipAddress = getStringFromJsonpathExpression(bacnetJson, ipAddressKey);
+        String ipAddress = getStringFailsafeNull(bacnetJson, ipAddressKey);
         deviceId.setIpAddress(ipAddress);
         String portKey = "$.sender.port";
-        String port = getStringFromJsonpathExpression(bacnetJson, portKey);
+        String port = getStringFailsafeNull(bacnetJson, portKey);
         deviceId.setPortNumber(port);
         String instanceNumberKey = "$.sender.instanceNumber";
-        String instanceNumberString = getStringFromJsonpathExpression(bacnetJson, instanceNumberKey);
+        String instanceNumberString = getStringFailsafeNull(bacnetJson, instanceNumberKey);
         if (hasValue(instanceNumberString)) {
             Integer instanceNumber = Integer.valueOf(instanceNumberString);
             if (instanceNumber != null) {

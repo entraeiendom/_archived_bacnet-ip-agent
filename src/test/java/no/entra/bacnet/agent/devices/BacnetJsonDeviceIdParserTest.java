@@ -29,7 +29,36 @@ public class BacnetJsonDeviceIdParserTest {
         assertNull(deviceId.getId());
         assertEquals("127.0.0.1", deviceId.getIpAddress());
         assertEquals("47808", deviceId.getPortNumber());
-        assertEquals(2002, deviceId.getInstanceNumber());
+        assertEquals(2002, deviceId.getInstanceNumber().intValue());
 
+    }
+
+    @Test
+    public void parseIllegalSender() {
+        String bacnetJson = "{\n" +
+                "  \"sender\": {\n" +
+                "    \"ip\": \"127.0.0.1\",\n" +
+                "    \"instanceNumber\": 2002\n" +
+                "  }\n" +
+                "}";
+        DeviceId deviceId = BacnetJsonDeviceIdParser.parse(bacnetJson);
+        assertNotNull(deviceId);
+        assertNull(deviceId.getId());
+        assertEquals("127.0.0.1", deviceId.getIpAddress());
+        assertNull( deviceId.getPortNumber());
+        assertEquals(2002, deviceId.getInstanceNumber().intValue());
+    }
+
+    @Test
+    public void parseUnknownSender() {
+        String bacnetJson = "{\n" +
+                "  \"sender\": \"unknown\"}\n" +
+                "}";
+        DeviceId deviceId = BacnetJsonDeviceIdParser.parse(bacnetJson);
+        assertNotNull(deviceId);
+        assertNull(deviceId.getId());
+        assertNull(deviceId.getIpAddress());
+        assertNull(deviceId.getPortNumber());
+        assertNull(deviceId.getInstanceNumber());
     }
 }

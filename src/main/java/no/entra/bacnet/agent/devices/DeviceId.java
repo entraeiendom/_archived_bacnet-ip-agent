@@ -8,7 +8,7 @@ public class DeviceId implements Serializable {
     private String ipAddress;
     private String portNumber;
     private String tfmTag; //aka TverfagligMerkesystem(TFM) in Norwegian RealEstate
-    private int instanceNumber;
+    private Integer instanceNumber;
     private String macAdress;
     private String vendorId;
 
@@ -67,7 +67,7 @@ public class DeviceId implements Serializable {
         this.tfmTag = tfmTag;
     }
 
-    public int getInstanceNumber() {
+    public Integer getInstanceNumber() {
         return instanceNumber;
     }
 
