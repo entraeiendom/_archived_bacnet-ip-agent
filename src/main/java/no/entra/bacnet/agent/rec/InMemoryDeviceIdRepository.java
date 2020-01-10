@@ -16,10 +16,10 @@ public class InMemoryDeviceIdRepository implements DeviceIdRepository {
 
     @Override
     public void add(DeviceId newDeviceId) {
-        List<DeviceId> existingId = deviceIds.stream()
+        List<DeviceId> foundIds = deviceIds.stream()
                 .filter(deviceId -> newDeviceId.getId().equals(deviceId.getId()))
                 .collect(Collectors.toList());
-        if (existingId == null || existingId.size() == 0) {
+        if (foundIds == null || foundIds.size() == 0) {
             deviceIds.add(newDeviceId);
         } else {
             throw new IllegalStateException("Repository already exist with an id of: " + newDeviceId.getId() + ". Please do use the update function.");
@@ -28,17 +28,26 @@ public class InMemoryDeviceIdRepository implements DeviceIdRepository {
 
     @Override
     public List<DeviceId> findFromTfm(String tfmTag) {
-        return null;
+        List<DeviceId> foundIds = deviceIds.stream()
+                .filter(deviceId -> tfmTag.equals(deviceId.getTfmTag()))
+                .collect(Collectors.toList());
+        return foundIds;
     }
 
     @Override
     public List<DeviceId> findFromInstanceNumber(int instanceNumber) {
-        return null;
+        List<DeviceId> foundIds = deviceIds.stream()
+                .filter(deviceId -> instanceNumber == deviceId.getInstanceNumber())
+                .collect(Collectors.toList());
+        return foundIds;
     }
 
     @Override
     public List<DeviceId> findFromIpAddress(String ipAddress) {
-        return null;
+        List<DeviceId> foundIds = deviceIds.stream()
+                .filter(deviceId -> ipAddress.equals(deviceId.getIpAddress()))
+                .collect(Collectors.toList());
+        return foundIds;
     }
 
     @Override
