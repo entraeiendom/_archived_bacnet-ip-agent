@@ -31,3 +31,4 @@ hs_err_pid*
 *priv.sh
 *priv.bat
 dependency-reduced-pom.xml
+testdata
