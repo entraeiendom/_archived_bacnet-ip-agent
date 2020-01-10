@@ -1,5 +1,8 @@
 package no.entra.bacnet.agent.rec;
 
+import no.entra.bacnet.agent.devices.DeviceId;
+import no.entra.bacnet.agent.devices.DeviceIdRepository;
+import no.entra.bacnet.agent.devices.InMemoryDeviceIdRepository;
 import org.junit.Before;
 import org.junit.Test;
 

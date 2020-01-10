@@ -1,4 +1,4 @@
-package no.entra.bacnet.agent.rec;
+package no.entra.bacnet.agent.devices;
 
 import java.io.Serializable;
 
