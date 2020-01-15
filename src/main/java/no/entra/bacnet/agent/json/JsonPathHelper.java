@@ -50,8 +50,8 @@ public class JsonPathHelper {
 
         boolean elementIsPresent = false;
         try {
-            HashMap observation = JsonPath.read(jsonString,expression);
-            if (observation != null && !observation.isEmpty()) {
+            Object observation = JsonPath.read(jsonString,expression);
+            if (observation != null) {
                 elementIsPresent = true;
             }
         } catch (PathNotFoundException e) {
