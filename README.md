@@ -3,15 +3,19 @@
 
 Listen to UDP packages, and send UDP packages.
 
-## How to Run
+
+## Development
+
+A good starting point is to understand this code: [BlockingRecordAndForwardObserver.bacnetHexStringReceived()](./src/main/java/no/entra/bacnet/agent/observer/BlockingRecordAndForwardObserver.java)
+The main class is [AgentDaemon](./src/main/java/no/entra/bacnet/agent/AgentDaemon.java)
+
+### How to Run
 
 ```
 mvn clean install
 java -DDEVICE_CONNECTION_STRING="Hostname=....<from portal.azure.com>" -jar target/bacnet-ip-agent-*.jar 
-``` 
-## Development
+```
 
-A good starting puint is to understand this code: [BlockingRecordAndForwardObserver.bacnetHexStringReceived()](./src/main/java/no/entra/bacnet/agent/observer/BlockingRecordAndForwardObserver.java)
 ## Docker
 
 ### Ubuntu

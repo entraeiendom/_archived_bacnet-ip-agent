@@ -21,8 +21,8 @@ import static no.entra.bacnet.agent.utils.PropertyReader.findProperty;
 import static no.entra.bacnet.agent.utils.PropertyReader.isEmpty;
 import static org.slf4j.LoggerFactory.getLogger;
 
-public class AgentDeamon {
-    private static final Logger log = getLogger(AgentDeamon.class);
+public class AgentDaemon {
+    private static final Logger log = getLogger(AgentDaemon.class);
 
     public static void main(String[] args) {
         try {
