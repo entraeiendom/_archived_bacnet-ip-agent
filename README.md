@@ -9,7 +9,9 @@ Listen to UDP packages, and send UDP packages.
 mvn clean install
 java -DDEVICE_CONNECTION_STRING="Hostname=....<from portal.azure.com>" -jar target/bacnet-ip-agent-*.jar 
 ``` 
+## Development
 
+A good starting puint is to understand this code: [BlockingRecordAndForwardObserver.bacnetHexStringReceived()](./src/main/java/no/entra/bacnet/agent/observer/BlockingRecordAndForwardObserver.java)
 ## Docker
 
 ### Ubuntu
@@ -35,6 +37,10 @@ The simulator is found in [BacnetUdpSimulator](https://github.com/entraeiendom/b
 Running the simulator is easy. Start the main method from your IDE. The simulator will then
 put a WhoIs Bacnet message to your local net. 
 If you want to run a specific Bacnet message, you may provide a HexString as the first program parameter.
+
+### Simple Bacnet Simulator
+Periodically send the same Bacnet Object message to your network.
+[Simulator](https://github.com/entraeiendom/bacnet-client/blob/master/src/main/java/no/entra/bacnet/client/Simulator.java)
 
 ## Listen to Azure IoT hub
 
