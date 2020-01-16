@@ -3,7 +3,10 @@ package no.entra.bacnet.agent.mqtt;
 import com.microsoft.azure.sdk.iot.device.DeviceClient;
 import com.microsoft.azure.sdk.iot.device.IotHubClientProtocol;
 import com.microsoft.azure.sdk.iot.device.Message;
+import no.entra.bacnet.agent.devices.DeviceId;
+import no.entra.bacnet.agent.mqtt.azureiot.Observation;
 import no.entra.bacnet.agent.mqtt.azureiot.SendReceive;
+import no.entra.bacnet.rec.ConfigurationRequest;
 import no.entra.bacnet.rec.RealEstateCore;
 import org.slf4j.Logger;
 
@@ -35,21 +38,44 @@ public class AzureIoTMqttClient implements MqttClient {
         connect();
     }
 
+    /**
+     * Used for testing
+     */
+    protected AzureIoTMqttClient() {
+        log.warn("Creating AzureIoTMqttClient for offline testing only.");
+    }
+
     @Override
-    public void publishRealEstateCore(RealEstateCore message, Optional<InetAddress> senderAddress) {
-        if (message != null) {
-            String msgStr = message.toJson();
-            Message msg = new Message(msgStr);
-            msg.setContentTypeFinal("application/json");
-            if (senderAddress.isPresent()) {
-                msg.setProperty(MESSAGE_FROM, senderAddress.get().toString());
-            }
-            msg.setProperty(MESSAGE_TYPE, REAL_ESTATE_CORE);
-            msg.setMessageId(java.util.UUID.randomUUID().toString());
-            msg.setExpiryTime(D2C_MESSAGE_TIMEOUT);
+    public void publishRealEstateCore(RealEstateCore recMessage, DeviceId recDeviceId, Optional<InetAddress> senderAddress) {
+        if (recMessage != null) {
+            Message msg = buildMqttMessage(recMessage, recDeviceId, senderAddress);
             sendMessage(msg);
         }
 
+    }
+
+    public Message buildMqttMessage(RealEstateCore recMessage, DeviceId recDeviceId, Optional<InetAddress> senderAddress) {
+        String msgStr = "{ \n";
+        if (recDeviceId != null) {
+            msgStr += "\"deviceId\": \"" + recDeviceId.getId() + "\",\n";
+        }
+        if (recMessage != null) {
+            if (recMessage instanceof ConfigurationRequest) {
+                msgStr += "\"configurations\": [" + recMessage.toJson() + "]\n";
+            } else if (recMessage instanceof Observation) {
+                msgStr += "\"observations\": [" + recMessage.toJson() + "]\n";
+            }
+        }
+        msgStr += "}";
+        Message msg = new Message(msgStr);
+        msg.setContentTypeFinal("application/json");
+        if (senderAddress.isPresent()) {
+            msg.setProperty(MESSAGE_FROM, senderAddress.get().toString());
+        }
+        msg.setProperty(MESSAGE_TYPE, REAL_ESTATE_CORE);
+        msg.setMessageId(java.util.UUID.randomUUID().toString());
+        msg.setExpiryTime(D2C_MESSAGE_TIMEOUT);
+        return msg;
     }
 
     @Override
