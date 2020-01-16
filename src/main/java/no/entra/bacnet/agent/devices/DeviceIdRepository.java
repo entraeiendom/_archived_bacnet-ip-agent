@@ -12,7 +12,7 @@ public interface DeviceIdRepository {
     /**
      * Update all parameters in a DeviceId
      * @param deviceId
-     * @return
+     * @return false if deviceId with same id was not found.
      */
     boolean replace(DeviceId deviceId);
 
