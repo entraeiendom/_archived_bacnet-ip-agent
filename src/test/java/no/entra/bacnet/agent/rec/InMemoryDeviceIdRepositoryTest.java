@@ -48,6 +48,17 @@ public class InMemoryDeviceIdRepositoryTest {
     }
 
     @Test
+    public void replace() {
+       DeviceId deviceId = new DeviceId("id3", "127.0.0.1", DEFAULT_PORT, "TFM123/6767", 2002 );
+       deviceId.setGatewayDeviceId(2004);
+       idRepository.replace(deviceId);
+       DeviceId updatedId = idRepository.get(deviceId.getId());
+       assertNotNull(updatedId);
+       assertEquals(2004, updatedId.getGatewayDeviceId().intValue());
+
+    }
+
+    @Test
     public void findFromTfm() {
         assertEquals(1, idRepository.findFromTfm("TFM123/456").size());
     }
