@@ -1,5 +1,8 @@
 package no.entra.bacnet.agent;
 
+import no.entra.bacnet.agent.devices.DeviceIdRepository;
+import no.entra.bacnet.agent.devices.DeviceIdService;
+import no.entra.bacnet.agent.devices.InMemoryDeviceIdRepository;
 import no.entra.bacnet.agent.mqtt.AzureIoTMqttClient;
 import no.entra.bacnet.agent.mqtt.MqttClient;
 import no.entra.bacnet.agent.observer.BacnetObserver;
@@ -29,11 +32,12 @@ public class AgentDeamon {
             boolean connectToMqtt = true;
             MqttClient mqttClient = null;
             if (connectToMqtt) {
-
                 String deviceConnectionString = findConnectionString(args);
                 mqttClient = new AzureIoTMqttClient(deviceConnectionString);
             }
-            BacnetObserver bacnetObserver = new BlockingRecordAndForwardObserver(hexStringRecorder, mqttClient);
+            DeviceIdRepository deviceIdRepository = new InMemoryDeviceIdRepository();
+            DeviceIdService deviceIdService = new DeviceIdService(deviceIdRepository);
+            BacnetObserver bacnetObserver = new BlockingRecordAndForwardObserver(hexStringRecorder, mqttClient, deviceIdService);
             UdpServer udpServer = new UdpServer(bacnetObserver);
             udpServer.setListening(true);
             udpServer.setRecording(true);

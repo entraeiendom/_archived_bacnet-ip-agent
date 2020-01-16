@@ -143,4 +143,49 @@ public class DeviceId implements Serializable {
                 ", vendorId='" + vendorId + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof DeviceId)) {
+            return false;
+        }
+        DeviceId deviceId = (DeviceId) obj;
+        boolean isEqual = isStringEqual(id, deviceId.getId()) &&
+                isStringEqual(tfmTag, deviceId.getTfmTag()) &&
+                isStringEqual(ipAddress, deviceId.getIpAddress()) &&
+                isStringEqual(portNumber, deviceId.getPortNumber()) &&
+                isIntegerEqual(instanceNumber, deviceId.getInstanceNumber()) &&
+                isIntegerEqual(gatewayDeviceId, deviceId.getGatewayDeviceId()) &&
+                isIntegerEqual(gatewayInstanceNumber, deviceId.getGatewayInstanceNumber());
+        return isEqual;
+    }
+
+    boolean isIntegerEqual(Integer originalInt, Integer equalInt) {
+        if (originalInt == null && equalInt == null) {
+            return true;
+        }
+        if (originalInt == null && equalInt != null) {
+            return false;
+        }
+        if (originalInt.equals(equalInt)) {
+            return true;
+        }
+        return false;
+    }
+
+    boolean isStringEqual(String originalString, String equalString) {
+        if (originalString == null && equalString == null) {
+            return true;
+        }
+        if (originalString == null && equalString != null) {
+            return false;
+        }
+        if (originalString.equals(equalString)) {
+            return true;
+        }
+        return false;
+    }
 }

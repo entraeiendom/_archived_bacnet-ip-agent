@@ -38,4 +38,50 @@ public class DeviceIdTest {
         deviceId.setGatewayInstanceNumber(null);
         assertFalse(deviceId.isValid());
     }
+
+    @Test
+    public void testEquals() {
+        String id = "id1234";
+        String tfmTag = "tfm1234";
+        Integer instanceNumber = 2002;
+        DeviceId originalId = new DeviceId();
+        originalId.setId(id);
+        DeviceId equalsId = new DeviceId();
+        equalsId.setId(id);
+        assertTrue(originalId.equals(equalsId));
+        //TFM only
+        originalId.setId(null);
+        originalId.setTfmTag(tfmTag);
+        equalsId.setId(null);
+        assertFalse(originalId.equals(equalsId));
+        equalsId.setTfmTag(tfmTag);
+        assertTrue(originalId.equals(equalsId));
+
+        //InstanceNumber
+        originalId.setId(id);
+        originalId.setInstanceNumber(instanceNumber);
+        equalsId.setId(id);
+        equalsId.setInstanceNumber(instanceNumber);
+        assertTrue(originalId.equals(equalsId));
+    }
+
+    @Test
+    public void testIsIntegerEqual() {
+        DeviceId deviceId = new DeviceId();
+        assertTrue( deviceId.isIntegerEqual(100, 100));
+        assertTrue( deviceId.isIntegerEqual(null, null));
+        assertFalse( deviceId.isIntegerEqual(100, 99));
+        assertFalse( deviceId.isIntegerEqual(null, 99));
+        assertFalse( deviceId.isIntegerEqual(100, null));
+    }
+
+    @Test
+    public void testIsStringEqual() {
+        DeviceId deviceId = new DeviceId();
+        assertTrue( deviceId.isStringEqual("ab", "ab"));
+        assertTrue( deviceId.isStringEqual(null, null));
+        assertFalse( deviceId.isStringEqual("ab","abc"));
+        assertFalse( deviceId.isStringEqual(null, "abc"));
+        assertFalse( deviceId.isStringEqual("ab", null));
+    }
 }

@@ -2,8 +2,10 @@ package no.entra.bacnet.agent.devices;
 
 import org.slf4j.Logger;
 
+import java.util.List;
 import java.util.UUID;
 
+import static no.entra.bacnet.json.utils.StringUtils.hasValue;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class DeviceIdService {
@@ -50,5 +52,14 @@ public class DeviceIdService {
         deviceId.setTfmTag(tfmTag);
         deviceId = add(deviceId);
         return deviceId;
+    }
+
+    public List<DeviceId> findMatching(DeviceId deviceId) {
+        List<DeviceId> matcingIds = null;
+        if (deviceId != null && hasValue(deviceId.getTfmTag())) {
+            String tfmTag = deviceId.getTfmTag();
+            matcingIds = idRepository.findFromTfm(tfmTag);
+        }
+        return matcingIds;
     }
 }
