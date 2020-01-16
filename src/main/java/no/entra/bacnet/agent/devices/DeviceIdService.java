@@ -45,12 +45,15 @@ public class DeviceIdService {
         return deviceId;
     }
 
-    public DeviceId createDeviceId(int instanceNumber, String ipAddress, String tfmTag) {
-        DeviceId deviceId = new DeviceId();
-        deviceId.setInstanceNumber(instanceNumber);
-        deviceId.setIpAddress(ipAddress);
-        deviceId.setTfmTag(tfmTag);
-        deviceId = add(deviceId);
+    public DeviceId createDeviceId(Integer instanceNumber, String ipAddress, String tfmTag) {
+        DeviceId deviceId = null;
+        if (instanceNumber != null || hasValue(ipAddress) || hasValue(tfmTag)) {
+            deviceId = new DeviceId();
+            deviceId.setInstanceNumber(instanceNumber);
+            deviceId.setIpAddress(ipAddress);
+            deviceId.setTfmTag(tfmTag);
+            deviceId = add(deviceId);
+        }
         return deviceId;
     }
 

@@ -70,6 +70,7 @@ public class BlockingRecordAndForwardObserver implements BacnetObserver {
                         } catch (Exception e) {
                             log.trace("Failed to send message to AzureIoT. hexString: {}\nMessage: {},\n reason {}", hexString, message, e.getMessage());
                             //mqttClient.publishUnknownHexString(hexString);
+                            e.printStackTrace();
                         }
                     }
                 } else {
@@ -93,8 +94,13 @@ public class BlockingRecordAndForwardObserver implements BacnetObserver {
                     Integer instanceNumber = deviceId.getInstanceNumber();
                     String ipAddress = deviceId.getIpAddress();
                     String tfmTag = deviceId.getTfmTag();
+                    log.trace("DeviceIdService: {}", deviceIdService);
                     DeviceId createdId = deviceIdService.createDeviceId(instanceNumber, ipAddress, tfmTag);
-                    deviceId.setId(createdId.getId());
+                    if (createdId == null) {
+                        log.trace("Could not create new id for deviceId based on {}", deviceId);
+                    } else {
+                        deviceId.setId(createdId.getId());
+                    }
                 } else if (matchingIds.size() == 1) {
                     DeviceId matchedId = matchingIds.get(0);
                     String id = matchedId.getId();

@@ -8,11 +8,11 @@
         </layout>
     </appender>
 
-    <logger name="no.entra" level="info" additivity="false">
+    <logger name="no.entra" level="trace" additivity="false">
         <appender-ref ref="CONSOLE"/>
     </logger>
 
-    <root level="trace">
+    <root level="info">
         <appender-ref ref="CONSOLE"/>
     </root>
 
