@@ -28,6 +28,7 @@ public class DeviceRegistryManualTest {
         if (writeToFile != null && writeToFile.canWrite()) {
             this.writeToFile = Paths.get(writeToFile.getAbsolutePath());
         } else {
+            log.info("{} is missing. Will not write to that file.");
             this.writeToFile = null;
         }
         log.info("Validating {}", hexStringFile);

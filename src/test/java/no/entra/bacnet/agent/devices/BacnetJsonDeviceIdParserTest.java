@@ -69,4 +69,33 @@ public class BacnetJsonDeviceIdParserTest {
         assertNotNull(deviceId);
         assertEquals(2002, deviceId.getInstanceNumber().intValue());
     }
+
+    @Test
+    public void parseIHaveRequest() {
+        String bacnetJson = "{\n" +
+                "  \"configurationRequest\": {\n" +
+                "    \"observedAt\": \"2020-01-13T14:25:36.433205\",\n" +
+                "    \"id\": \"TODO\",\n" +
+                "    \"source\": \"0961\",\n" +
+                "    \"properties\": {\n" +
+                "      \"Request\": \"IHave\",\n" +
+                "      \"NotificationClass\": \"0\",\n" +
+                "      \"Device\": \"11\",\n" +
+                "      \"ObjectName\": \"tfmtag-example\"\n" +
+                "    }\n" +
+                "  },\n" +
+                "  \"sender\": {\n" +
+                "    \"gateway\": {\n" +
+                "      \"instanceNumber\": 2401,\n" +
+                "      \"deviceId\": 11\n" +
+                "    }\n" +
+                "  },\n" +
+                "  \"service\": \"IHave\"\n" +
+                "}";
+        DeviceId deviceId = BacnetJsonDeviceIdParser.parse(bacnetJson);
+        assertNotNull(deviceId);
+        assertEquals(2401, deviceId.getGatewayInstanceNumber().intValue());
+        assertEquals(11, deviceId.getGatewayDeviceId().intValue());
+        assertEquals("tfmtag-example", deviceId.getTfmTag());
+    }
 }

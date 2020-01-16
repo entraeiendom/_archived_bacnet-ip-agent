@@ -26,4 +26,16 @@ public class DeviceIdTest {
         deviceId.setInstanceNumber(2000);
         assertTrue(deviceId.isValid());
     }
+
+    @Test
+    public void gatwayIsValid() {
+        DeviceId deviceId = new DeviceId();
+        assertFalse(deviceId.isValid());
+        deviceId.setGatewayInstanceNumber(2000);
+        assertFalse(deviceId.isValid());
+        deviceId.setGatewayDeviceId(11);
+        assertTrue(deviceId.isValid());
+        deviceId.setGatewayInstanceNumber(null);
+        assertFalse(deviceId.isValid());
+    }
 }

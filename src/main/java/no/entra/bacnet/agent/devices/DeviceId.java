@@ -13,6 +13,8 @@ public class DeviceId implements Serializable {
     private Integer instanceNumber;
     private String macAdress;
     private String vendorId;
+    private Integer gatewayInstanceNumber;
+    private Integer gatewayDeviceId;
 
     public DeviceId() {
     }
@@ -93,6 +95,26 @@ public class DeviceId implements Serializable {
         this.vendorId = vendorId;
     }
 
+    public void setInstanceNumber(Integer instanceNumber) {
+        this.instanceNumber = instanceNumber;
+    }
+
+    public Integer getGatewayInstanceNumber() {
+        return gatewayInstanceNumber;
+    }
+
+    public void setGatewayInstanceNumber(Integer gatewayInstanceNumber) {
+        this.gatewayInstanceNumber = gatewayInstanceNumber;
+    }
+
+    public Integer getGatewayDeviceId() {
+        return gatewayDeviceId;
+    }
+
+    public void setGatewayDeviceId(Integer gatewayDeviceId) {
+        this.gatewayDeviceId = gatewayDeviceId;
+    }
+
     public boolean isValid() {
         boolean isValid = false;
         if (hasValue(id)) {
@@ -102,6 +124,8 @@ public class DeviceId implements Serializable {
         } else if (hasValue(ipAddress)) {
             isValid = true;
         } else if (instanceNumber != null) {
+            isValid = true;
+        } else if (gatewayInstanceNumber != null && gatewayDeviceId != null) {
             isValid = true;
         }
         return isValid;

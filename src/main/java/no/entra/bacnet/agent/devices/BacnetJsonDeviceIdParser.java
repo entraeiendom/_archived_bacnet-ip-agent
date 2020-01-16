@@ -3,6 +3,7 @@ package no.entra.bacnet.agent.devices;
 import org.slf4j.Logger;
 
 import static no.entra.bacnet.agent.json.JsonPathHelper.getStringFailsafeNull;
+import static no.entra.bacnet.agent.json.JsonPathHelper.hasElement;
 import static no.entra.bacnet.json.utils.StringUtils.hasValue;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -44,6 +45,27 @@ public class BacnetJsonDeviceIdParser {
         }
         if (instanceNumber != null) {
             deviceId.setInstanceNumber(instanceNumber);
+        }
+        if (hasElement(bacnetJson, "$.sender.gateway")) {
+            String gatwayInstanceNumberKey = "$.sender.gateway.instanceNumber";
+            String gatewayInstanceNumberString = getStringFailsafeNull(bacnetJson, gatwayInstanceNumberKey);
+            Integer gatewayInstanceNumber = findIntegerInString(gatewayInstanceNumberString);
+            if (gatewayInstanceNumber != null) {
+                deviceId.setGatewayInstanceNumber(gatewayInstanceNumber);
+            }
+            String gatwayDeviceIdKey = "$.sender.gateway.deviceId";
+            String gatewayDeviceIdString = getStringFailsafeNull(bacnetJson, gatwayDeviceIdKey);
+            Integer gatewayDeviceId = findIntegerInString(gatewayDeviceIdString);
+            if (gatewayDeviceId != null) {
+                deviceId.setGatewayDeviceId(gatewayDeviceId);
+            }
+        }
+        String configurationObjectNameKey = "$.configurationRequest.properties.ObjectName";
+        if (hasElement(bacnetJson, configurationObjectNameKey)) {
+            String tfmTag = getStringFailsafeNull(bacnetJson, configurationObjectNameKey);
+            if (tfmTag != null) {
+                deviceId.setTfmTag(tfmTag);
+            }
         }
         return deviceId;
     }
