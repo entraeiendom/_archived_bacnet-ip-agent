@@ -5,7 +5,7 @@
 
   <groupId>no.entra.bacnet</groupId>
   <artifactId>bacnet-ip-agent</artifactId>
-  <version>0.3-STABLE</version>
+  <version>0.4-SNAPSHOT</version>
 
   <name>bacnet-ip-agent</name>
   <url>https://github.com/entraeiendom/bacnet-ip-agent/blob/master/README.md</url>
