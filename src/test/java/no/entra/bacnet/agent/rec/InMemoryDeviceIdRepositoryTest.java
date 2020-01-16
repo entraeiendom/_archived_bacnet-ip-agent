@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class InMemoryDeviceIdRepositoryTest {
 
@@ -34,6 +35,16 @@ public class InMemoryDeviceIdRepositoryTest {
     @Test(expected = IllegalStateException.class)
     public void addConflict() {
         idRepository.add(new DeviceId("id1"));
+    }
+
+    @Test
+    public void get() {
+        String expectedId = defaultDeviceId.getId();
+        DeviceId deviceId = idRepository.get(expectedId);
+        assertNotNull(deviceId);
+        assertEquals(defaultDeviceId, deviceId);
+        deviceId = idRepository.get("id3");
+        assertEquals("TFM123/6767", deviceId.getTfmTag());
     }
 
     @Test
