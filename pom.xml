@@ -5,7 +5,7 @@
 
   <groupId>no.entra.bacnet</groupId>
   <artifactId>bacnet-ip-agent</artifactId>
-  <version>0.3-SNAPSHOT</version>
+  <version>0.3</version>
 
   <name>bacnet-ip-agent</name>
   <url>https://github.com/entraeiendom/bacnet-ip-agent/blob/master/README.md</url>
@@ -23,7 +23,7 @@
     <developerConnection>scm:git:ssh://git@github.com/entraeiendom/bacnet-ip-agent.git</developerConnection>
     <connection>scm:git:https://github.com/entraeiendom/bacnet-ip-agent.git</connection>
     <url>https://github.com/entraeiendom/bacnet-ip-agent</url>
-    <tag>HEAD</tag>
+    <tag>bacnet-ip-agent-0.3</tag>
   </scm>
 
   <properties>
@@ -73,12 +73,12 @@
     <dependency>
       <groupId>no.entra.bacnet</groupId>
       <artifactId>bacnet2rec</artifactId>
-      <version>0.5-SNAPSHOT</version>
+      <version>0.5</version>
     </dependency>
     <dependency>
       <groupId>no.entra.bacnet</groupId>
       <artifactId>bacnet2json</artifactId>
-      <version>0.5-SNAPSHOT</version>
+      <version>0.6</version>
     </dependency>
 
     <!-- Azure IoT -->
