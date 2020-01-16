@@ -26,6 +26,22 @@ public class BacnetJsonDeviceIdParser {
      *   }    ,
      *   "service ": "WhoIs "
      * }
+     * or
+     * {
+     *   "sender": "unknown",
+     *   "service": "GetAlarmSummary",
+     *   "observation": {
+     *     "unit": "DegreesCelcius",
+     *     "observedAt": "2020-01-16T14:38:19.951845",
+     *     "name": "tfmtag-example",
+     *     "description": "Room 1013, section 1, floor 1",
+     *     "source": {
+     *       "deviceId": "TODO",
+     *       "objectId": "AnalogInput 3000"
+     *                },
+     *     "value": 22.170061*   }
+     * }
+     * 
      * @param bacnetJson
      * @return
      */
@@ -63,6 +79,13 @@ public class BacnetJsonDeviceIdParser {
         String configurationObjectNameKey = "$.configurationRequest.properties.ObjectName";
         if (hasElement(bacnetJson, configurationObjectNameKey)) {
             String tfmTag = getStringFailsafeNull(bacnetJson, configurationObjectNameKey);
+            if (tfmTag != null) {
+                deviceId.setTfmTag(tfmTag);
+            }
+        }
+        String observationNameKey = "$.observation.name";
+        if (hasElement(bacnetJson, observationNameKey)) {
+            String tfmTag = getStringFailsafeNull(bacnetJson, observationNameKey);
             if (tfmTag != null) {
                 deviceId.setTfmTag(tfmTag);
             }

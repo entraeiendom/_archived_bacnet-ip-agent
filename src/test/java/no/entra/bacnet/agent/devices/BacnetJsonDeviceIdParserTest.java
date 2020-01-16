@@ -98,4 +98,27 @@ public class BacnetJsonDeviceIdParserTest {
         assertEquals(11, deviceId.getGatewayDeviceId().intValue());
         assertEquals("tfmtag-example", deviceId.getTfmTag());
     }
+
+    @Test
+    public void parseObservation() {
+        String bacnetJson = "{\n" +
+                "  \"sender\": \"unknown\",\n" +
+                "  \"service\": \"GetAlarmSummary\",\n" +
+                "  \"observation\": {\n" +
+                "    \"unit\": \"DegreesCelcius\",\n" +
+                "    \"observedAt\": \"2020-01-16T14:38:19.951845\",\n" +
+                "    \"name\": \"tfmtag-example\",\n" +
+                "    \"description\": \"Rom 1013, del1, plan U1, Blokk1 \",\n" +
+                "    \"source\": {\n" +
+                "      \"deviceId\": \"TODO\",\n" +
+                "      \"objectId\": \"AnalogInput 3000\"\n" +
+                "    },\n" +
+                "    \"value\": 22.170061\n" +
+                "  }\n" +
+                "}";
+        DeviceId deviceId = BacnetJsonDeviceIdParser.parse(bacnetJson);
+        assertNotNull(deviceId);
+        assertEquals("tfmtag-example", deviceId.getTfmTag());
+
+    }
 }
