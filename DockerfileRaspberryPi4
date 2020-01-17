@@ -9,11 +9,11 @@ EXPOSE ${BACNET_PORT}
 EXPOSE ${BACNET_PORT}/udp
 
 WORKDIR "/home/bacnetagent"
-CMD [ \
-    "java", \
-    "-Xdebug", \
-    "-jar", \
-    "bacnet-ip-agent.jar" \
-]
+#CMD [ \
+#    "java", \
+#    "-Xdebug", \
+#    "-jar", \
+#    "bacnet-ip-agent.jar" \
+#]
 
 
