@@ -3,6 +3,26 @@
 
 Listen to UDP packages, and send UDP packages.
 
+## Getting Started
+
+1. Create an IoT-Edge in Azure-IoT.
+2. Copy the Primary Connection String
+3. Run!
+*Run in Linux/Windows/OS-X*
+```
+docker run -p 0.0.0.0:47808:47808 -p 0.0.0.0:47808:47808/udp \
+  --name=bacnet-ip-agent-java -e DEVICE_CONNECTION_STRING="string from 2. above" baardl/bacnet-ip-agent-java:alpine-0.3-STABLE
+```
+*Run in RaspberryPi/ARM*
+```
+docker run -p 0.0.0.0:47808:47808 -p 0.0.0.0:47808:47808/udp \
+  --name=bacnet-ip-agent-java -e DEVICE_CONNECTION_STRING="string from 2. above" baardl/bacnet-ip-agent-java:armv7-0.3.2-STABLE
+```
+4. Verify
+```
+az iot hub monitor-events --hub-name <your hub name from 1. above>
+```
+
 
 ## Development
 
