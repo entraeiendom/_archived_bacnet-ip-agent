@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.net.DatagramSocket;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -27,6 +28,9 @@ public class SubscribeCovClientTest {
     }
 
     @Test
-    public void sendSubscribeCov() {
+    public void buildConfirmedCovSingleRequest() {
+        String expected = "810a00190120ffff00ff00020f0509121c0000000029013900";
+        String hexString = covClient.buildConfirmedCovSingleRequest();
+        assertEquals(expected, hexString);
     }
 }

@@ -40,6 +40,19 @@ public class SubscribeCovClient {
 
     protected void sendSubscribeCov() throws IOException {
 
+        String hexString = buildConfirmedCovSingleRequest();
+        buf = hexStringToByteArray(hexString);
+        DatagramPacket packet = new DatagramPacket(buf, buf.length, sendToAddress, BACNET_DEFAULT_PORT);
+        log.debug("Sending: {}", packet);
+        socket.send(packet);
+    }
+
+    /**
+     * Create HexString for a Confirmed COV Request to local net, and a single sensor.
+     * @return hexString with bvlc, npdu and apdu
+     */
+    protected String buildConfirmedCovSingleRequest() {
+        String hexString = null;
         String analogInput0 = "00000000";
         String apdu = "00020f0509121c" + analogInput0 + "29013900";
         String npdu = "0120ffff00ff";
@@ -50,12 +63,9 @@ public class SubscribeCovClient {
         }
         String bvlc = "81" + BvlcFunction.OriginalUnicastNpdu.getBvlcFunctionHex() + messageLength;
 
-        String hexString = bvlc.toString() + npdu.toString() + apdu;
+        hexString = bvlc.toString() + npdu.toString() + apdu;
         log.debug("Hex to send: {}", hexString);
-        buf = hexStringToByteArray(hexString);
-        DatagramPacket packet = new DatagramPacket(buf, buf.length, sendToAddress, BACNET_DEFAULT_PORT);
-        log.debug("Sending: {}", packet);
-        socket.send(packet);
+        return hexString;
     }
 
     private void disconnect() {
