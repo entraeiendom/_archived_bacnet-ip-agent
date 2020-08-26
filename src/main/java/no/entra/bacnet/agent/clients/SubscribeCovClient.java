@@ -23,6 +23,10 @@ public class SubscribeCovClient {
         socket.setReuseAddress(true);
     }
 
+    SubscribeCovClient(DatagramSocket socket) {
+        this.socket = socket;
+    }
+
     void broadcast() throws IOException {
         local("255.255.255.255");
     }
@@ -31,10 +35,10 @@ public class SubscribeCovClient {
         SocketAddress inetAddress = new InetSocketAddress(BACNET_DEFAULT_PORT);
         sendToAddress = InetAddress.getByName(ipv4Address);
         socket.bind(inetAddress);
-        sendWhoIs();
+        sendSubscribeCov();
     }
 
-    private void sendWhoIs() throws IOException {
+    protected void sendSubscribeCov() throws IOException {
 
         String analogInput0 = "00000000";
         String apdu = "00020f0509121c" + analogInput0 + "29013900";
