@@ -14,7 +14,7 @@ import java.net.InetAddress;
 import java.util.List;
 import java.util.Optional;
 
-import static no.entra.bacnet.agent.parser.HexStringParser.hasValue;
+import static no.entra.bacnet.json.utils.StringUtils.hasValue;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class BlockingRecordAndForwardObserver implements BacnetObserver {
