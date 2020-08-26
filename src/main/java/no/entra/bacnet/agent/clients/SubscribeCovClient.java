@@ -1,6 +1,8 @@
 package no.entra.bacnet.agent.clients;
 
 import no.entra.bacnet.json.bvlc.BvlcFunction;
+import no.entra.bacnet.json.objects.ObjectId;
+import no.entra.bacnet.json.objects.ObjectType;
 import org.slf4j.Logger;
 
 import java.io.IOException;
@@ -40,7 +42,8 @@ public class SubscribeCovClient {
 
     protected void sendSubscribeCov() throws IOException {
 
-        String hexString = buildConfirmedCovSingleRequest();
+        ObjectId analogInput0 = new ObjectId(ObjectType.AnalogInput, "0");
+        String hexString = buildConfirmedCovSingleRequest(analogInput0  );
         buf = hexStringToByteArray(hexString);
         DatagramPacket packet = new DatagramPacket(buf, buf.length, sendToAddress, BACNET_DEFAULT_PORT);
         log.debug("Sending: {}", packet);
@@ -50,11 +53,26 @@ public class SubscribeCovClient {
     /**
      * Create HexString for a Confirmed COV Request to local net, and a single sensor.
      * @return hexString with bvlc, npdu and apdu
+     * @param deviceSensorId
      */
-    protected String buildConfirmedCovSingleRequest() {
+    protected String buildConfirmedCovSingleRequest(ObjectId deviceSensorId) {
         String hexString = null;
         String analogInput0 = "00000000";
         String apdu = "00020f0509121c" + analogInput0 + "29013900";
+        /*
+        00 = PDUType = 0
+        02 = Max APDU size = 206
+        0f = invoke id = 15
+        05 = Service Choice 5 - SubscribeCOV-Request
+        09 = SD Context Tag 0, Subscriber Process Identifier, Length = 1
+        12 = 18 integer
+        1c = SD context Tag 1, Monitored Object Identifier, Length = 4
+        00000000 = Analog Input, Instance 0
+        29 = SD context Tag 2, Issue Confirmed Notification, Length = 1
+        01 = True, 00 = false
+        39 = SD context Tag 3, Lifetime, Length = 1
+        00 = 0 integer == indefinite
+         */
         String npdu = "0120ffff00ff";
         int numberOfOctets = (apdu.length() + npdu.length() + 8) / 2;
         String messageLength = Integer.toHexString(numberOfOctets);

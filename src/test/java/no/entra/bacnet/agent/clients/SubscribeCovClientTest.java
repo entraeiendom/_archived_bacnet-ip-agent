@@ -1,5 +1,7 @@
 package no.entra.bacnet.agent.clients;
 
+import no.entra.bacnet.json.objects.ObjectId;
+import no.entra.bacnet.json.objects.ObjectType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -30,7 +32,8 @@ public class SubscribeCovClientTest {
     @Test
     public void buildConfirmedCovSingleRequest() {
         String expected = "810a00190120ffff00ff00020f0509121c0000000029013900";
-        String hexString = covClient.buildConfirmedCovSingleRequest();
+        ObjectId deviceSensorId = new ObjectId(ObjectType.AnalogInput, "0");
+        String hexString = covClient.buildConfirmedCovSingleRequest(deviceSensorId);
         assertEquals(expected, hexString);
     }
 }
