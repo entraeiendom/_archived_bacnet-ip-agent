@@ -2,6 +2,7 @@ package no.entra.bacnet.agent.clients;
 
 import no.entra.bacnet.json.bvlc.BvlcFunction;
 import no.entra.bacnet.json.objects.ObjectId;
+import no.entra.bacnet.json.objects.ObjectIdMapper;
 import no.entra.bacnet.json.objects.ObjectType;
 import org.slf4j.Logger;
 
@@ -58,7 +59,8 @@ public class SubscribeCovClient {
     protected String buildConfirmedCovSingleRequest(ObjectId deviceSensorId) {
         String hexString = null;
         String analogInput0 = "00000000";
-        String apdu = "00020f0509121c" + analogInput0 + "29013900";
+        String objectIdHex = ObjectIdMapper.toHexString(deviceSensorId);
+        String apdu = "00020f0509121c" + objectIdHex + "29013900";
         /*
         00 = PDUType = 0
         02 = Max APDU size = 206
