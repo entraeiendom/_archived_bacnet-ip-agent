@@ -57,6 +57,7 @@ public class SubscribeCovClient {
      * @param deviceSensorId
      */
     protected String buildConfirmedCovSingleRequest(ObjectId deviceSensorId) {
+        String hexString = null;
         String objectIdHex = ObjectIdMapper.toHexString(deviceSensorId);
         String apdu = "00020f0509121c" + objectIdHex + "29013900";
         /*
