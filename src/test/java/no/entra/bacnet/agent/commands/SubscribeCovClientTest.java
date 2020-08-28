@@ -25,7 +25,8 @@ public class SubscribeCovClientTest {
 
     @Test
     public void local() throws IOException {
-        covClient.local("10.10.10.10");
+        ObjectId analogInput0 = new ObjectId(ObjectType.AnalogInput, "0");
+        covClient.local("10.10.10.10", analogInput0 );
         verify(socket,  times(1)).send(any());
     }
 

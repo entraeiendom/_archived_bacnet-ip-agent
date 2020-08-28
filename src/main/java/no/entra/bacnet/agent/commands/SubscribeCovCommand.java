@@ -10,8 +10,7 @@ import java.io.IOException;
 import java.net.*;
 
 import static no.entra.bacnet.agent.utils.ByteHexConverter.hexStringToByteArray;
-import static no.entra.bacnet.json.apdu.SDContextTag.TAG0LENGTH1;
-import static no.entra.bacnet.json.apdu.SDContextTag.TAG1LENGTH4;
+import static no.entra.bacnet.json.apdu.SDContextTag.*;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class SubscribeCovCommand {
@@ -33,20 +32,19 @@ public class SubscribeCovCommand {
     }
 
     void broadcast() throws IOException {
-        local("255.255.255.255");
+        ObjectId analogInput0 = new ObjectId(ObjectType.AnalogInput, "0");
+        local("255.255.255.255", analogInput0);
     }
 
-    void local(String ipv4Address) throws IOException {
+    void local(String ipv4Address, ObjectId parameterToWatch) throws IOException {
         SocketAddress inetAddress = new InetSocketAddress(BACNET_DEFAULT_PORT);
         sendToAddress = InetAddress.getByName(ipv4Address);
         socket.bind(inetAddress);
-        sendSubscribeCov();
+        sendSubscribeCov(parameterToWatch);
     }
 
-    protected void sendSubscribeCov() throws IOException {
-
-        ObjectId analogInput0 = new ObjectId(ObjectType.AnalogInput, "0");
-        String hexString = buildConfirmedCovSingleRequest(analogInput0  );
+    protected void sendSubscribeCov(ObjectId parameterToWatch) throws IOException {
+        String hexString = buildConfirmedCovSingleRequest(parameterToWatch  );
         buf = hexStringToByteArray(hexString);
         DatagramPacket packet = new DatagramPacket(buf, buf.length, sendToAddress, BACNET_DEFAULT_PORT);
         log.debug("Sending: {}", packet);
@@ -56,12 +54,14 @@ public class SubscribeCovCommand {
     /**
      * Create HexString for a Confirmed COV Request to local net, and a single sensor.
      * @return hexString with bvlc, npdu and apdu
-     * @param deviceSensorId
+     * @param deviceSensorId also known as the supported property.
      */
     protected String buildConfirmedCovSingleRequest(ObjectId deviceSensorId) {
         String hexString = null;
         String objectIdHex = ObjectIdMapper.toHexString(deviceSensorId);
-        String apdu = "00020f05"+ TAG0LENGTH1 +"12" + TAG1LENGTH4 + objectIdHex + "29013900";
+        String confirmEveryNotification = "01";
+        String lifetimeHex = "00"; //indefinite
+        String apdu = "00020f05"+ TAG0LENGTH1 +"12" + TAG1LENGTH4 + objectIdHex + TAG2LENGTH1 + confirmEveryNotification + TAG3LENGTH1 + lifetimeHex;
         /*
         00 = PDUType = 0
         02 = Max APDU size = 206
@@ -106,10 +106,11 @@ public class SubscribeCovCommand {
         }
         try {
             client = new SubscribeCovCommand();
+            ObjectId parameterToWatch = new ObjectId(ObjectType.AnalogValue, "0");
             if (destination == null) {
                 client.broadcast();
             } else {
-                client.local(destination);
+                client.local(destination, parameterToWatch);
             }
             Thread.sleep(10000);
         } catch (SocketException e) {
