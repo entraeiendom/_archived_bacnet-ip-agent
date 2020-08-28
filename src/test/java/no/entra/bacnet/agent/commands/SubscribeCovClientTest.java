@@ -1,4 +1,4 @@
-package no.entra.bacnet.agent.clients;
+package no.entra.bacnet.agent.commands;
 
 import no.entra.bacnet.json.objects.ObjectId;
 import no.entra.bacnet.json.objects.ObjectType;
@@ -14,13 +14,13 @@ import static org.mockito.Mockito.*;
 
 public class SubscribeCovClientTest {
 
-    private SubscribeCovClient covClient;
+    private SubscribeCovCommand covClient;
     private DatagramSocket socket;
 
     @Before
     public void setUp() throws Exception {
         socket = mock(DatagramSocket.class);
-        covClient = new SubscribeCovClient(socket);
+        covClient = new SubscribeCovCommand(socket);
     }
 
     @Test

@@ -1,4 +1,4 @@
-package no.entra.bacnet.agent.clients;
+package no.entra.bacnet.agent.commands;
 
 import org.slf4j.Logger;
 
@@ -8,15 +8,15 @@ import java.net.*;
 import static no.entra.bacnet.agent.utils.ByteHexConverter.hexStringToByteArray;
 import static org.slf4j.LoggerFactory.getLogger;
 
-public class WhoIsClient {
-    private static final Logger log = getLogger(WhoIsClient.class);
+public class WhoIsCommand {
+    private static final Logger log = getLogger(WhoIsCommand.class);
 
     private DatagramSocket socket;
     public static final int BACNET_DEFAULT_PORT = 47808;
     private byte[] buf = new byte[2048];
     private InetAddress sendToAddress;
 
-    public WhoIsClient() throws SocketException {
+    public WhoIsCommand() throws SocketException {
         socket = new DatagramSocket(null);
         socket.setBroadcast(true);
         socket.setReuseAddress(true);
@@ -50,7 +50,7 @@ public class WhoIsClient {
     }
 
     public static void main(String[] args) {
-        WhoIsClient client = null;
+        WhoIsCommand client = null;
 
         //Destination may also be fetched as the first program argument.
         String destination = null;
@@ -58,7 +58,7 @@ public class WhoIsClient {
             destination = args[0];
         }
         try {
-            client = new WhoIsClient();
+            client = new WhoIsCommand();
             if (destination == null) {
                 client.broadcast();
             } else {

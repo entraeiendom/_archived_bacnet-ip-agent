@@ -1,4 +1,4 @@
-package no.entra.bacnet.agent.clients;
+package no.entra.bacnet.agent.commands;
 
 import no.entra.bacnet.json.bvlc.BvlcFunction;
 import no.entra.bacnet.json.objects.ObjectId;
@@ -14,21 +14,21 @@ import static no.entra.bacnet.json.apdu.SDContextTag.TAG0LENGTH1;
 import static no.entra.bacnet.json.apdu.SDContextTag.TAG1LENGTH4;
 import static org.slf4j.LoggerFactory.getLogger;
 
-public class SubscribeCovClient {
-    private static final Logger log = getLogger(SubscribeCovClient.class);
+public class SubscribeCovCommand {
+    private static final Logger log = getLogger(SubscribeCovCommand.class);
 
     private DatagramSocket socket;
     public static final int BACNET_DEFAULT_PORT = 47808;
     private byte[] buf = new byte[2048];
     private InetAddress sendToAddress;
 
-    public SubscribeCovClient() throws SocketException {
+    public SubscribeCovCommand() throws SocketException {
         socket = new DatagramSocket(null);
         socket.setBroadcast(true);
         socket.setReuseAddress(true);
     }
 
-    SubscribeCovClient(DatagramSocket socket) {
+    SubscribeCovCommand(DatagramSocket socket) {
         this.socket = socket;
     }
 
@@ -97,7 +97,7 @@ public class SubscribeCovClient {
     }
 
     public static void main(String[] args) {
-        SubscribeCovClient client = null;
+        SubscribeCovCommand client = null;
 
         //Destination may also be fetched as the first program argument.
         String destination = null;
@@ -105,7 +105,7 @@ public class SubscribeCovClient {
             destination = args[0];
         }
         try {
-            client = new SubscribeCovClient();
+            client = new SubscribeCovCommand();
             if (destination == null) {
                 client.broadcast();
             } else {
