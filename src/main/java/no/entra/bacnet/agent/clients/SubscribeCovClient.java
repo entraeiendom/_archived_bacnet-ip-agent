@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.net.*;
 
 import static no.entra.bacnet.agent.utils.ByteHexConverter.hexStringToByteArray;
+import static no.entra.bacnet.json.apdu.SDContextTag.TAG0LENGTH1;
+import static no.entra.bacnet.json.apdu.SDContextTag.TAG1LENGTH4;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class SubscribeCovClient {
@@ -59,7 +61,7 @@ public class SubscribeCovClient {
     protected String buildConfirmedCovSingleRequest(ObjectId deviceSensorId) {
         String hexString = null;
         String objectIdHex = ObjectIdMapper.toHexString(deviceSensorId);
-        String apdu = "00020f0509121c" + objectIdHex + "29013900";
+        String apdu = "00020f05"+ TAG0LENGTH1 +"12" + TAG1LENGTH4 + objectIdHex + "29013900";
         /*
         00 = PDUType = 0
         02 = Max APDU size = 206
