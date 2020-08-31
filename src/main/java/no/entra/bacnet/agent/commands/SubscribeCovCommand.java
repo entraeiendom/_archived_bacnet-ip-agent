@@ -106,7 +106,7 @@ public class SubscribeCovCommand {
         }
         try {
             client = new SubscribeCovCommand();
-            ObjectId parameterToWatch = new ObjectId(ObjectType.AnalogValue, "0");
+            ObjectId parameterToWatch = new ObjectId(ObjectType.AnalogValue, "1");
             if (destination == null) {
                 client.broadcast();
             } else {

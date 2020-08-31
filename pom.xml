@@ -35,26 +35,24 @@
   </properties>
   <repositories>
     <repository>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
       <id>cantara-releases</id>
       <name>Cantara Release Repository</name>
-      <url>http://mvnrepo.cantara.no/content/repositories/releases/</url>
+      <url>https://mvnrepo.cantara.no/content/repositories/releases/</url>
     </repository>
     <repository>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
       <id>cantara-snapshots</id>
       <name>Cantara Snapshot Repository</name>
-      <url>http://mvnrepo.cantara.no/content/repositories/snapshots/</url>
+      <url>https://mvnrepo.cantara.no/content/repositories/snapshots/</url>
+    </repository>
+    <repository>
+      <id>entraos-releases</id>
+      <name>EntraOS Release Repository</name>
+      <url>https://nexus.entraos.io/content/repositories/releases/</url>
+    </repository>
+    <repository>
+      <id>entraos-snapshots</id>
+      <name>EntraOS Snapshot Repository</name>
+      <url>https://nexus.entraos.io/content/repositories/snapshots</url>
     </repository>
   </repositories>
   <distributionManagement>
