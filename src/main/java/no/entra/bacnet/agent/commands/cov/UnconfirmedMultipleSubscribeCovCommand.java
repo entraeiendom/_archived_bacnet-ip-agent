@@ -2,12 +2,12 @@ package no.entra.bacnet.agent.commands.cov;
 
 import no.entra.bacnet.json.bvlc.BvlcFunction;
 import no.entra.bacnet.json.objects.ObjectId;
-import no.entra.bacnet.json.objects.ObjectIdMapper;
 import no.entra.bacnet.json.objects.ObjectType;
 import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.SocketException;
 
 import static no.entra.bacnet.json.apdu.SDContextTag.*;
@@ -27,26 +27,25 @@ public class UnconfirmedMultipleSubscribeCovCommand extends SubscribeCovCommand 
     public static final String PDTAG4_OPEN = "4e";
     public static final String PDTAG4_CLOSE = "4f";
 
-    public UnconfirmedMultipleSubscribeCovCommand() throws SocketException {
-        super();
+    public UnconfirmedMultipleSubscribeCovCommand(InetAddress sendToAddress, ObjectId... subscribeToSensorIds) throws IOException {
+        super(sendToAddress, subscribeToSensorIds);
     }
 
-    UnconfirmedMultipleSubscribeCovCommand(DatagramSocket socket) {
-        super(socket);
+    public UnconfirmedMultipleSubscribeCovCommand(DatagramSocket socket, InetAddress sendToAddress, ObjectId... subscribeToSensorIds) throws IOException {
+        super(socket, sendToAddress, subscribeToSensorIds);
     }
 
-    protected String buildHexString(ObjectId deviceSensorId) {
-        return buildUnconfirmedMultipeCovRequest(deviceSensorId);
+    @Override
+    protected String buildHexString() {
+        return buildUnconfirmedMultipeCovRequest();
     }
 
     /**
-     * Create HexString for a Confirmed COV Request to local net, and a single sensor.
+     * Create HexString for a Confirmed COV Request with multiple sensors
      * @return hexString with bvlc, npdu and apdu
-     * @param deviceSensorId also known as the supported property.
      */
-    protected String buildUnconfirmedMultipeCovRequest(ObjectId deviceSensorId) {
+    protected String buildUnconfirmedMultipeCovRequest() {
         String hexString = null;
-        String objectIdHex = ObjectIdMapper.toHexString(deviceSensorId);
         String confirmEveryNotification = CONFIRMED; //UNCONFIRMED;
         String lifetimeHex = "3c"; //60 seconds?
         String maxDelayHex = "05"; //5 seconds?
@@ -123,21 +122,19 @@ public class UnconfirmedMultipleSubscribeCovCommand extends SubscribeCovCommand 
 
 
     public static void main(String[] args) {
-        SubscribeCovCommand client = null;
+        UnconfirmedMultipleSubscribeCovCommand covCommand = null;
 
         //Destination may also be fetched as the first program argument.
-        String destination = null;
+        String destination = BROADCAST_IP;
         if (args.length > 0) {
             destination = args[0];
         }
         try {
-            client = new UnconfirmedMultipleSubscribeCovCommand();
-            ObjectId parameterToWatch = new ObjectId(ObjectType.AnalogValue, "1");
-            if (destination == null) {
-                client.broadcast();
-            } else {
-                client.local(destination, parameterToWatch);
-            }
+            ObjectId analogValue1 = new ObjectId(ObjectType.AnalogValue, "1");
+            ObjectId analogValue0 = new ObjectId(ObjectType.AnalogValue, "0");
+            InetAddress sendToAddress = SubscribeCovCommand.inetAddressFromString(destination);
+            covCommand = new UnconfirmedMultipleSubscribeCovCommand(sendToAddress, analogValue1, analogValue0);
+            covCommand.execute();
             Thread.sleep(10000);
         } catch (SocketException e) {
             e.printStackTrace();
@@ -146,7 +143,7 @@ public class UnconfirmedMultipleSubscribeCovCommand extends SubscribeCovCommand 
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
-            client.disconnect();
+            covCommand.disconnect();
         }
     }
 }

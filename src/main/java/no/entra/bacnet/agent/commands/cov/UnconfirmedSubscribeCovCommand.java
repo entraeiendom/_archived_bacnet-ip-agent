@@ -3,12 +3,11 @@ package no.entra.bacnet.agent.commands.cov;
 import no.entra.bacnet.json.bvlc.BvlcFunction;
 import no.entra.bacnet.json.objects.ObjectId;
 import no.entra.bacnet.json.objects.ObjectIdMapper;
-import no.entra.bacnet.json.objects.ObjectType;
 import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.net.DatagramSocket;
-import java.net.SocketException;
+import java.net.InetAddress;
 
 import static no.entra.bacnet.json.apdu.SDContextTag.*;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -20,22 +19,24 @@ public class UnconfirmedSubscribeCovCommand extends SubscribeCovCommand {
     private static final Logger log = getLogger(UnconfirmedSubscribeCovCommand.class);
     public static final String UNCONFIRMED = "00";
 
-    public UnconfirmedSubscribeCovCommand() throws SocketException {
-        super();
+    public UnconfirmedSubscribeCovCommand(InetAddress sendToAddress, ObjectId subscribeToSensorId) throws IOException {
+        super(sendToAddress, subscribeToSensorId);
     }
 
-    UnconfirmedSubscribeCovCommand(DatagramSocket socket) {
-        super(socket);
+    public UnconfirmedSubscribeCovCommand(DatagramSocket socket, InetAddress sendToAddress, ObjectId subscribeToSensorId) throws IOException {
+        super(socket, sendToAddress, subscribeToSensorId);
     }
 
-    protected String buildHexString(ObjectId deviceSensorId) {
+    @Override
+    protected String buildHexString() {
+        ObjectId deviceSensorId = getSubscribeToSensorIds().get(0);
         return buildUnConfirmedCovSingleRequest(deviceSensorId);
     }
 
     /**
      * Create HexString for a Confirmed COV Request to local net, and a single sensor.
      * @return hexString with bvlc, npdu and apdu
-     * @param deviceSensorId also known as the supported property.
+     * @param deviceSensorId
      */
     protected String buildUnConfirmedCovSingleRequest(ObjectId deviceSensorId) {
         String hexString = null;
@@ -68,34 +69,5 @@ public class UnconfirmedSubscribeCovCommand extends SubscribeCovCommand {
         hexString = bvlc.toString() + npdu.toString() + apdu;
         log.debug("Hex to send: {}", hexString);
         return hexString;
-    }
-
-
-    public static void main(String[] args) {
-        SubscribeCovCommand client = null;
-
-        //Destination may also be fetched as the first program argument.
-        String destination = null;
-        if (args.length > 0) {
-            destination = args[0];
-        }
-        try {
-            client = new UnconfirmedSubscribeCovCommand();
-            ObjectId parameterToWatch = new ObjectId(ObjectType.AnalogValue, "1");
-            if (destination == null) {
-                client.broadcast();
-            } else {
-                client.local(destination, parameterToWatch);
-            }
-            Thread.sleep(10000);
-        } catch (SocketException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } finally {
-            client.disconnect();
-        }
     }
 }

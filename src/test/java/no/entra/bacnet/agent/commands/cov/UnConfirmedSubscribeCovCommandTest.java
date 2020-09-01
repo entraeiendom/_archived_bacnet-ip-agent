@@ -7,34 +7,36 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-public class SubscribeCovClientTest {
+public class UnConfirmedSubscribeCovCommandTest {
 
-    private SubscribeCovCommand covClient;
+    private UnconfirmedSubscribeCovCommand covCommand;
     private DatagramSocket socket;
 
     @Before
     public void setUp() throws Exception {
         socket = mock(DatagramSocket.class);
-        covClient = new UnconfirmedSubscribeCovCommand(socket);
+        ObjectId analogInput0 = new ObjectId(ObjectType.AnalogInput, "0");
+        InetAddress sendToAddress = SubscribeCovCommand.inetAddressFromString("10.10.10.10");
+        covCommand = new UnconfirmedSubscribeCovCommand(socket, sendToAddress, analogInput0);
+
     }
 
     @Test
-    public void local() throws IOException {
-        ObjectId analogInput0 = new ObjectId(ObjectType.AnalogInput, "0");
-        covClient.local("10.10.10.10", analogInput0 );
+    public void executeTest() throws IOException {
+        covCommand.execute();
         verify(socket,  times(1)).send(any());
     }
 
     @Test
     public void buildConfirmedCovSingleRequest() {
-        String expected = "810a00190120ffff00ff00020f0509121c0000000029013900";
-        ObjectId deviceSensorId = new ObjectId(ObjectType.AnalogInput, "0");
-        String hexString = covClient.buildHexString(deviceSensorId);
+        String expected = "810a00190120ffff00ff00020f0509121c0000000029003900";
+        String hexString = covCommand.buildHexString();
         assertEquals(expected, hexString);
     }
 }

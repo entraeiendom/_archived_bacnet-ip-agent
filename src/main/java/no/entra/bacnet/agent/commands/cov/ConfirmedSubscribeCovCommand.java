@@ -5,8 +5,9 @@ import no.entra.bacnet.json.objects.ObjectId;
 import no.entra.bacnet.json.objects.ObjectIdMapper;
 import org.slf4j.Logger;
 
+import java.io.IOException;
 import java.net.DatagramSocket;
-import java.net.SocketException;
+import java.net.InetAddress;
 
 import static no.entra.bacnet.json.apdu.SDContextTag.*;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -16,18 +17,21 @@ Subscribe to a single parameter for Change of Value(COV)
  */
 public class ConfirmedSubscribeCovCommand extends SubscribeCovCommand {
     private static final Logger log = getLogger(ConfirmedSubscribeCovCommand.class);
-    public ConfirmedSubscribeCovCommand() throws SocketException {
-        super();
+
+    public ConfirmedSubscribeCovCommand(InetAddress sendToAddress, ObjectId subscribeToSensorId) throws IOException {
+        super(sendToAddress, subscribeToSensorId);
     }
 
-    ConfirmedSubscribeCovCommand(DatagramSocket socket) {
-        super(socket);
+    public ConfirmedSubscribeCovCommand(DatagramSocket socket, InetAddress sendToAddress, ObjectId subscribeToSensorId) throws IOException {
+        super(socket, sendToAddress, subscribeToSensorId);
     }
 
     @Override
-    protected String buildHexString(ObjectId deviceSensorId) {
+    protected String buildHexString() {
+        ObjectId deviceSensorId = getSubscribeToSensorIds().get(0);
         return buildConfirmedCovSingleRequest(deviceSensorId);
     }
+
     /**
      * Create HexString for a Confirmed COV Request to local net, and a single sensor.
      * @return hexString with bvlc, npdu and apdu
