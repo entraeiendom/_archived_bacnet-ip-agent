@@ -1,4 +1,4 @@
-package no.entra.bacnet.agent.commands;
+package no.entra.bacnet.agent.commands.cov;
 
 import no.entra.bacnet.json.bvlc.BvlcFunction;
 import no.entra.bacnet.json.objects.ObjectId;
