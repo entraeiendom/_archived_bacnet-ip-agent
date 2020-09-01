@@ -42,6 +42,7 @@ public abstract class SubscribeCovCommand {
 
     protected void sendSubscribeCov(ObjectId parameterToWatch) throws IOException {
         String hexString = buildHexString(parameterToWatch  );
+        log.debug("Send subscribeCovHex {} to address: {}", hexString, sendToAddress);
         buf = hexStringToByteArray(hexString);
         DatagramPacket packet = new DatagramPacket(buf, buf.length, sendToAddress, BACNET_DEFAULT_PORT);
         log.debug("Sending: {}", packet);
@@ -68,7 +69,8 @@ public abstract class SubscribeCovCommand {
         }
         try {
 //            client = new ConfirmedSubscribeCovCommand();
-            client = new UnconfirmedSubscribeCovCommand();
+//            client = new UnconfirmedSubscribeCovCommand();
+            client = new UnconfirmedMultipleSubscribeCovCommand();
             ObjectId parameterToWatch = new ObjectId(ObjectType.AnalogValue, "1");
             if (destination == null) {
                 client.broadcast();
