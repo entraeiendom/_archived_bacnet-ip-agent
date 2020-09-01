@@ -20,7 +20,7 @@ public class SubscribeCovClientTest {
     @Before
     public void setUp() throws Exception {
         socket = mock(DatagramSocket.class);
-        covClient = new SubscribeCovCommand(socket);
+        covClient = new UnconfirmedSubscribeCovCommand(socket);
     }
 
     @Test
@@ -34,7 +34,7 @@ public class SubscribeCovClientTest {
     public void buildConfirmedCovSingleRequest() {
         String expected = "810a00190120ffff00ff00020f0509121c0000000029013900";
         ObjectId deviceSensorId = new ObjectId(ObjectType.AnalogInput, "0");
-        String hexString = covClient.buildConfirmedCovSingleRequest(deviceSensorId);
+        String hexString = covClient.buildHexString(deviceSensorId);
         assertEquals(expected, hexString);
     }
 }
