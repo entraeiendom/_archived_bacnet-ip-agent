@@ -9,7 +9,10 @@ import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
+import static no.entra.bacnet.ip.apdu.PduType.ConfirmedRequest;
 import static no.entra.bacnet.json.apdu.SDContextTag.*;
+import static no.entra.bacnet.json.services.ConfirmedServiceChoice.SubscribeCov;
+import static no.entra.bacnet.json.utils.HexUtils.octetFromInt;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /*
@@ -42,8 +45,12 @@ public class UnconfirmedSubscribeCovCommand extends SubscribeCovCommand {
         String hexString = null;
         String objectIdHex = ObjectIdMapper.toHexString(deviceSensorId);
         String confirmEveryNotification = UNCONFIRMED;
-        String lifetimeHex = "00"; //indefinite
-        String apdu = "00020f05"+ TAG0LENGTH1 +"12" + TAG1LENGTH4 + objectIdHex + TAG2LENGTH1 + confirmEveryNotification + TAG3LENGTH1 + lifetimeHex;
+        String lifetimeHex = octetFromInt(0).toString(); //indefinite
+
+        String pduTypeHex = ConfirmedRequest.getPduTypeChar() + "0";
+        String serviceChoiceHex = SubscribeCov.getServiceChoiceHex();
+        String invokeIdHex = octetFromInt(15).toString();
+        String apdu = pduTypeHex + "02" + invokeIdHex + serviceChoiceHex + TAG0LENGTH1 +"12" + TAG1LENGTH4 + objectIdHex + TAG2LENGTH1 + confirmEveryNotification + TAG3LENGTH1 + lifetimeHex;
         /*
         00 = PDUType = 0
         02 = Max APDU size = 206
