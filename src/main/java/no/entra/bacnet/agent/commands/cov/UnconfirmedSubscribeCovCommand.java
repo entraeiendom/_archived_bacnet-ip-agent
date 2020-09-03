@@ -49,8 +49,9 @@ public class UnconfirmedSubscribeCovCommand extends SubscribeCovCommand {
 
         String pduTypeHex = ConfirmedRequest.getPduTypeChar() + "0";
         String serviceChoiceHex = SubscribeCov.getServiceChoiceHex();
-        String invokeIdHex = octetFromInt(15).toString();
-        String apdu = pduTypeHex + "02" + invokeIdHex + serviceChoiceHex + TAG0LENGTH1 +"12" + TAG1LENGTH4 + objectIdHex + TAG2LENGTH1 + confirmEveryNotification + TAG3LENGTH1 + lifetimeHex;
+        String invokeIdHex = getSubscriptionId().toString();
+        String maxApduLengthHex = "02"; //TODO need to be able to set this.;
+        String apdu = pduTypeHex + maxApduLengthHex + invokeIdHex + serviceChoiceHex + TAG0LENGTH1 +"12" + TAG1LENGTH4 + objectIdHex + TAG2LENGTH1 + confirmEveryNotification + TAG3LENGTH1 + lifetimeHex;
         /*
         00 = PDUType = 0
         02 = Max APDU size = 206

@@ -1,5 +1,6 @@
 package no.entra.bacnet.agent.commands.cov;
 
+import no.entra.bacnet.Octet;
 import no.entra.bacnet.json.objects.ObjectId;
 import no.entra.bacnet.json.objects.ObjectType;
 import org.junit.Before;
@@ -24,6 +25,7 @@ public class UnConfirmedSubscribeCovCommandTest {
         ObjectId analogInput0 = new ObjectId(ObjectType.AnalogInput, "0");
         InetAddress sendToAddress = SubscribeCovCommand.inetAddressFromString("10.10.10.10");
         covCommand = new UnconfirmedSubscribeCovCommand(socket, sendToAddress, analogInput0);
+        covCommand.setSubscriptionId(new Octet("0f"));
 
     }
 

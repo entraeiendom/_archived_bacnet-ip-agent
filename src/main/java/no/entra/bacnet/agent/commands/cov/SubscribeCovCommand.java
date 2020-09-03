@@ -1,5 +1,6 @@
 package no.entra.bacnet.agent.commands.cov;
 
+import no.entra.bacnet.Octet;
 import no.entra.bacnet.json.objects.ObjectId;
 import no.entra.bacnet.json.objects.ObjectType;
 import org.slf4j.Logger;
@@ -7,8 +8,10 @@ import org.slf4j.Logger;
 import java.io.IOException;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 import static no.entra.bacnet.agent.utils.ByteHexConverter.hexStringToByteArray;
+import static no.entra.bacnet.json.utils.HexUtils.octetFromInt;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public abstract class SubscribeCovCommand {
@@ -17,6 +20,7 @@ public abstract class SubscribeCovCommand {
     private final ArrayList<ObjectId> subscribeToSensorIds;
     private final InetAddress sendToAddress;
     private final DatagramSocket socket;
+    private Octet subscriptionId; //aka invokeId or tag to track all subsequent notifications.
     public static final int BACNET_DEFAULT_PORT = 47808;
     private byte[] buf = new byte[2048];
 
@@ -29,7 +33,10 @@ public abstract class SubscribeCovCommand {
         socket.bind(inetAddress);
         this.sendToAddress = sendToAddress;
         this.subscribeToSensorIds = mapList(subscribeToSensorIds);
+        int nextId = new Random().nextInt(255); //255 is max allowed
+        subscriptionId = octetFromInt(nextId);
     }
+
 
     protected SubscribeCovCommand(DatagramSocket socket, InetAddress sendToAddress, ObjectId... subscribeToSensorIds) throws IOException {
         this.socket = socket;
@@ -37,6 +44,8 @@ public abstract class SubscribeCovCommand {
         socket.bind(inetAddress);
         this.sendToAddress = sendToAddress;
         this.subscribeToSensorIds = mapList(subscribeToSensorIds);
+        int nextId = new Random().nextInt(255); //255 is max allowed
+        subscriptionId = octetFromInt(nextId);
     }
 
     private ArrayList<ObjectId> mapList(ObjectId[] objectIds) {
@@ -80,6 +89,14 @@ public abstract class SubscribeCovCommand {
         if (socket != null && socket.isConnected()) {
             socket.disconnect();
         }
+    }
+
+    public void setSubscriptionId(Octet id) {
+        this.subscriptionId = id;
+    }
+
+    public Octet getSubscriptionId() {
+        return subscriptionId;
     }
 
     public static void main(String[] args) {
