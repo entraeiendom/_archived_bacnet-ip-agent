@@ -51,7 +51,12 @@ public class UnconfirmedSubscribeCovCommand extends SubscribeCovCommand {
         String serviceChoiceHex = SubscribeCov.getServiceChoiceHex();
         String invokeIdHex = getSubscriptionId().toString();
         String maxApduLengthHex = "02"; //TODO need to be able to set this.;
-        String apdu = pduTypeHex + maxApduLengthHex + invokeIdHex + serviceChoiceHex + TAG0LENGTH1 +"12" + TAG1LENGTH4 + objectIdHex + TAG2LENGTH1 + confirmEveryNotification + TAG3LENGTH1 + lifetimeHex;
+        //When a client have multiple processes subscribing to the server. Use this parameter to route notifications to the
+        //corresponding client process. - Not much in use in a Java implementation.
+        String subscriberProcessIdentifier = getSubscriptionId().toString();
+        String apdu = pduTypeHex + maxApduLengthHex + invokeIdHex + serviceChoiceHex + TAG0LENGTH1 +
+                subscriberProcessIdentifier + TAG1LENGTH4 + objectIdHex + TAG2LENGTH1 +
+                confirmEveryNotification + TAG3LENGTH1 + lifetimeHex;
         /*
         00 = PDUType = 0
         02 = Max APDU size = 206
@@ -66,7 +71,7 @@ public class UnconfirmedSubscribeCovCommand extends SubscribeCovCommand {
         39 = SD context Tag 3, Lifetime, Length = 1
         00 = 0 integer == indefinite
          */
-        String npdu = "0120ffff00ff";
+        String npdu = "0120ffff00ff"; //TODO need to objectify this.
         int numberOfOctets = (apdu.length() + npdu.length() + 8) / 2;
         String messageLength = Integer.toHexString(numberOfOctets);
         if (numberOfOctets <= 255) {
@@ -74,7 +79,7 @@ public class UnconfirmedSubscribeCovCommand extends SubscribeCovCommand {
         }
         String bvlc = "81" + BvlcFunction.OriginalUnicastNpdu.getBvlcFunctionHex() + messageLength;
 
-        hexString = bvlc.toString() + npdu.toString() + apdu;
+        hexString = bvlc + npdu + apdu;
         log.debug("Hex to send: {}", hexString);
         return hexString;
     }
