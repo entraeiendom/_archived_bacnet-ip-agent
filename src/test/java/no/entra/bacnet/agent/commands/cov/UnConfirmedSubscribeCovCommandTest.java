@@ -25,7 +25,8 @@ public class UnConfirmedSubscribeCovCommandTest {
         ObjectId analogInput0 = new ObjectId(ObjectType.AnalogInput, "0");
         InetAddress sendToAddress = SubscribeCovCommand.inetAddressFromString("10.10.10.10");
         covCommand = new UnconfirmedSubscribeCovCommand(socket, sendToAddress, analogInput0);
-        covCommand.setSubscriptionId(new Octet("0f"));
+        covCommand.setSubscriptionId(new Octet("12"));
+        covCommand.setInvokeId(new Octet("0f"));
 
     }
 
