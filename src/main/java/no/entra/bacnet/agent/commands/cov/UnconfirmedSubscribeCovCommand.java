@@ -49,7 +49,7 @@ public class UnconfirmedSubscribeCovCommand extends SubscribeCovCommand {
 
         String pduTypeHex = ConfirmedRequest.getPduTypeChar() + "0";
         String serviceChoiceHex = SubscribeCov.getServiceChoiceHex();
-        String invokeIdHex = getSubscriptionId().toString();
+        String invokeIdHex = getInvokeId().toString();
         String maxApduLengthHex = "02"; //TODO need to be able to set this.;
         //When a client have multiple processes subscribing to the server. Use this parameter to route notifications to the
         //corresponding client process. - Not much in use in a Java implementation.
@@ -60,7 +60,7 @@ public class UnconfirmedSubscribeCovCommand extends SubscribeCovCommand {
         /*
         00 = PDUType = 0
         02 = Max APDU size = 206
-        0f = invoke id = 15
+        0f = invoke id = 15 // Identify multiple messages/segments for the same request.
         05 = Service Choice 5 - SubscribeCOV-Request
         09 = SD Context Tag 0, Subscriber Process Identifier, Length = 1
         12 = 18 integer

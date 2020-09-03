@@ -21,8 +21,10 @@ public abstract class SubscribeCovCommand {
     private final InetAddress sendToAddress;
     private final DatagramSocket socket;
     private Octet subscriptionId; //aka invokeId or tag to track all subsequent notifications.
+    private Octet invokeId = new Octet("01");
     public static final int BACNET_DEFAULT_PORT = 47808;
     private byte[] buf = new byte[2048];
+
 
 
     public SubscribeCovCommand(InetAddress sendToAddress, ObjectId... subscribeToSensorIds) throws IOException {
@@ -99,6 +101,14 @@ public abstract class SubscribeCovCommand {
         return subscriptionId;
     }
 
+    public Octet getInvokeId() {
+        return invokeId;
+    }
+
+    public void setInvokeId(Octet invokeId) {
+        this.invokeId = invokeId;
+    }
+
     public static void main(String[] args) {
         SubscribeCovCommand covCommand = null;
 
@@ -127,4 +137,6 @@ public abstract class SubscribeCovCommand {
             covCommand.disconnect();
         }
     }
+
+
 }
