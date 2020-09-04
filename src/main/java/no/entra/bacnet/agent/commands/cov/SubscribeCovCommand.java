@@ -119,7 +119,7 @@ public abstract class SubscribeCovCommand {
         this.lifetimeSeconds = lifetimeSeconds;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         SubscribeCovCommand covCommand = null;
 
         //Destination may also be fetched as the first program argument.
