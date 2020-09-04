@@ -76,7 +76,7 @@
     <dependency>
       <groupId>no.entra.bacnet</groupId>
       <artifactId>bacnet2json</artifactId>
-      <version>0.7.4-SNAPSHOT</version>
+      <version>0.7.4</version>
     </dependency>
 
     <!-- Azure IoT -->
