@@ -16,8 +16,8 @@ import static org.slf4j.LoggerFactory.getLogger;
 /*
 Subscribe to a multiple parameters for Change of Value(COV)
  */
-public class UnconfirmedMultipleSubscribeCovCommand extends SubscribeCovCommand {
-    private static final Logger log = getLogger(UnconfirmedMultipleSubscribeCovCommand.class);
+public class UnConfirmedMultipleSubscribeCovCommand extends SubscribeCovCommand {
+    private static final Logger log = getLogger(UnConfirmedMultipleSubscribeCovCommand.class);
     public static final String UNCONFIRMED = "00";
     public static final String CONFIRMED = "01";
     public static final String PDTAG0_OPEN = "0e";
@@ -27,11 +27,11 @@ public class UnconfirmedMultipleSubscribeCovCommand extends SubscribeCovCommand 
     public static final String PDTAG4_OPEN = "4e";
     public static final String PDTAG4_CLOSE = "4f";
 
-    public UnconfirmedMultipleSubscribeCovCommand(InetAddress sendToAddress, ObjectId... subscribeToSensorIds) throws IOException {
+    public UnConfirmedMultipleSubscribeCovCommand(InetAddress sendToAddress, ObjectId... subscribeToSensorIds) throws IOException {
         super(sendToAddress, subscribeToSensorIds);
     }
 
-    public UnconfirmedMultipleSubscribeCovCommand(DatagramSocket socket, InetAddress sendToAddress, ObjectId... subscribeToSensorIds) throws IOException {
+    public UnConfirmedMultipleSubscribeCovCommand(DatagramSocket socket, InetAddress sendToAddress, ObjectId... subscribeToSensorIds) throws IOException {
         super(socket, sendToAddress, subscribeToSensorIds);
     }
 
@@ -122,7 +122,7 @@ public class UnconfirmedMultipleSubscribeCovCommand extends SubscribeCovCommand 
 
 
     public static void main(String[] args) {
-        UnconfirmedMultipleSubscribeCovCommand covCommand = null;
+        UnConfirmedMultipleSubscribeCovCommand covCommand = null;
 
         //Destination may also be fetched as the first program argument.
         String destination = BROADCAST_IP;
@@ -133,7 +133,7 @@ public class UnconfirmedMultipleSubscribeCovCommand extends SubscribeCovCommand 
             ObjectId analogValue1 = new ObjectId(ObjectType.AnalogValue, "1");
             ObjectId analogValue0 = new ObjectId(ObjectType.AnalogValue, "0");
             InetAddress sendToAddress = SubscribeCovCommand.inetAddressFromString(destination);
-            covCommand = new UnconfirmedMultipleSubscribeCovCommand(sendToAddress, analogValue1, analogValue0);
+            covCommand = new UnConfirmedMultipleSubscribeCovCommand(sendToAddress, analogValue1, analogValue0);
             covCommand.execute();
             Thread.sleep(10000);
         } catch (SocketException e) {

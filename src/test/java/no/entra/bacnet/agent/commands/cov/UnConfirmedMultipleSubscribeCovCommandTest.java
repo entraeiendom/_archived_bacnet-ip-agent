@@ -11,9 +11,9 @@ import java.net.InetAddress;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
-public class UnconfirmedMultipleSubscribeCovCommandTest {
+public class UnConfirmedMultipleSubscribeCovCommandTest {
 
-    private UnconfirmedMultipleSubscribeCovCommand covCommand;
+    private UnConfirmedMultipleSubscribeCovCommand covCommand;
     private DatagramSocket socket;
     @Before
     public void setUp() throws Exception {
@@ -22,7 +22,7 @@ public class UnconfirmedMultipleSubscribeCovCommandTest {
         ObjectId deviceSensorId1 = new ObjectId(ObjectType.AnalogValue, "1");
         ObjectId deviceSensorId2 = new ObjectId(ObjectType.AnalogValue, "0");
         InetAddress sendToAddress = SubscribeCovCommand.inetAddressFromString("10.10.10.10");
-        covCommand = new UnconfirmedMultipleSubscribeCovCommand(socket, sendToAddress, deviceSensorId1, deviceSensorId2);
+        covCommand = new UnConfirmedMultipleSubscribeCovCommand(socket, sendToAddress, deviceSensorId1, deviceSensorId2);
     }
 
     @Test
