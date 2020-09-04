@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import java.net.InetAddress;
 
+import static no.entra.bacnet.json.utils.HexUtils.octetFromInt;
 import static org.junit.Assert.*;
 
 public class SubscribeCovCommandBuilderTest {
@@ -37,13 +38,15 @@ public class SubscribeCovCommandBuilderTest {
 
     @Test
     public void buildCOVSingleSensorConfirmedTest()  {
-
-        String expected = "810a00190120ffff00ff00020f0509121c0000000029013900";
+        int lifetimeSeconds = 50;
+        Octet lifetimeHex = octetFromInt(lifetimeSeconds);
+        assertEquals("32", lifetimeHex.toString());
+        String expected = "810a00190120ffff00ff00020f0509121c00000000290139" + lifetimeHex;
         SubscribeCovCommand covCommand = new SubscribeCovCommandBuilder(sendToAddress, analogInput0)
                 .withSubscriptionId(new Octet("12"))
                 .withInvokeId(new Octet("0f"))
                 .withConfirmedNotifications(true)
-                .withLifetime(50)
+                .withLifetime(lifetimeSeconds)
                 .build();
         assertTrue(covCommand instanceof ConfirmedSubscribeCovCommand);
 

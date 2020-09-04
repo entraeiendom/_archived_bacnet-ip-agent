@@ -10,6 +10,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 import static no.entra.bacnet.json.apdu.SDContextTag.*;
+import static no.entra.bacnet.json.utils.HexUtils.intToHexString;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /*
@@ -38,11 +39,15 @@ public class ConfirmedSubscribeCovCommand extends SubscribeCovCommand {
      * @param deviceSensorId also known as the supported property.
      */
     protected String buildConfirmedCovSingleRequest(ObjectId deviceSensorId) {
-        String hexString = null;
+        String hexString;
         String objectIdHex = ObjectIdMapper.toHexString(deviceSensorId);
         String confirmEveryNotification = "01";
-        String lifetimeHex = "00"; //indefinite
-        String apdu = "00020f05"+ TAG0LENGTH1 +"12" + TAG1LENGTH4 + objectIdHex + TAG2LENGTH1 + confirmEveryNotification + TAG3LENGTH1 + lifetimeHex;
+        String lifetimeHex = buildLifetimeHex();
+        String lifetimeParameterHex = TAG3LENGTH1 + lifetimeHex;
+        if (lifetimeHex.length() > 2) {
+            lifetimeParameterHex = TAG3LENGTH4 + lifetimeHex;
+        }
+        String apdu = "00020f05"+ TAG0LENGTH1 +"12" + TAG1LENGTH4 + objectIdHex + TAG2LENGTH1 + confirmEveryNotification + lifetimeParameterHex;
         /*
         00 = PDUType = 0
         02 = Max APDU size = 206
@@ -65,8 +70,22 @@ public class ConfirmedSubscribeCovCommand extends SubscribeCovCommand {
         }
         String bvlc = "81" + BvlcFunction.OriginalUnicastNpdu.getBvlcFunctionHex() + messageLength;
 
-        hexString = bvlc.toString() + npdu.toString() + apdu;
+        hexString = bvlc + npdu + apdu;
         log.debug("Hex to send: {}", hexString);
         return hexString;
+    }
+
+    protected String buildLifetimeHex() {
+        String lifetimeHex = LIFETIME_INDEFINITE;
+
+        if (getLifetimeSeconds() != null) {
+            int lifetimeSeconds = getLifetimeSeconds();
+            if (lifetimeSeconds <= 255) {
+                lifetimeHex = intToHexString(lifetimeSeconds, 2);
+            } else {
+                lifetimeHex = intToHexString(lifetimeSeconds, 8);
+            }
+        }
+        return lifetimeHex;
     }
 }

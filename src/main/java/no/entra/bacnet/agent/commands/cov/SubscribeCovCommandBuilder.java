@@ -8,9 +8,9 @@ import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.net.InetAddress;
-import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -86,9 +86,7 @@ public class SubscribeCovCommandBuilder {
 
     private ArrayList<ObjectId> mapList(ObjectId[] objectIds) {
         ArrayList<ObjectId> objectIdList = new ArrayList<>();
-        for (ObjectId objectId : objectIds) {
-            objectIdList.add(objectId);
-        }
+        objectIdList.addAll(Arrays.asList(objectIds));
         return objectIdList;
     }
 
@@ -122,6 +120,7 @@ public class SubscribeCovCommandBuilder {
         if (confirmedNotifications) {
             try {
                 covCommand = new ConfirmedSubscribeCovCommand(sendToAddress, sensorId);
+                covCommand.setLifetimeSeconds(lifetimeSeconds);
             } catch (IOException e) {
                 log.trace("Failed to build ConfirmedSubscribeCovCommand for sendToAddress: {}, and sensorId {}. Reason:",
                         sendToAddress, sensorId, e.getMessage());
@@ -161,11 +160,7 @@ public class SubscribeCovCommandBuilder {
         try {
             covCommand.sendSubscribeCov();
             Thread.sleep(10000);
-        } catch (SocketException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         } finally {
             covCommand.disconnect();

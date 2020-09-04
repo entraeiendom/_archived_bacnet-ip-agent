@@ -17,6 +17,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 public abstract class SubscribeCovCommand {
     private static final Logger log = getLogger(SubscribeCovCommand.class);
     public static final String BROADCAST_IP = "255.255.255.255";
+    public static final String LIFETIME_INDEFINITE = "00";
     private final ArrayList<ObjectId> subscribeToSensorIds;
     private final InetAddress sendToAddress;
     private final DatagramSocket socket;
@@ -24,6 +25,7 @@ public abstract class SubscribeCovCommand {
     private Octet invokeId = new Octet("01");
     public static final int BACNET_DEFAULT_PORT = 47808;
     private byte[] buf = new byte[2048];
+    private Integer lifetimeSeconds = null;
 
     public SubscribeCovCommand(InetAddress sendToAddress, ObjectId... subscribeToSensorIds) throws IOException {
         socket = new DatagramSocket(null);
@@ -47,13 +49,7 @@ public abstract class SubscribeCovCommand {
         subscriptionId = octetFromInt(nextId);
     }
 
-    private ArrayList<ObjectId> mapList(ObjectId[] objectIds) {
-        ArrayList<ObjectId> objectIdList = new ArrayList<>();
-        for (ObjectId objectId : objectIds) {
-            objectIdList.add(objectId);
-        }
-        return objectIdList;
-    }
+    protected abstract String buildHexString() ;
 
     protected void sendSubscribeCov() throws IOException {
         String hexString = buildHexString();
@@ -63,16 +59,6 @@ public abstract class SubscribeCovCommand {
         log.debug("Sending: {}", packet);
         socket.send(packet);
     }
-
-    public static InetAddress inetAddressFromString(String ipv4Address) throws UnknownHostException {
-        return InetAddress.getByName(ipv4Address);
-    }
-
-    public ArrayList<ObjectId> getSubscribeToSensorIds() {
-        return subscribeToSensorIds;
-    }
-
-    protected abstract String buildHexString() ;
 
     public void execute() throws IOException {
         try {
@@ -87,6 +73,22 @@ public abstract class SubscribeCovCommand {
         if (socket != null && socket.isConnected()) {
             socket.disconnect();
         }
+    }
+
+    private ArrayList<ObjectId> mapList(ObjectId[] objectIds) {
+        ArrayList<ObjectId> objectIdList = new ArrayList<>();
+        for (ObjectId objectId : objectIds) {
+            objectIdList.add(objectId);
+        }
+        return objectIdList;
+    }
+
+    public static InetAddress inetAddressFromString(String ipv4Address) throws UnknownHostException {
+        return InetAddress.getByName(ipv4Address);
+    }
+
+    public ArrayList<ObjectId> getSubscribeToSensorIds() {
+        return subscribeToSensorIds;
     }
 
     public void setSubscriptionId(Octet id) {
@@ -109,6 +111,14 @@ public abstract class SubscribeCovCommand {
         return sendToAddress;
     }
 
+    public Integer getLifetimeSeconds() {
+        return lifetimeSeconds;
+    }
+
+    public void setLifetimeSeconds(Integer lifetimeSeconds) {
+        this.lifetimeSeconds = lifetimeSeconds;
+    }
+
     public static void main(String[] args) {
         SubscribeCovCommand covCommand = null;
 
@@ -127,14 +137,12 @@ public abstract class SubscribeCovCommand {
 
             covCommand.sendSubscribeCov();
             Thread.sleep(10000);
-        } catch (SocketException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         } finally {
-            covCommand.disconnect();
+            if (covCommand != null) {
+                covCommand.disconnect();
+            }
         }
     }
 }
