@@ -30,7 +30,7 @@ public class SubscribeCovCommandBuilderTest {
                 .withInvokeId(new Octet("0f"))
                 .withConfirmedNotifications(false)
                 .build();
-        assertTrue(covCommand instanceof UnconfirmedSubscribeCovCommand);
+        assertTrue(covCommand instanceof UnConfirmedSubscribeCovCommand);
         String hexString = covCommand.buildHexString();
         assertEquals(expected, hexString);
         assertNotNull(covCommand.getSendToAddress());

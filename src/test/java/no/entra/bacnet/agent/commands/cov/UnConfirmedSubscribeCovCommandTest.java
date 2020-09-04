@@ -16,7 +16,7 @@ import static org.mockito.Mockito.*;
 
 public class UnConfirmedSubscribeCovCommandTest {
 
-    private UnconfirmedSubscribeCovCommand covCommand;
+    private UnConfirmedSubscribeCovCommand covCommand;
     private DatagramSocket socket;
 
     @Before
@@ -24,7 +24,7 @@ public class UnConfirmedSubscribeCovCommandTest {
         socket = mock(DatagramSocket.class);
         ObjectId analogInput0 = new ObjectId(ObjectType.AnalogInput, "0");
         InetAddress sendToAddress = SubscribeCovCommand.inetAddressFromString("10.10.10.10");
-        covCommand = new UnconfirmedSubscribeCovCommand(socket, sendToAddress, analogInput0);
+        covCommand = new UnConfirmedSubscribeCovCommand(socket, sendToAddress, analogInput0);
         covCommand.setSubscriptionId(new Octet("12"));
         covCommand.setInvokeId(new Octet("0f"));
 

@@ -128,7 +128,7 @@ public class SubscribeCovCommandBuilder {
             }
         } else {
             try {
-                covCommand = new UnconfirmedSubscribeCovCommand(sendToAddress, sensorId);
+                covCommand = new UnConfirmedSubscribeCovCommand(sendToAddress, sensorId);
             } catch (IOException e) {
                 log.trace("Failed to build UnconfirmedSubscribeCovCommand for sendToAddress: {}, and sensorId {}. Reason:",
                         sendToAddress, sensorId, e.getMessage());

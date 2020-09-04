@@ -18,15 +18,15 @@ import static org.slf4j.LoggerFactory.getLogger;
 /*
 Subscribe to a single parameter for Change of Value(COV)
  */
-public class UnconfirmedSubscribeCovCommand extends SubscribeCovCommand {
-    private static final Logger log = getLogger(UnconfirmedSubscribeCovCommand.class);
+public class UnConfirmedSubscribeCovCommand extends SubscribeCovCommand {
+    private static final Logger log = getLogger(UnConfirmedSubscribeCovCommand.class);
     public static final String UNCONFIRMED = "00";
 
-    public UnconfirmedSubscribeCovCommand(InetAddress sendToAddress, ObjectId subscribeToSensorId) throws IOException {
+    public UnConfirmedSubscribeCovCommand(InetAddress sendToAddress, ObjectId subscribeToSensorId) throws IOException {
         super(sendToAddress, subscribeToSensorId);
     }
 
-    public UnconfirmedSubscribeCovCommand(DatagramSocket socket, InetAddress sendToAddress, ObjectId subscribeToSensorId) throws IOException {
+    public UnConfirmedSubscribeCovCommand(DatagramSocket socket, InetAddress sendToAddress, ObjectId subscribeToSensorId) throws IOException {
         super(socket, sendToAddress, subscribeToSensorId);
     }
 
