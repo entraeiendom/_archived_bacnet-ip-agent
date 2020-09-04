@@ -2,11 +2,14 @@ package no.entra.bacnet.agent.commands.cov;
 
 import no.entra.bacnet.Octet;
 import no.entra.bacnet.json.objects.ObjectId;
+import no.entra.bacnet.json.objects.ObjectType;
 import no.entra.bacnet.json.objects.PropertyIdentifier;
 import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import static org.slf4j.LoggerFactory.getLogger;
@@ -28,6 +31,7 @@ public class SubscribeCovCommandBuilder {
     }
 
     public SubscribeCovCommandBuilder(InetAddress sendToAddress, ObjectId sensorId) {
+        this(sendToAddress);
         withSensors(sensorId);
     }
 
@@ -142,4 +146,31 @@ public class SubscribeCovCommandBuilder {
     public Exception getError() {
         return error;
     }
+
+    public static void main(String[] args) throws UnknownHostException {
+        if (args.length == 0) {
+            throw new IllegalArgumentException("Missing address for where to send the subscribeCovCommand. Please provide" +
+                    "on command line.");
+        }
+        String destination = args[0];
+        InetAddress sendToAddress = SubscribeCovCommand.inetAddressFromString(destination);
+        ObjectId analogValue1 = new ObjectId(ObjectType.AnalogValue, "1");
+        SubscribeCovCommand covCommand = new SubscribeCovCommandBuilder(sendToAddress, analogValue1)
+                .withLifetime(50)
+                .build();
+        try {
+            covCommand.sendSubscribeCov();
+            Thread.sleep(10000);
+        } catch (SocketException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            covCommand.disconnect();
+        }
+
+    }
+
 }

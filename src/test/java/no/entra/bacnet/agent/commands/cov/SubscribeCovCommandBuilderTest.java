@@ -32,10 +32,12 @@ public class SubscribeCovCommandBuilderTest {
         assertTrue(covCommand instanceof UnconfirmedSubscribeCovCommand);
         String hexString = covCommand.buildHexString();
         assertEquals(expected, hexString);
+        assertNotNull(covCommand.getSendToAddress());
     }
 
     @Test
     public void buildCOVSingleSensorConfirmedTest()  {
+
         String expected = "810a00190120ffff00ff00020f0509121c0000000029013900";
         SubscribeCovCommand covCommand = new SubscribeCovCommandBuilder(sendToAddress, analogInput0)
                 .withSubscriptionId(new Octet("12"))
@@ -44,6 +46,7 @@ public class SubscribeCovCommandBuilderTest {
                 .withLifetime(50)
                 .build();
         assertTrue(covCommand instanceof ConfirmedSubscribeCovCommand);
+
         String hexString = covCommand.buildHexString();
         assertEquals(expected, hexString);
     }

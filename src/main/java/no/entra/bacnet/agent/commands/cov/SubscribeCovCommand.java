@@ -25,8 +25,6 @@ public abstract class SubscribeCovCommand {
     public static final int BACNET_DEFAULT_PORT = 47808;
     private byte[] buf = new byte[2048];
 
-
-
     public SubscribeCovCommand(InetAddress sendToAddress, ObjectId... subscribeToSensorIds) throws IOException {
         socket = new DatagramSocket(null);
         socket.setBroadcast(true);
@@ -38,7 +36,6 @@ public abstract class SubscribeCovCommand {
         int nextId = new Random().nextInt(255); //255 is max allowed
         subscriptionId = octetFromInt(nextId);
     }
-
 
     protected SubscribeCovCommand(DatagramSocket socket, InetAddress sendToAddress, ObjectId... subscribeToSensorIds) throws IOException {
         this.socket = socket;
@@ -86,7 +83,6 @@ public abstract class SubscribeCovCommand {
         }
     };
 
-
     void disconnect() {
         if (socket != null && socket.isConnected()) {
             socket.disconnect();
@@ -107,6 +103,10 @@ public abstract class SubscribeCovCommand {
 
     public void setInvokeId(Octet invokeId) {
         this.invokeId = invokeId;
+    }
+
+    public InetAddress getSendToAddress() {
+        return sendToAddress;
     }
 
     public static void main(String[] args) {
@@ -137,6 +137,4 @@ public abstract class SubscribeCovCommand {
             covCommand.disconnect();
         }
     }
-
-
 }
