@@ -11,9 +11,9 @@ import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-import static no.entra.bacnet.ip.apdu.PduType.ConfirmedRequest;
 import static no.entra.bacnet.json.apdu.SDContextTag.TAG0LENGTH1;
 import static no.entra.bacnet.json.apdu.SDContextTag.TAG1LENGTH4;
+import static no.entra.bacnet.json.objects.PduType.ConfirmedRequest;
 import static no.entra.bacnet.json.services.ConfirmedServiceChoice.SubscribeCov;
 import static no.entra.bacnet.json.utils.HexUtils.octetFromInt;
 import static org.slf4j.LoggerFactory.getLogger;
