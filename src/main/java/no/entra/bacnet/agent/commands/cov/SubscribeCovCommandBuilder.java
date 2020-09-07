@@ -155,8 +155,9 @@ public class SubscribeCovCommandBuilder {
         InetAddress sendToAddress = SubscribeCovCommand.inetAddressFromString(destination);
         ObjectId analogValue1 = new ObjectId(ObjectType.AnalogValue, "1");
         int oneDay = 24 * 60 * 60;
+        int minutes5 = 5 * 60;
         SubscribeCovCommand covCommand = new SubscribeCovCommandBuilder(sendToAddress, analogValue1)
-                .withLifetime(oneDay)
+                .withConfirmedNotifications(false)
                 .build();
         try {
             covCommand.sendSubscribeCov();
