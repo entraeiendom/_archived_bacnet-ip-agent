@@ -46,7 +46,7 @@ public class BlockingRecordAndForwardObserver implements BacnetObserver {
     }
 
     @Override
-    public void bacnetHexStringReceived(InetAddress sourceAddress, String hexString) {
+    public void bacnetHexStringReceived(InetAddress sourceAddress, Integer sourcePort, String hexString) {
         if(recording) {
             hexStringRecorder.persist(hexString);
         }
@@ -58,7 +58,7 @@ public class BlockingRecordAndForwardObserver implements BacnetObserver {
                     if (bacnetJson != null) {
                         RealEstateCore message = null;
                         try {
-                            DeviceId recDeviceId = findDeviceId(bacnetJson);
+                            DeviceId recDeviceId = findDeviceId(sourceAddress, sourcePort, bacnetJson);
                             message = Bacnet2Rec.bacnetToRec(bacnetJson);
                             if (message != null) {
                                 message.setSenderAddress(sourceAddress.toString());
@@ -84,10 +84,16 @@ public class BlockingRecordAndForwardObserver implements BacnetObserver {
         }
     }
 
-    DeviceId findDeviceId(String bacnetJson) {
+    DeviceId findDeviceId(InetAddress sourceAddress, Integer sourcePort, String bacnetJson) {
         DeviceId deviceId = null;
         if (hasValue(bacnetJson)) {
             deviceId = BacnetJsonDeviceIdParser.parse(bacnetJson);
+            if (sourceAddress != null) {
+                deviceId.setIpAddress(sourceAddress.getHostAddress());
+            }
+            if (sourcePort != null) {
+                deviceId.setPortNumber(sourcePort.toString());
+            }
             if (deviceId != null) {
                 List<DeviceId> matchingIds = deviceIdService.findMatching(deviceId);
                 if (matchingIds == null || matchingIds.isEmpty()) {

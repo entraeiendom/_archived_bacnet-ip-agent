@@ -47,22 +47,22 @@ public class UdpServer extends Thread {
             }
 
             InetAddress sourceAddress = packet.getAddress();
-            int port = packet.getPort();
-            packet = new DatagramPacket(buf, buf.length, sourceAddress, port);
+            int sourcePort = packet.getPort();
+            packet = new DatagramPacket(buf, buf.length, sourceAddress, sourcePort);
             byte[] receivedBytes = packet.getData();
             int lenghtOfData = packet.getLength();
             String hexString = integersToHex(receivedBytes);
             String received = new String(packet.getData(), 0, packet.getLength());
             addMessageCount();
-            convertAndForward(sourceAddress, hexString);
+            convertAndForward(sourceAddress, sourcePort, hexString);
             //sendReply(packet, received);
         }
         socket.close();
     }
 
-    void convertAndForward(InetAddress sourceAddress, String hexString) {
+    void convertAndForward(InetAddress sourceAddress, int sourcePort, String hexString) {
         log.trace("Received message: {}", hexString);
-        bacnetObserver.bacnetHexStringReceived(sourceAddress, hexString);
+        bacnetObserver.bacnetHexStringReceived(sourceAddress, sourcePort, hexString);
 
     }
 

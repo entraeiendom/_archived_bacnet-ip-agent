@@ -8,6 +8,7 @@ import no.entra.bacnet.agent.recording.BacnetHexStringRecorder;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import static org.mockito.Mockito.when;
 
 public class BlockingRecordAndForwardObserverTest {
 
+    private static final int DEFAULT_BACNET_PORT = 48707;
     private BacnetHexStringRecorder hexStringRecorder;
     private MqttClient mqttClient;
     private DeviceIdRepository deviceIdRepository;
@@ -69,7 +71,9 @@ public class BlockingRecordAndForwardObserverTest {
         List<DeviceId> idList = new ArrayList<>();
         idList.add(persistedId);
         when(deviceIdService.findMatching(eq(queryId))).thenReturn(idList);
-        DeviceId foundId = observer.findDeviceId(bacnetJson);
+        InetAddress sourceAddress = null;
+        int sourcePort = DEFAULT_BACNET_PORT;
+        DeviceId foundId = observer.findDeviceId(sourceAddress, sourcePort, bacnetJson);
         assertNotNull(foundId);
         assertEquals(id, foundId.getId());
         assertEquals(tfmTag, foundId.getTfmTag());
