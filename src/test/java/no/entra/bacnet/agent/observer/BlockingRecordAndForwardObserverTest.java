@@ -63,6 +63,7 @@ public class BlockingRecordAndForwardObserverTest {
         queryId.setTfmTag(tfmTag);
         queryId.setGatewayDeviceId(11);
         queryId.setGatewayInstanceNumber(2401);
+        queryId.setPortNumber(Integer.valueOf(DEFAULT_BACNET_PORT).toString());
         String id = "id1234";
         DeviceId persistedId = new DeviceId(id);
         persistedId.setTfmTag(tfmTag);
