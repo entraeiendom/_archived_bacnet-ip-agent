@@ -28,7 +28,7 @@
 
   <properties>
     <java.version>11</java.version>
-    <azure.client.version>1.20.1</azure.client.version>
+    <azure.client.version>1.20.2</azure.client.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
@@ -242,7 +242,7 @@
             </goals>
             <configuration>
               <transformers>
-                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                   <mainClass>no.entra.bacnet.agent.AgentDaemon</mainClass>
                 </transformer>
