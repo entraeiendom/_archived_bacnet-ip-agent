@@ -63,11 +63,16 @@ public class BlockingRecordAndForwardObserver implements BacnetObserver {
                             if (messages != null) {
                                 for (RealEstateCore message : messages) {
                                     try {
-                                        message.setSenderAddress(sourceAddress.toString());
-                                        mqttClient.publishRealEstateCore(message, recDeviceId, Optional.of(sourceAddress));
+                                        if (sourceAddress != null) {
+                                            message.setSenderAddress(sourceAddress.toString());
+                                            mqttClient.publishRealEstateCore(message, recDeviceId, Optional.of(sourceAddress));
+                                        } else {
+                                            mqttClient.publishRealEstateCore(message, recDeviceId, Optional.empty());
+                                        }
                                         log.info("Message is published from bacnetJson: {}", bacnetJson);
                                     } catch (Exception e) {
                                         log.trace("Failed to send message to AzureIoT. hexString: {}\nMessage: {},\n reason {}", hexString, message, e.getMessage());
+                                        e.printStackTrace();
                                     }
                                 }
                             } else {

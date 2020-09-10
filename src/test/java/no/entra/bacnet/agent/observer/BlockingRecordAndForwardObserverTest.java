@@ -15,8 +15,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class BlockingRecordAndForwardObserverTest {
 
@@ -91,5 +90,13 @@ public class BlockingRecordAndForwardObserverTest {
         DeviceId persistedId = new DeviceId("id1234");
         persistedId.setTfmTag(tfmTag);
         when(deviceIdService.createDeviceId(eq(2002),eq("127.0.0.1"), eq(tfmTag))).thenReturn(persistedId);
+    }
+
+    @Test
+    public void fixNPEBugInSourceAddress()  {
+        String confirmedChangeOfValueHexString = "810a002a01040005020109121c020003e92c0080000139004e09552e44400000002f096f2e8204002f4f";
+        InetAddress sourceAddress = null;
+        observer.bacnetHexStringReceived(sourceAddress, null, confirmedChangeOfValueHexString);
+        verify(mqttClient, times(2)).publishRealEstateCore(any(), any(), any());
     }
 }
