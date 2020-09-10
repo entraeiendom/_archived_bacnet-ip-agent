@@ -1,13 +1,16 @@
 package no.entra.bacnet.agent.commands;
 
 import no.entra.bacnet.json.bvlc.BvlcFunction;
+import no.entra.bacnet.json.objects.PropertyIdentifier;
 import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.net.*;
 
 import static no.entra.bacnet.agent.utils.ByteHexConverter.hexStringToByteArray;
+import static no.entra.bacnet.json.apdu.SDContextTag.TAG1LENGTH1;
 import static no.entra.bacnet.json.apdu.SDContextTag.TAG2LENGTH4;
+import static no.entra.bacnet.json.utils.HexUtils.intToHexString;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /*
@@ -57,7 +60,9 @@ public class PropertiesSupportedCommand {
         }
         String bvlc = "81" + BvlcFunction.OriginalBroadcastNpdu.getBvlcFunctionHex() + messageLength;
 
-        apdu = "0275000c0c020000011961";
+        String servicesSupported = PropertyIdentifier.ProtocolServicesSupported.getPropertyIdentifierHex();
+        String hexDeviceNumber = intToHexString(1001, 6);
+        apdu = "0275000c0c02" + hexDeviceNumber + TAG1LENGTH1 + servicesSupported;
         npdu = "0104";
         bvlc = "810a0011";
         String hexString = bvlc + npdu + apdu;
