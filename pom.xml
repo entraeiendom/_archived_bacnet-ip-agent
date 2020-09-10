@@ -71,12 +71,12 @@
     <dependency>
       <groupId>no.entra.bacnet</groupId>
       <artifactId>bacnet2rec</artifactId>
-      <version>0.6.0</version>
+      <version>0.7.0</version>
     </dependency>
     <dependency>
       <groupId>no.entra.bacnet</groupId>
       <artifactId>bacnet2json</artifactId>
-      <version>0.8.0-SNAPSHOT</version>
+      <version>0.8.1-SNAPSHOT</version>
     </dependency>
 
     <!-- Azure IoT -->

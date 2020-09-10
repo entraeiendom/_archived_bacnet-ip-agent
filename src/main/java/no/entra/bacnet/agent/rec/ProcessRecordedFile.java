@@ -43,22 +43,22 @@ public class ProcessRecordedFile implements Bacnet2RealEstateCore {
         List<String> bacnetHexStrings = bacnetHexStream.collect(Collectors.toList());
         ArrayList<String> arrayList = new ArrayList<>(bacnetHexStrings);
         for (String hexString : arrayList) {
-            RealEstateCore message = buildRecMessage(hexString);
-            if (message != null) {
-                messages.add(message);
+            List<RealEstateCore> parsedMessages = buildRecMessages(hexString);
+            if (parsedMessages != null) {
+                messages.addAll(parsedMessages);
             }
         }
         return messages;
     }
 
-    protected RealEstateCore buildRecMessage(String hexString) {
-        RealEstateCore message = null;
+    protected List<RealEstateCore> buildRecMessages(String hexString) {
+        List<RealEstateCore> messages = null;
         try {
             String bacnetJson = Bacnet2Json.hexStringToJson(hexString);
             log.trace("Json {}, \nfrom hexString {}", bacnetJson, hexString);
             if (bacnetJson != null) {
-                message = Bacnet2Rec.bacnetToRec(bacnetJson);
-                log.trace("RealEstateCore message {},\nfrom bacnetJson {}", message, bacnetJson);
+                messages = Bacnet2Rec.bacnetToRec(bacnetJson);
+                log.trace("RealEstateCore message {},\nfrom bacnetJson {}", messages, bacnetJson);
             }
         } catch (IllegalArgumentException e) {
             log.debug("Failed to build json from {}. Reason: {}", hexString, e.getMessage());
@@ -66,6 +66,6 @@ public class ProcessRecordedFile implements Bacnet2RealEstateCore {
             log.debug("Failed to create message from {}. Reason: {}", hexString, e.getMessage());
         }
 
-        return message;
+        return messages;
     }
 }

@@ -56,19 +56,25 @@ public class BlockingRecordAndForwardObserver implements BacnetObserver {
                     String bacnetJson = Bacnet2Json.hexStringToJson(hexString);
                     log.trace("BacnetJson {}\n{}", hexString, bacnetJson);
                     if (bacnetJson != null) {
-                        RealEstateCore message = null;
+                        List<RealEstateCore> messages = null;
                         try {
                             DeviceId recDeviceId = findDeviceId(sourceAddress, sourcePort, bacnetJson);
-                            message = Bacnet2Rec.bacnetToRec(bacnetJson);
-                            if (message != null) {
-                                message.setSenderAddress(sourceAddress.toString());
-                                mqttClient.publishRealEstateCore(message, recDeviceId, Optional.of(sourceAddress));
-                                log.info("Message is published from bacnetJson: {}", bacnetJson);
+                            messages = Bacnet2Rec.bacnetToRec(bacnetJson);
+                            if (messages != null) {
+                                for (RealEstateCore message : messages) {
+                                    try {
+                                        message.setSenderAddress(sourceAddress.toString());
+                                        mqttClient.publishRealEstateCore(message, recDeviceId, Optional.of(sourceAddress));
+                                        log.info("Message is published from bacnetJson: {}", bacnetJson);
+                                    } catch (Exception e) {
+                                        log.trace("Failed to send message to AzureIoT. hexString: {}\nMessage: {},\n reason {}", hexString, message, e.getMessage());
+                                    }
+                                }
                             } else {
                                 log.trace("Could not send empty message from bacnetJson: {}", bacnetJson);
                             }
                         } catch (Exception e) {
-                            log.trace("Failed to send message to AzureIoT. hexString: {}\nMessage: {},\n reason {}", hexString, message, e.getMessage());
+                            log.trace("Failed to create messages for sending to AzureIoT. hexString: {}\nMessage: {},\n reason {}", hexString, messages, e.getMessage());
                             //mqttClient.publishUnknownHexString(hexString);
                             e.printStackTrace();
                         }
