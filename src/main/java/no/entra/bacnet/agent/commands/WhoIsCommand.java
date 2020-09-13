@@ -22,11 +22,11 @@ public class WhoIsCommand {
         socket.setReuseAddress(true);
     }
 
-    void broadcast() throws IOException {
+    public void broadcast() throws IOException {
         local("255.255.255.255");
     }
 
-    void local(String ipv4Address) throws IOException {
+    public void local(String ipv4Address) throws IOException {
         SocketAddress inetAddress = new InetSocketAddress(BACNET_DEFAULT_PORT);
         sendToAddress = InetAddress.getByName(ipv4Address);
         socket.bind(inetAddress);
