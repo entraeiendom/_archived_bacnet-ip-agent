@@ -52,6 +52,11 @@ public class InMemoryDeviceIdRepository implements DeviceIdRepository {
     }
 
     @Override
+    public List<DeviceId> allDevices() {
+        return deviceIds;
+    }
+
+    @Override
     public DeviceId get(String id) {
         DeviceId foundId = null;
         if (hasValue(id)) {

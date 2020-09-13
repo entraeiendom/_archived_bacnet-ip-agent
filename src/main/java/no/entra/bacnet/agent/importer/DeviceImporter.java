@@ -1,11 +1,13 @@
 package no.entra.bacnet.agent.importer;
 
 import no.entra.bacnet.agent.commands.WhoIsCommand;
+import no.entra.bacnet.agent.devices.DeviceId;
 import no.entra.bacnet.agent.devices.DeviceIdService;
 import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.net.SocketException;
+import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -29,6 +31,7 @@ public class DeviceImporter {
     }
 
     public void findSensorsAndPropertiesTheDevicesSupports() {
+        List<DeviceId> devicesDetected = deviceIdService.allDevices();
 
     }
 

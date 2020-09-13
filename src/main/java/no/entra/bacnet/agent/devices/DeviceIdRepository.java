@@ -30,5 +30,5 @@ public interface DeviceIdRepository {
     long size();
 
 
-
+    List<DeviceId> allDevices();
 }

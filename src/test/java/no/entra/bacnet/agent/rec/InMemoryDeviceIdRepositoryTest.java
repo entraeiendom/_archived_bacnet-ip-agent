@@ -6,6 +6,8 @@ import no.entra.bacnet.agent.devices.InMemoryDeviceIdRepository;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -35,6 +37,13 @@ public class InMemoryDeviceIdRepositoryTest {
     @Test(expected = IllegalStateException.class)
     public void addConflict() {
         idRepository.add(new DeviceId("id1"));
+    }
+
+    @Test
+    public void allDevicesTest() {
+        List<DeviceId> devices = idRepository.allDevices();
+        assertNotNull(devices);
+        assertEquals(3, devices.size());
     }
 
     @Test

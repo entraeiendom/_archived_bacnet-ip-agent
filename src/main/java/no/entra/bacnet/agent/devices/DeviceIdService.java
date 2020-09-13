@@ -38,6 +38,10 @@ public class DeviceIdService {
         return deviceId;
     }
 
+    public List<DeviceId> allDevices() {
+        return idRepository.allDevices();
+    }
+
     public DeviceId createDeviceIdFromTfm(String tfmTag) {
         DeviceId deviceId = new DeviceId();
         deviceId.setTfmTag(tfmTag);
