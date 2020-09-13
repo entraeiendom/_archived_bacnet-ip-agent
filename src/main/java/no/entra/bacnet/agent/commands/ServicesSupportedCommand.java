@@ -28,7 +28,7 @@ public class ServicesSupportedCommand {
         local("255.255.255.255");
     }
 
-    void local(String ipv4Address) throws IOException {
+    public void local(String ipv4Address) throws IOException {
         SocketAddress inetAddress = new InetSocketAddress(BACNET_DEFAULT_PORT);
         sendToAddress = InetAddress.getByName(ipv4Address);
         socket.bind(inetAddress);

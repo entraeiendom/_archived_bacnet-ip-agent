@@ -1,5 +1,6 @@
 package no.entra.bacnet.agent.importer;
 
+import no.entra.bacnet.agent.commands.ServicesSupportedCommand;
 import no.entra.bacnet.agent.commands.WhoIsCommand;
 import no.entra.bacnet.agent.devices.DeviceId;
 import no.entra.bacnet.agent.devices.DeviceIdService;
@@ -9,12 +10,14 @@ import java.io.IOException;
 import java.net.SocketException;
 import java.util.List;
 
+import static no.entra.bacnet.json.utils.StringUtils.hasValue;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class DeviceImporter {
     private static final Logger log = getLogger(DeviceImporter.class);
 
     private final DeviceIdService deviceIdService;
+
     public DeviceImporter(DeviceIdService deviceIdService) {
         this.deviceIdService = deviceIdService;
     }
@@ -32,14 +35,29 @@ public class DeviceImporter {
 
     public void findSensorsAndPropertiesTheDevicesSupports() {
         List<DeviceId> devicesDetected = deviceIdService.allDevices();
+        for (DeviceId deviceId : devicesDetected) {
+            String deviceIpAddress = deviceId.getIpAddress();
+            try {
+                if (hasValue(deviceIpAddress)) {
+                    ServicesSupportedCommand servicesSupportedCommand = new ServicesSupportedCommand();
+                    servicesSupportedCommand.local(deviceIpAddress);
+                    Thread.sleep(1000);
+                } else {
+                    log.trace("Device is missing IpAddress. Can not find detailed information. {}", deviceId.toString());
+                }
+            } catch (IOException e) {
+                log.trace("Failed to send services supported command to ip address: {}. Reason: {}", deviceIpAddress, e.getMessage());
+            } catch (InterruptedException e) {
+                //ignore
+            }
+        }
+    }
+
+    public void findSensorAndPropertiesConfiguration () {
 
     }
 
-    public void findSensorAndPropertiesConfiguration() {
-
-    }
-
-    public void findPresentValueForSensors() {
+    public void findPresentValueForSensors () {
 
     }
 }
