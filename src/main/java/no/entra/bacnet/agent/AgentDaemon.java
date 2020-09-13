@@ -3,6 +3,8 @@ package no.entra.bacnet.agent;
 import no.entra.bacnet.agent.devices.DeviceIdRepository;
 import no.entra.bacnet.agent.devices.DeviceIdService;
 import no.entra.bacnet.agent.devices.InMemoryDeviceIdRepository;
+import no.entra.bacnet.agent.importer.DeviceImporter;
+import no.entra.bacnet.agent.importer.ScheduledDeviceImporter;
 import no.entra.bacnet.agent.mqtt.MqttClient;
 import no.entra.bacnet.agent.mqtt.PahoMqttClient;
 import no.entra.bacnet.agent.observer.BacnetObserver;
@@ -28,6 +30,7 @@ public class AgentDaemon {
             File recordingFile = new File(path);
             BacnetHexStringRecorder hexStringRecorder = new FileBacnetHexStringRecorder(recordingFile);
             boolean connectToMqtt = true;
+            boolean findDeviceInfo = true;
             MqttClient mqttClient = null;
             if (connectToMqtt) {
 //                String deviceConnectionString = findConnectionString(args);
@@ -45,9 +48,17 @@ public class AgentDaemon {
             udpServer.setListening(true);
             udpServer.setRecording(true);
             udpServer.start();
+
+            if (findDeviceInfo) {
+                DeviceImporter oneTimeDeviceImporter = new DeviceImporter(deviceIdService);
+                ScheduledDeviceImporter scheduledDeviceImporter = new ScheduledDeviceImporter(oneTimeDeviceImporter);
+                scheduledDeviceImporter.startScheduledImport();
+            }
         } catch (Exception e) {
             log.error("Failed to run udpServer.", e);
         }
+
+
     }
 
     private static String findConnectionString(String[] args) {
