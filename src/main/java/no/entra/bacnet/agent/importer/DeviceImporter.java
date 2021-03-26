@@ -35,7 +35,10 @@ public class DeviceImporter {
 
     public void findSensorsAndPropertiesTheDevicesSupports() {
         List<DeviceId> devicesDetected = deviceIdService.allDevices();
-        for (DeviceId deviceId : devicesDetected) {
+//        for (DeviceId deviceId : devicesDetected) {
+        DeviceId deviceId = new DeviceId();
+        deviceId.setInstanceNumber(8);
+        deviceId.setIpAddress("192.168.2.118");
             String deviceIpAddress = deviceId.getIpAddress();
             try {
                 if (hasValue(deviceIpAddress)) {
@@ -52,7 +55,7 @@ public class DeviceImporter {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
+//        }
     }
 
     public void findSensorAndPropertiesConfiguration () {

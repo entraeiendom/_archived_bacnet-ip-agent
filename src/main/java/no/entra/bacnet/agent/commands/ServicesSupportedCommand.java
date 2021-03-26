@@ -55,6 +55,7 @@ public class ServicesSupportedCommand {
         DatagramPacket packet = new DatagramPacket(buf, buf.length, sendToAddress, BACNET_DEFAULT_PORT);
         log.debug("Sending: {}", packet);
         socket.send(packet);
+        socket.close();
     }
 
     protected String buildHexString(Integer instanceNumber) {

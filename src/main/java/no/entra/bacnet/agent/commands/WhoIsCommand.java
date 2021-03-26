@@ -40,6 +40,7 @@ public class WhoIsCommand {
         DatagramPacket packet = new DatagramPacket(buf, buf.length, sendToAddress, BACNET_DEFAULT_PORT);
         log.debug("Sending: {}", packet);
         socket.send(packet);
+        socket.close();
     }
 
     private void disconnect() {

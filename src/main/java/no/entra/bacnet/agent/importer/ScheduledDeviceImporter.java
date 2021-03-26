@@ -70,7 +70,7 @@ public class ScheduledDeviceImporter {
                         log.info("Flushed. Now waiting {} seconds for next import run.", SECONDS_BETWEEN_SCHEDULED_IMPORT_RUNS);
                         scheduled_import_running = false;
                     } catch (Exception e) {
-                        log.info("Exception trying to run scheduled imports of trendIds. Reason: {}", e.getMessage());
+                        log.info("Exception trying to run scheduled imports of trendIds. Reason: {}", e.getMessage(), e);
                         scheduled_import_running = false;
                     }
                 } else {

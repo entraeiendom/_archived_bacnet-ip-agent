@@ -22,7 +22,7 @@ public class DeviceIdService {
      * @param deviceId
      * @return deviceId with Id parameter set.
      */
-    public DeviceId add(DeviceId deviceId) {
+    public synchronized DeviceId add(DeviceId deviceId) {
         if (deviceId != null && deviceId.isValid()) {
             if (deviceId.getId() == null) {
                 String id = UUID.randomUUID().toString();
@@ -38,7 +38,7 @@ public class DeviceIdService {
         return deviceId;
     }
 
-    public List<DeviceId> allDevices() {
+    public synchronized List<DeviceId> allDevices() {
         return idRepository.allDevices();
     }
 
