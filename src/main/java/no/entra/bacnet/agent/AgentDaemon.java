@@ -39,7 +39,8 @@ public class AgentDaemon {
                 String username = findProperty(MQTT_USERNAME);
                 String password = findProperty(MQTT_PASSWORD);
                 String topic = findProperty(MQTT_TOPIC);
-                mqttClient = new PahoMqttClient(brokerUrl,username,password,topic);
+                String clientId = findProperty(MQTT_CLIENT_ID);
+                mqttClient = new PahoMqttClient(brokerUrl,username,password,topic, clientId);
             }
             DeviceIdRepository deviceIdRepository = new InMemoryDeviceIdRepository();
             DeviceIdService deviceIdService = new DeviceIdService(deviceIdRepository);
