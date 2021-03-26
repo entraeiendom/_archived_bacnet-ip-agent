@@ -8,7 +8,7 @@ import java.util.List;
 
 import static no.entra.bacnet.json.utils.HexUtils.octetFromInt;
 
-public class ReadPropertyMultipleCommand<PDU_TYPE> {
+public class ReadPropertyMultipleCommand extends BaseBacnetIpCommand {
 
     public static final Octet PDU_TYPE = new Octet("00");
     public static final Octet DEFAULT_MAX_APDU_SIZE = new Octet("04"); //1024 Octets
@@ -37,7 +37,7 @@ public class ReadPropertyMultipleCommand<PDU_TYPE> {
 
     private final List<SensorWithProperties> requestedProperties = new ArrayList<>();
 
-    String buildHexString() {
+    public String buildHexString() {
         return "" + PDU_TYPE + maxApduSize + invokeId;
     }
 }

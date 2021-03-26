@@ -158,6 +158,7 @@ public class SubscribeCovCommandBuilder {
         int minutes5 = 5 * 60;
         SubscribeCovCommand covCommand = new SubscribeCovCommandBuilder(sendToAddress, analogValue1)
                 .withConfirmedNotifications(false)
+                .withLifetime(minutes5)
                 .build();
         try {
             covCommand.sendSubscribeCov();

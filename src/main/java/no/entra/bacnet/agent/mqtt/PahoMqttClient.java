@@ -25,6 +25,9 @@ public class PahoMqttClient implements no.entra.bacnet.agent.mqtt.MqttClient {
     public static final String MQTT_USERNAME = "MQTT_USERNAME";
     public static final String MQTT_PASSWORD = "MQTT_PASSWORD";
     public static final String MQTT_TOPIC = "MQTT_TOPIC";
+    public static final int AT_MOST_ONCE = 0; //Best Effort
+    public static final int AT_LEAST_ONCE = 1; //Require ack from client to server on every message.
+    public static final int EXACTLY_ONCE = 2; //Require ack from client to server on every message.
     private final String brokerUrl;
     private String username = null;
     private String password = null;
@@ -33,7 +36,7 @@ public class PahoMqttClient implements no.entra.bacnet.agent.mqtt.MqttClient {
     private MqttClient mqttClient;
     private final MemoryPersistence persistence;
     private boolean isConnected = false;
-    private int qos = 2;
+    private int qos = AT_MOST_ONCE;
 
     public PahoMqttClient(String brokerUrl) {
         this.brokerUrl = brokerUrl;
