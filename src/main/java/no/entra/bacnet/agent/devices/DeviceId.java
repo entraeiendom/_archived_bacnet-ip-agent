@@ -15,6 +15,7 @@ public class DeviceId implements Serializable {
     private String vendorId;
     private Integer gatewayInstanceNumber;
     private Integer gatewayDeviceId;
+    private boolean supportsReadPropertyMultiple = true;
 
     public DeviceId() {
     }
@@ -134,6 +135,10 @@ public class DeviceId implements Serializable {
             isValid = true;
         }
         return isValid;
+    }
+
+    public boolean isSupportingReadPropertyMultiple() {
+        return supportsReadPropertyMultiple;
     }
 
     @Override

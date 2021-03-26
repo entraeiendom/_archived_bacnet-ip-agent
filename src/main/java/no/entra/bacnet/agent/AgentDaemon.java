@@ -4,7 +4,6 @@ import no.entra.bacnet.agent.devices.DeviceIdRepository;
 import no.entra.bacnet.agent.devices.DeviceIdService;
 import no.entra.bacnet.agent.devices.InMemoryDeviceIdRepository;
 import no.entra.bacnet.agent.importer.DeviceImporter;
-import no.entra.bacnet.agent.importer.ScheduledDeviceImporter;
 import no.entra.bacnet.agent.mqtt.MqttClient;
 import no.entra.bacnet.agent.mqtt.PahoMqttClient;
 import no.entra.bacnet.agent.observer.BacnetObserver;
@@ -23,6 +22,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 public class AgentDaemon {
     private static final Logger log = getLogger(AgentDaemon.class);
+    private static final int WAIT_DEVICES_TO_REPORT_IN_SEC = 10;
 
     public static void main(String[] args) {
         try {
@@ -51,9 +51,24 @@ public class AgentDaemon {
             udpServer.start();
 
             if (findDeviceInfo) {
-                DeviceImporter oneTimeDeviceImporter = new DeviceImporter(deviceIdService);
-                ScheduledDeviceImporter scheduledDeviceImporter = new ScheduledDeviceImporter(oneTimeDeviceImporter);
-                scheduledDeviceImporter.startScheduledImport();
+                DeviceImporter deviceImporter = new DeviceImporter(deviceIdService);
+                try {
+                    deviceImporter.findDevices();
+                    log.info("Running...find devices.");
+                    log.trace("Wait {} seconds for devices to report in.", WAIT_DEVICES_TO_REPORT_IN_SEC);
+                    Thread.sleep(WAIT_DEVICES_TO_REPORT_IN_SEC * 1000);
+                    log.info("Find Sensors and Properties each Device Supports. ");
+                    deviceImporter.findSensorsAndPropertiesTheDevicesSupports();
+                    log.info("Find information about each Sensor and Property configuration. ");
+                    deviceImporter.findSensorAndPropertiesConfiguration();
+                    log.info("Find Present Value for each sensor.");
+                    deviceImporter.findPresentValueForSensors();
+                } catch (Exception e) {
+                    log.info("Exception trying to run scheduled imports of trendIds. Reason: {}", e.getMessage(), e);
+                }
+                //TODO re-enable schedler
+//                ScheduledDeviceImporter scheduledDeviceImporter = new ScheduledDeviceImporter(oneTimeDeviceImporter);
+//                scheduledDeviceImporter.startScheduledImport();
             }
         } catch (Exception e) {
             log.error("Failed to run udpServer.", e);

@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.net.SocketException;
-import java.util.List;
+import java.util.ArrayList;
 
 import static no.entra.bacnet.json.utils.StringUtils.hasValue;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -34,11 +34,12 @@ public class DeviceImporter {
     }
 
     public void findSensorsAndPropertiesTheDevicesSupports() {
-        List<DeviceId> devicesDetected = deviceIdService.allDevices();
-//        for (DeviceId deviceId : devicesDetected) {
-        DeviceId deviceId = new DeviceId();
-        deviceId.setInstanceNumber(8);
-        deviceId.setIpAddress("192.168.2.118");
+        ArrayList<DeviceId> devicesDetected = (ArrayList<DeviceId>) deviceIdService.allDevices();
+        ArrayList<DeviceId> devices = (ArrayList<DeviceId>) devicesDetected.clone();
+        for (DeviceId deviceId : devices) {
+//        DeviceId deviceId = new DeviceId();
+//        deviceId.setInstanceNumber(8);
+//        deviceId.setIpAddress("192.168.2.118");
             String deviceIpAddress = deviceId.getIpAddress();
             try {
                 if (hasValue(deviceIpAddress)) {
@@ -55,7 +56,7 @@ public class DeviceImporter {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-//        }
+        }
     }
 
     public void findSensorAndPropertiesConfiguration () {
