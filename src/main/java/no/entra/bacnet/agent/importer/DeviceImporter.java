@@ -40,7 +40,7 @@ public class DeviceImporter {
             try {
                 if (hasValue(deviceIpAddress)) {
                     ServicesSupportedCommand servicesSupportedCommand = new ServicesSupportedCommand();
-                    servicesSupportedCommand.local(deviceIpAddress);
+                    servicesSupportedCommand.local(deviceId);
                     Thread.sleep(1000);
                 } else {
                     log.trace("Device is missing IpAddress. Can not find detailed information. {}", deviceId.toString());
@@ -49,6 +49,8 @@ public class DeviceImporter {
                 log.trace("Failed to send services supported command to ip address: {}. Reason: {}", deviceIpAddress, e.getMessage());
             } catch (InterruptedException e) {
                 //ignore
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }

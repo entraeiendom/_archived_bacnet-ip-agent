@@ -23,6 +23,11 @@ public class DeviceId implements Serializable {
         this.id = id;
     }
 
+    public DeviceId(String id, String ipAddress) {
+        this.id = id;
+        this.ipAddress = ipAddress;
+    }
+
     /**
      *
      * @param id
