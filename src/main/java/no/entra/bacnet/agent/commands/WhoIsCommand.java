@@ -65,7 +65,7 @@ public class WhoIsCommand {
             } else {
                 client.local(destination);
             }
-            Thread.sleep(10000);
+            Thread.sleep(1000);
         } catch (SocketException e) {
             e.printStackTrace();
         } catch (IOException e) {

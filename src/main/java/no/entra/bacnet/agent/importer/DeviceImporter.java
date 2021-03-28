@@ -1,5 +1,6 @@
 package no.entra.bacnet.agent.importer;
 
+import no.entra.bacnet.agent.commands.ReadPropertyMultipleCommand;
 import no.entra.bacnet.agent.commands.ServicesSupportedCommand;
 import no.entra.bacnet.agent.commands.WhoIsCommand;
 import no.entra.bacnet.agent.devices.DeviceId;
@@ -60,6 +61,29 @@ public class DeviceImporter {
     }
 
     public void findSensorAndPropertiesConfiguration () {
+        ArrayList<DeviceId> devicesDetected = (ArrayList<DeviceId>) deviceIdService.allDevices();
+        ArrayList<DeviceId> devices = (ArrayList<DeviceId>) devicesDetected.clone();
+        for (DeviceId deviceId : devices) {
+//        DeviceId deviceId = new DeviceId();
+//        deviceId.setInstanceNumber(8);
+//        deviceId.setIpAddress("192.168.2.118");
+            String deviceIpAddress = deviceId.getIpAddress();
+            try {
+                if (hasValue(deviceIpAddress)) {
+                    ReadPropertyMultipleCommand readPropertyMultipleCommand = new ReadPropertyMultipleCommand(1);
+                    readPropertyMultipleCommand.local(deviceId);
+                    Thread.sleep(1000);
+                } else {
+                    log.trace("Device is missing IpAddress. Can not find detailed information. {}", deviceId.toString());
+                }
+            } catch (IOException e) {
+                log.trace("Failed to send read property multiple command to ip address: {}. Reason: {}", deviceIpAddress, e.getMessage());
+            } catch (InterruptedException e) {
+                //ignore
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
     }
 
