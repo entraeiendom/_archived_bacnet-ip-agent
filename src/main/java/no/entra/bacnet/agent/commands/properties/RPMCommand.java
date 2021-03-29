@@ -1,6 +1,7 @@
 package no.entra.bacnet.agent.commands.properties;
 
 
+import no.entra.bacnet.agent.commands.BaseBacnetIpCommand;
 import no.entra.bacnet.apdu.Apdu;
 import no.entra.bacnet.apdu.SDContextTag;
 import no.entra.bacnet.bvlc.Bvlc;
@@ -10,10 +11,12 @@ import no.entra.bacnet.json.services.ConfirmedServiceChoice;
 import no.entra.bacnet.npdu.Npdu;
 import no.entra.bacnet.npdu.NpduBuilder;
 import no.entra.bacnet.objects.ObjectId;
+import no.entra.bacnet.objects.ObjectType;
 import no.entra.bacnet.objects.PduType;
 import no.entra.bacnet.objects.PropertyIdentifier;
 
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +24,7 @@ import static no.entra.bacnet.apdu.ArrayTag.ARRAY1_END;
 import static no.entra.bacnet.apdu.ArrayTag.ARRAY1_START;
 import static no.entra.bacnet.utils.HexUtils.intToHexString;
 
-public class RPMCommand {
+public class RPMCommand extends BaseBacnetIpCommand {
     private final InetAddress sendToAddress;
     private final int invokeId;
     private final ObjectId objectId;
@@ -43,7 +46,7 @@ public class RPMCommand {
         this.propertyIdentifiers = propertyIdentifiers;
     }
 
-    protected String buildHexString() {
+    public String buildHexString() {
         Apdu apdu = Apdu.ApduBuilder.builder()
                 .withApduType(PduType.ConfirmedRequest)
                 .isSegmented(false)
@@ -129,10 +132,36 @@ public class RPMCommand {
         }
 
         public RPMCommand build() {
-            RPMCommand rPMCommand = new RPMCommand(sendToAddress, invokeId, objectId, propertyIdentifiers);
-            rPMCommand.confirmedNotifications = this.confirmedNotifications;
-            rPMCommand.error = this.error;
-            return rPMCommand;
+            RPMCommand rpmCommand = new RPMCommand(sendToAddress, invokeId, objectId, propertyIdentifiers);
+            rpmCommand.withSendToAddress(sendToAddress);
+            rpmCommand.confirmedNotifications = this.confirmedNotifications;
+            rpmCommand.error = this.error;
+            return rpmCommand;
         }
+    }
+
+    public static void main(String[] args) throws UnknownHostException {
+
+        String instanceNumber = null;
+        String ipAddress = null;
+        if (args.length > 0) {
+            ipAddress = args[0];
+            instanceNumber = args[1];
+        } else {
+            System.out.println("Please run with RPMCommand <ipAddress> <instanceNumber>");
+            System.exit(0);
+        }
+
+        InetAddress sendToAddress = InetAddress.getByName(ipAddress);
+        ObjectId device8 = new ObjectId(ObjectType.Device,instanceNumber);
+        RPMCommand readPropertyMultipleCommand = new RPMCommand.RPMCommandBuilder(sendToAddress)
+                .withInvokeId(1)
+                .withObjectId(device8)
+                .withPropertyIdentifier(PropertyIdentifier.ObjectName)
+                .withPropertyIdentifier(PropertyIdentifier.ProtocolVersion)
+                .withPropertyIdentifier(PropertyIdentifier.ProtocolRevision)
+                .build();
+
+        readPropertyMultipleCommand.send();
     }
 }

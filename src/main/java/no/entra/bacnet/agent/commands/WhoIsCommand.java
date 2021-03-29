@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import java.io.IOException;
 import java.net.*;
 
+import static no.entra.bacnet.agent.commands.BaseBacnetIpCommand.BACNET_DEFAULT_PORT;
 import static no.entra.bacnet.agent.utils.ByteHexConverter.hexStringToByteArray;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -12,7 +13,7 @@ public class WhoIsCommand {
     private static final Logger log = getLogger(WhoIsCommand.class);
 
     private DatagramSocket socket;
-    public static final int BACNET_DEFAULT_PORT = 47808;
+
     private byte[] buf = new byte[2048];
     private InetAddress sendToAddress;
 

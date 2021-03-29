@@ -19,6 +19,9 @@ import static no.entra.bacnet.json.utils.HexUtils.intToHexString;
 import static no.entra.bacnet.json.utils.HexUtils.octetFromInt;
 import static org.slf4j.LoggerFactory.getLogger;
 
+/**
+ * @Deprecated Prefer to use RPMCommand
+ */
 public class ReadPropertyMultipleCommand extends BaseBacnetIpCommand {
     private static final Logger log = getLogger(ReadPropertyMultipleCommand.class);
     public static final Octet PDU_TYPE = new Octet("00");
