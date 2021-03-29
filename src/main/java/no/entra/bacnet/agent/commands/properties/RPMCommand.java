@@ -17,6 +17,8 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 
+import static no.entra.bacnet.apdu.ArrayTag.ARRAY1_END;
+import static no.entra.bacnet.apdu.ArrayTag.ARRAY1_START;
 import static no.entra.bacnet.utils.HexUtils.intToHexString;
 
 public class RPMCommand {
@@ -54,11 +56,20 @@ public class RPMCommand {
                 + intToHexString(invokeId,2)
                 + ConfirmedServiceChoice.ReadPropertyMultiple.getServiceChoiceHex()
                 + SDContextTag.TAG0LENGTH4 + objectId.toHexString();
-        //Add ContextTag0, DeviceId
-//        apdu += ApduType  //SDContextTag.TAG0LENGTH4 + objectId.toHexString();
+        String propertyIdentifierArray = mapPropertyArray();
+        apduHexString += propertyIdentifierArray;
         Bvlc bvlc = new BvlcBuilder(BvlcFunction.OriginalUnicastNpdu).withTotalNumberOfOctets(23).build();
         Npdu npdu = new NpduBuilder().withExpectingReply().build();
         return bvlc.toHexString() + npdu.toHexString() + apduHexString;
+    }
+
+    String mapPropertyArray() {
+        String propertyIds = ARRAY1_START.toString();
+        for (PropertyIdentifier propertyIdentifier : propertyIdentifiers) {
+            propertyIds += SDContextTag.TAG0LENGTH1 + propertyIdentifier.getPropertyIdentifierHex();
+        }
+        propertyIds += ARRAY1_END;
+        return propertyIds;
     }
 
     public static final class RPMCommandBuilder {
