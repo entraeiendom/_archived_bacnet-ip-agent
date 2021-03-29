@@ -1,5 +1,7 @@
 package no.entra.bacnet.agent.commands;
 
+import no.entra.bacnet.agent.commands.properties.ReadPropertyMultipleCommand;
+
 public class DevicePropertiesCommand extends ReadPropertyMultipleCommand {
 
     private final String deviceIpAddress;

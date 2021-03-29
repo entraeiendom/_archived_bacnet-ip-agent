@@ -1,30 +1,24 @@
-package no.entra.bacnet.agent.commands;
+package no.entra.bacnet.agent.commands.properties;
 
 import no.entra.bacnet.json.bvlc.BvlcFunction;
-import no.entra.bacnet.json.objects.PropertyIdentifier;
 import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.net.*;
 
 import static no.entra.bacnet.agent.utils.ByteHexConverter.hexStringToByteArray;
-import static no.entra.bacnet.json.apdu.SDContextTag.TAG1LENGTH1;
 import static no.entra.bacnet.json.apdu.SDContextTag.TAG2LENGTH4;
-import static no.entra.bacnet.json.utils.HexUtils.intToHexString;
 import static org.slf4j.LoggerFactory.getLogger;
 
-/*
-Also named "object-list service" in Bacnet. aka which input and output this device do see.
- */
-public class PropertiesSupportedCommand {
-    private static final Logger log = getLogger(PropertiesSupportedCommand.class);
+public class ReadPropertyCommand {
+    private static final Logger log = getLogger(ReadPropertyCommand.class);
 
     private DatagramSocket socket;
     public static final int BACNET_DEFAULT_PORT = 47808;
     private byte[] buf = new byte[2048];
     private InetAddress sendToAddress;
 
-    public PropertiesSupportedCommand() throws SocketException {
+    public ReadPropertyCommand() throws SocketException {
         socket = new DatagramSocket(null);
         socket.setBroadcast(true);
         socket.setReuseAddress(true);
@@ -38,10 +32,10 @@ public class PropertiesSupportedCommand {
         SocketAddress inetAddress = new InetSocketAddress(BACNET_DEFAULT_PORT);
         sendToAddress = InetAddress.getByName(ipv4Address);
         socket.bind(inetAddress);
-        sendWhoHas();
+        readAnalogValue1();
     }
 
-    private void sendWhoHas() throws IOException {
+    private void readAnalogValue1() throws IOException {
 
         /*
         BVLC 810b000c
@@ -60,9 +54,7 @@ public class PropertiesSupportedCommand {
         }
         String bvlc = "81" + BvlcFunction.OriginalBroadcastNpdu.getBvlcFunctionHex() + messageLength;
 
-        String servicesSupported = PropertyIdentifier.ProtocolServicesSupported.getPropertyIdentifierHex();
-        String hexDeviceNumber = intToHexString(1001, 6);
-        apdu = "0275000c0c02" + hexDeviceNumber + TAG1LENGTH1 + servicesSupported;
+        apdu = "0275050c0c008000011955";
         npdu = "0104";
         bvlc = "810a0011";
         String hexString = bvlc + npdu + apdu;
@@ -82,7 +74,7 @@ public class PropertiesSupportedCommand {
     }
 
     public static void main(String[] args) {
-        PropertiesSupportedCommand client = null;
+        ReadPropertyCommand client = null;
 
         //Destination may also be fetched as the first program argument.
         String destination = null;
@@ -90,7 +82,7 @@ public class PropertiesSupportedCommand {
             destination = args[0];
         }
         try {
-            client = new PropertiesSupportedCommand();
+            client = new ReadPropertyCommand();
             if (destination == null) {
                 client.broadcast();
             } else {

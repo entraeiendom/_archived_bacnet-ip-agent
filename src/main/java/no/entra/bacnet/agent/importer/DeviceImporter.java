@@ -1,8 +1,8 @@
 package no.entra.bacnet.agent.importer;
 
-import no.entra.bacnet.agent.commands.ReadPropertyMultipleCommand;
 import no.entra.bacnet.agent.commands.ServicesSupportedCommand;
 import no.entra.bacnet.agent.commands.WhoIsCommand;
+import no.entra.bacnet.agent.commands.properties.ReadPropertyMultipleCommand;
 import no.entra.bacnet.agent.devices.DeviceId;
 import no.entra.bacnet.agent.devices.DeviceIdService;
 import org.slf4j.Logger;

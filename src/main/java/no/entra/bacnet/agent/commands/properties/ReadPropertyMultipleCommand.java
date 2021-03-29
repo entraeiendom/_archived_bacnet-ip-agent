@@ -1,6 +1,7 @@
-package no.entra.bacnet.agent.commands;
+package no.entra.bacnet.agent.commands.properties;
 
 import no.entra.bacnet.Octet;
+import no.entra.bacnet.agent.commands.BaseBacnetIpCommand;
 import no.entra.bacnet.agent.devices.DeviceId;
 import no.entra.bacnet.agent.sensors.SensorWithProperties;
 import no.entra.bacnet.json.bvlc.BvlcFunction;
