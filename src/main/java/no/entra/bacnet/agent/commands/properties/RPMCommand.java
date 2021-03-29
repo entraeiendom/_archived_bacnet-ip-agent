@@ -5,6 +5,8 @@ package no.entra.bacnet.agent.commands.properties;
 import no.entra.bacnet.bvlc.Bvlc;
 import no.entra.bacnet.bvlc.BvlcBuilder;
 import no.entra.bacnet.bvlc.BvlcFunction;
+import no.entra.bacnet.npdu.Npdu;
+import no.entra.bacnet.npdu.NpduBuilder;
 import no.entra.bacnet.objects.ObjectId;
 import no.entra.bacnet.objects.PropertyIdentifier;
 
@@ -36,7 +38,8 @@ public class RPMCommand {
 
     protected String buildHexString() {
         Bvlc bvlc = new BvlcBuilder(BvlcFunction.OriginalUnicastNpdu).withTotalNumberOfOctets(23).build();
-        return bvlc.toHexString();
+        Npdu npdu = new NpduBuilder().withExpectingReply().build();
+        return bvlc.toHexString() + npdu.getHexString();
     }
 
     public static final class RPMCommandBuilder {
