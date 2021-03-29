@@ -1,6 +1,5 @@
-package no.entra.bacnet.agent.commands;
+package no.entra.bacnet.agent.commands.properties;
 
-import no.entra.bacnet.agent.commands.properties.ReadPropertyMultipleCommand;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,6 +25,6 @@ public class ReadPropertyMultipleCommandTest {
 
         //Device 8
         assertEquals("810a001701040275010e0c020000081e094d0962098b1f", readMultipleCommand.buildHexString());
-        //Expected result is 810a0028010030010e0c020000081e294d4e75060046574643554f29624e21014f298b4e210e4f1f
+        //Expected response is 810a0028010030010e0c020000081e294d4e75060046574643554f29624e21014f298b4e210e4f1f
     }
 }

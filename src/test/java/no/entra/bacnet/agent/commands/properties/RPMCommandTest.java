@@ -1,13 +1,14 @@
 package no.entra.bacnet.agent.commands.properties;
 
-import no.entra.bacnet.json.objects.ObjectId;
-import no.entra.bacnet.json.objects.ObjectType;
-import no.entra.bacnet.json.objects.PropertyIdentifier;
+import no.entra.bacnet.objects.ObjectId;
+import no.entra.bacnet.objects.ObjectType;
+import no.entra.bacnet.objects.PropertyIdentifier;
 import org.junit.Test;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class RPMCommandTest {
@@ -24,6 +25,7 @@ public class RPMCommandTest {
                 .withPropertyIdentifier(PropertyIdentifier.ProtocolRevision)
                 .build();
         assertNotNull(readPropertyMultipleCommand);
-
+        String expectedHexString = "810a001701040275010e0c020000081e094d0962098b1f";
+        assertEquals(expectedHexString, readPropertyMultipleCommand.buildHexString());
     }
 }

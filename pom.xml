@@ -42,6 +42,11 @@
     </dependency>
     <dependency>
       <groupId>no.entra.bacnet</groupId>
+      <artifactId>bacnet-typelib</artifactId>
+      <version>0.3.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>no.entra.bacnet</groupId>
       <artifactId>bacnet2json</artifactId>
       <version>0.9.3</version>
     </dependency>
