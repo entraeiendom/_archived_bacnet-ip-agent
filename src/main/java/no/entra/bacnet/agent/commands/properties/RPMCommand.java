@@ -1,13 +1,14 @@
 package no.entra.bacnet.agent.commands.properties;
 
 
-
+import no.entra.bacnet.apdu.Apdu;
 import no.entra.bacnet.bvlc.Bvlc;
 import no.entra.bacnet.bvlc.BvlcBuilder;
 import no.entra.bacnet.bvlc.BvlcFunction;
 import no.entra.bacnet.npdu.Npdu;
 import no.entra.bacnet.npdu.NpduBuilder;
 import no.entra.bacnet.objects.ObjectId;
+import no.entra.bacnet.objects.PduType;
 import no.entra.bacnet.objects.PropertyIdentifier;
 
 import java.net.InetAddress;
@@ -37,9 +38,19 @@ public class RPMCommand {
     }
 
     protected String buildHexString() {
+        Apdu apdu = Apdu.ApduBuilder.builder()
+                .withApduType(PduType.ConfirmedRequest)
+                .isSegmented(false)
+                .hasMoreSegments(false)
+                .isSegmentedReplyAllowed(true)
+                .withMaxSegmentsAcceptedAbove64()
+                .withMaxApduLength1476()
+                .build();
+        //Add ContextTag0, DeviceId
+//        apdu += ApduType  //SDContextTag.TAG0LENGTH4 + objectId.toHexString();
         Bvlc bvlc = new BvlcBuilder(BvlcFunction.OriginalUnicastNpdu).withTotalNumberOfOctets(23).build();
         Npdu npdu = new NpduBuilder().withExpectingReply().build();
-        return bvlc.toHexString() + npdu.getHexString();
+        return bvlc.toHexString() + npdu.toHexString() + apdu.toHexString();
     }
 
     public static final class RPMCommandBuilder {
