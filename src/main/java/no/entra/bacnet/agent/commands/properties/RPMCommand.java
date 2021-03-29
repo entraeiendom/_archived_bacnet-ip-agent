@@ -2,9 +2,11 @@ package no.entra.bacnet.agent.commands.properties;
 
 
 import no.entra.bacnet.apdu.Apdu;
+import no.entra.bacnet.apdu.SDContextTag;
 import no.entra.bacnet.bvlc.Bvlc;
 import no.entra.bacnet.bvlc.BvlcBuilder;
 import no.entra.bacnet.bvlc.BvlcFunction;
+import no.entra.bacnet.json.services.ConfirmedServiceChoice;
 import no.entra.bacnet.npdu.Npdu;
 import no.entra.bacnet.npdu.NpduBuilder;
 import no.entra.bacnet.objects.ObjectId;
@@ -14,6 +16,8 @@ import no.entra.bacnet.objects.PropertyIdentifier;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
+
+import static no.entra.bacnet.utils.HexUtils.intToHexString;
 
 public class RPMCommand {
     private final InetAddress sendToAddress;
@@ -46,11 +50,15 @@ public class RPMCommand {
                 .withMaxSegmentsAcceptedAbove64()
                 .withMaxApduLength1476()
                 .build();
+        String apduHexString = apdu.toHexString()
+                + intToHexString(invokeId,2)
+                + ConfirmedServiceChoice.ReadPropertyMultiple.getServiceChoiceHex()
+                + SDContextTag.TAG0LENGTH4 + objectId.toHexString();
         //Add ContextTag0, DeviceId
 //        apdu += ApduType  //SDContextTag.TAG0LENGTH4 + objectId.toHexString();
         Bvlc bvlc = new BvlcBuilder(BvlcFunction.OriginalUnicastNpdu).withTotalNumberOfOctets(23).build();
         Npdu npdu = new NpduBuilder().withExpectingReply().build();
-        return bvlc.toHexString() + npdu.toHexString() + apdu.toHexString();
+        return bvlc.toHexString() + npdu.toHexString() + apduHexString;
     }
 
     public static final class RPMCommandBuilder {
