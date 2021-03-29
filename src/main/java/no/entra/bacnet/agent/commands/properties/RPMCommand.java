@@ -61,9 +61,11 @@ public class RPMCommand extends BaseBacnetIpCommand {
                 + SDContextTag.TAG0LENGTH4 + objectId.toHexString();
         String propertyIdentifierArray = mapPropertyArray();
         apduHexString += propertyIdentifierArray;
-        Bvlc bvlc = new BvlcBuilder(BvlcFunction.OriginalUnicastNpdu).withTotalNumberOfOctets(23).build();
+        int numberOfOctets = (apduHexString.length() /2) + 6;
+        Bvlc bvlc = new BvlcBuilder(BvlcFunction.OriginalUnicastNpdu).withTotalNumberOfOctets(numberOfOctets).build();
         Npdu npdu = new NpduBuilder().withExpectingReply().build();
-        return bvlc.toHexString() + npdu.toHexString() + apduHexString;
+        String hexString = bvlc.toHexString() + npdu.toHexString() + apduHexString;
+        return hexString;
     }
 
     String mapPropertyArray() {
