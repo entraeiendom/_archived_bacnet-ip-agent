@@ -38,17 +38,17 @@
     <dependency>
       <groupId>no.entra.bacnet</groupId>
       <artifactId>bacnet2rec</artifactId>
-      <version>0.7.0</version>
+      <version>0.8.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>no.entra.bacnet</groupId>
       <artifactId>bacnet-typelib</artifactId>
-      <version>0.5.0-SNAPSHOT</version>
+      <version>0.6.0</version>
     </dependency>
     <dependency>
       <groupId>no.entra.bacnet</groupId>
       <artifactId>bacnet2json</artifactId>
-      <version>0.9.3</version>
+      <version>0.12.0</version>
     </dependency>
 
     <!-- EntraOs MQTT -->

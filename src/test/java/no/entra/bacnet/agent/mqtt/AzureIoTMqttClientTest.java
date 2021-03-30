@@ -3,19 +3,19 @@ package no.entra.bacnet.agent.mqtt;
 import com.microsoft.azure.sdk.iot.device.Message;
 import no.entra.bacnet.agent.devices.DeviceId;
 import no.entra.bacnet.rec.ConfigurationRequest;
-import no.entra.bacnet.rec.helpers.DateTimeHelper;
+import no.entra.bacnet.utils.DateTimeHelper;
 import org.junit.Before;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Optional;
 
 import static org.junit.Assert.assertNotNull;
 
 public class AzureIoTMqttClientTest {
 
-    private LocalDateTime observationTime;
+    private Instant observationTime;
     private AzureIoTMqttClient mqttClient;
     private String expectedJson = "{\n" +
             "  \"deviceId\": \"id1234\",\n" +
@@ -33,8 +33,8 @@ public class AzureIoTMqttClientTest {
 
     @Before
     public void setUp() throws Exception {
-        String localDateTime = "2019-12-09T20:57:17.776468";
-        observationTime = DateTimeHelper.fromIsoString(localDateTime);
+        String localDateTime = "2019-12-09T20:57:17.776Z";
+        observationTime = DateTimeHelper.fromIso8601Json(localDateTime);
         mqttClient = new AzureIoTMqttClient();
     }
 
