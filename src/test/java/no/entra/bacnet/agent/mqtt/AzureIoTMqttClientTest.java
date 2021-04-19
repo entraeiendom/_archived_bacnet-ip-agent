@@ -22,7 +22,7 @@ public class AzureIoTMqttClientTest {
             "  \"configurations\": [{\n" +
             "    \"sender\": \"sendt from\",\n" +
             "    \"recipient\": \"recip\",\n" +
-            "    \"observationTime\": \"2019-12-09T20:57:17.776468\",\n" +
+            "    \"observationTime\": \"2019-12-09T20:57:17.776Z\",\n" +
             "    \"id\": \"123\",\n" +
             "    \"type\": \"IHave\",\n" +
             "    \"properties\": {\n" +

@@ -24,7 +24,7 @@ public class ReadPropertyMultipleCommandTest {
     public void objectNameProtocolVersionRevision() {
 
         //Device 8
-        assertEquals("810a001701040275010e0c020000081e094d0962098b1f", readMultipleCommand.buildHexString());
+        assertEquals("810a001701040275010e0c020000081e094d0962098b1f", readMultipleCommand.buildHexString(8));
         //Expected response is 810a0028010030010e0c020000081e294d4e75060046574643554f29624e21014f298b4e210e4f1f
     }
 }
