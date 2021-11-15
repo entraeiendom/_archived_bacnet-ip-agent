@@ -240,37 +240,49 @@
     </plugins>
   </build>
     <repositories>
-    <repository>
-      <id>cantara-releases</id>
-      <name>Cantara Release Repository</name>
-      <url>https://mvnrepo.cantara.no/content/repositories/releases/</url>
-    </repository>
-    <repository>
-      <id>cantara-snapshots</id>
-      <name>Cantara Snapshot Repository</name>
-      <url>https://mvnrepo.cantara.no/content/repositories/snapshots/</url>
-    </repository>
-    <repository>
-      <id>entraos-releases</id>
-      <name>EntraOS Release Repository</name>
-      <url>https://nexus.entraos.io/content/repositories/releases/</url>
-    </repository>
-    <repository>
-      <id>entraos-snapshots</id>
-      <name>EntraOS Snapshot Repository</name>
-      <url>https://nexus.entraos.io/content/repositories/snapshots</url>
-    </repository>
+        <!-- Needed for parent -->
+        <repository>
+            <id>cantara-releases</id>
+            <name>Cantara Release Repository</name>
+            <url>https://mvnrepo.cantara.no/content/repositories/releases/</url>
+        </repository>
+        <repository>
+            <id>cantara-snapshots</id>
+            <name>Cantara Snapshot Repository</name>
+            <url>https://mvnrepo.cantara.no/content/repositories/snapshots/</url>
+        </repository>
+        <repository>
+            <id>entraos-releases</id>
+            <name>EntraOS Public Release Repository</name>
+            <url>https://nexus.entraos.io/content/repositories/entraosreleases/</url>
+        </repository>
+        <repository>
+            <id>entraos-snapshots</id>
+            <name>EntraOS Public Snapshot Repository</name>
+            <url>https://nexus.entraos.io/content/repositories/entraossnapshots/</url>
+        </repository>
+        <repository>
+            <id>entraos-public-releases</id>
+            <name>EntraOS Public Release Repository</name>
+            <url>https://nexus.entraos.io/content/repositories/releases/</url>
+        </repository>
+        <repository>
+            <id>entraos-public-snapshots</id>
+            <name>EntraOS Public Snapshot Repository</name>
+            <url>https://nexus.entraos.io/content/repositories/snapshots/</url>
+        </repository>
   </repositories>
   <distributionManagement>
     <repository>
-      <id>cantara-releases</id>
-      <name>Cantara Release Repository</name>
-      <url>http://mvnrepo.cantara.no/content/repositories/releases/</url>
+      <id>entraos</id>
+      <name>EntraOS Release Repository</name>
+      <url>https://nexus.entraos.io/content/repositories/entraosreleases/</url>
     </repository>
     <snapshotRepository>
-      <id>cantara-snapshots</id>
-      <name>Cantara Snapshot Repository</name>
-      <url>http://mvnrepo.cantara.no/content/repositories/snapshots/</url>
+      <id>entraos</id>
+      <name>EntraOS Snapshot Repository</name>
+      <url>https://nexus.entraos.io/content/repositories/entraossnapshots</url>
     </snapshotRepository>
   </distributionManagement>
+  
 </project>
