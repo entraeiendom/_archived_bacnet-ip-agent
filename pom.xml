@@ -5,7 +5,7 @@
 
   <groupId>no.entra.bacnet</groupId>
   <artifactId>bacnet-ip-agent</artifactId>
-  <version>0.7.1-SNAPSHOT</version>
+  <version>0.8.0</version>
 
   <name>bacnet-ip-agent</name>
   <url>https://github.com/entraeiendom/bacnet-ip-agent/blob/master/README.md</url>
@@ -23,7 +23,7 @@
     <developerConnection>scm:git:ssh://git@github.com/entraeiendom/bacnet-ip-agent.git</developerConnection>
     <connection>scm:git:https://github.com/entraeiendom/bacnet-ip-agent.git</connection>
     <url>https://github.com/entraeiendom/bacnet-ip-agent</url>
-    <tag>HEAD</tag>
+    <tag>bacnet-ip-agent-0.8.0</tag>
   </scm>
 
   <properties>
@@ -222,7 +222,7 @@
             </goals>
             <configuration>
               <transformers>
-                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                   <mainClass>no.entra.bacnet.agent.AgentDaemon</mainClass>
                 </transformer>
