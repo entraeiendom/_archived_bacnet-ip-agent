@@ -38,7 +38,7 @@
     <dependency>
       <groupId>no.entra.bacnet</groupId>
       <artifactId>bacnet2rec</artifactId>
-      <version>0.8.0</version>
+      <version>0.8.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>no.entra.bacnet</groupId>
@@ -284,5 +284,5 @@
       <url>https://nexus.entraos.io/content/repositories/entraossnapshots</url>
     </snapshotRepository>
   </distributionManagement>
-  
+
 </project>
