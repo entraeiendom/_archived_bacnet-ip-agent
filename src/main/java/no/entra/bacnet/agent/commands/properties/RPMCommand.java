@@ -3,25 +3,25 @@ package no.entra.bacnet.agent.commands.properties;
 
 import no.entra.bacnet.agent.commands.BaseBacnetIpCommand;
 import no.entra.bacnet.apdu.Apdu;
-import no.entra.bacnet.apdu.SDContextTag;
 import no.entra.bacnet.bvlc.Bvlc;
-import no.entra.bacnet.bvlc.BvlcBuilder;
-import no.entra.bacnet.bvlc.BvlcFunction;
+import no.entra.bacnet.internal.apdu.MessageType;
+import no.entra.bacnet.internal.apdu.SDContextTag;
+import no.entra.bacnet.internal.bvlc.BvlcBuilder;
+import no.entra.bacnet.internal.bvlc.BvlcFunction;
+import no.entra.bacnet.internal.npdu.NpduBuilder;
+import no.entra.bacnet.internal.properties.PropertyIdentifier;
 import no.entra.bacnet.json.services.ConfirmedServiceChoice;
 import no.entra.bacnet.npdu.Npdu;
-import no.entra.bacnet.npdu.NpduBuilder;
 import no.entra.bacnet.objects.ObjectId;
 import no.entra.bacnet.objects.ObjectType;
-import no.entra.bacnet.objects.PduType;
-import no.entra.bacnet.objects.PropertyIdentifier;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static no.entra.bacnet.apdu.ArrayTag.ARRAY1_END;
-import static no.entra.bacnet.apdu.ArrayTag.ARRAY1_START;
+import static no.entra.bacnet.internal.apdu.ArrayTag.ARRAY1_END;
+import static no.entra.bacnet.internal.apdu.ArrayTag.ARRAY1_START;
 import static no.entra.bacnet.utils.HexUtils.intToHexString;
 
 public class RPMCommand extends BaseBacnetIpCommand {
@@ -48,7 +48,7 @@ public class RPMCommand extends BaseBacnetIpCommand {
 
     public String buildHexString() {
         Apdu apdu = Apdu.ApduBuilder.builder()
-                .withApduType(PduType.ConfirmedRequest)
+                .withApduType(MessageType.ConfirmedRequest)
                 .isSegmented(false)
                 .hasMoreSegments(false)
                 .isSegmentedReplyAllowed(true)
@@ -155,7 +155,7 @@ public class RPMCommand extends BaseBacnetIpCommand {
         }
 
         InetAddress sendToAddress = InetAddress.getByName(ipAddress);
-        ObjectId device8 = new ObjectId(ObjectType.Device,instanceNumber);
+        ObjectId device8 = new ObjectId(ObjectType.Device,Integer.valueOf(instanceNumber));
         RPMCommand readPropertyMultipleCommand = new RPMCommand.RPMCommandBuilder(sendToAddress)
                 .withInvokeId(1)
                 .withObjectId(device8)

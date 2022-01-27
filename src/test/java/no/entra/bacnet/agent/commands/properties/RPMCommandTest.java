@@ -1,8 +1,8 @@
 package no.entra.bacnet.agent.commands.properties;
 
+import no.entra.bacnet.internal.properties.PropertyIdentifier;
 import no.entra.bacnet.objects.ObjectId;
 import no.entra.bacnet.objects.ObjectType;
-import no.entra.bacnet.objects.PropertyIdentifier;
 import org.junit.Test;
 
 import java.net.InetAddress;
@@ -16,7 +16,7 @@ public class RPMCommandTest {
     @Test
     public void buildHexString() throws UnknownHostException {
         InetAddress sendToAddress = InetAddress.getByName("127.0.0.1");
-        ObjectId device8 = new ObjectId(ObjectType.Device,"8");
+        ObjectId device8 = new ObjectId(ObjectType.Device,8);
         RPMCommand readPropertyMultipleCommand = new RPMCommand.RPMCommandBuilder(sendToAddress)
                 .withInvokeId(1)
                 .withObjectId(device8)
