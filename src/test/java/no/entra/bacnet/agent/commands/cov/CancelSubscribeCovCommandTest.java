@@ -18,14 +18,15 @@ public class CancelSubscribeCovCommandTest {
 
     private CancelSubscribeCovCommand covCommand;
     private DatagramSocket socket;
+    private int suscriptionId;
 
     @Before
     public void setUp() throws Exception {
         socket = mock(DatagramSocket.class);
         ObjectId analogValue1 = new ObjectId(ObjectType.AnalogValue, "1");
         InetAddress sendToAddress = SubscribeCovCommand.inetAddressFromString("10.10.10.10");
-        Octet subscriptionIdToCancel = new Octet("12");
-        covCommand = new CancelSubscribeCovCommand(socket, sendToAddress, analogValue1,subscriptionIdToCancel );
+        suscriptionId = 18;
+        covCommand = new CancelSubscribeCovCommand(socket, sendToAddress, suscriptionId, analogValue1 );
         covCommand.setInvokeId(new Octet("01"));
 
     }

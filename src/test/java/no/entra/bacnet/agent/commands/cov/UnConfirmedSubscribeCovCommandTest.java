@@ -18,14 +18,15 @@ public class UnConfirmedSubscribeCovCommandTest {
 
     private UnConfirmedSubscribeCovCommand covCommand;
     private DatagramSocket socket;
+    private int subscriptionId;
 
     @Before
     public void setUp() throws Exception {
         socket = mock(DatagramSocket.class);
+        subscriptionId = 18;
         ObjectId analogInput0 = new ObjectId(ObjectType.AnalogInput, "0");
         InetAddress sendToAddress = SubscribeCovCommand.inetAddressFromString("10.10.10.10");
-        covCommand = new UnConfirmedSubscribeCovCommand(socket, sendToAddress, analogInput0);
-        covCommand.setSubscriptionId(new Octet("12"));
+        covCommand = new UnConfirmedSubscribeCovCommand(socket, sendToAddress, subscriptionId, analogInput0);
         covCommand.setInvokeId(new Octet("0f"));
 
     }

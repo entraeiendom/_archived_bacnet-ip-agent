@@ -14,10 +14,12 @@ import static org.junit.Assert.*;
 public class SubscribeCovCommandBuilderTest {
 
     private ObjectId analogInput0;
-    InetAddress sendToAddress;
+    private InetAddress sendToAddress;
+    private int subscriptionId;
 
     @Before
     public void setUp() throws Exception {
+        subscriptionId = 18;
         analogInput0 = new ObjectId(ObjectType.AnalogInput, "0");
         sendToAddress = SubscribeCovCommand.inetAddressFromString("10.10.10.10");
     }
@@ -26,7 +28,7 @@ public class SubscribeCovCommandBuilderTest {
     public void buildCOVSingleSensorUnConfirmedTest()  {
         String expected = "810a00190120ffff00ff00020f0509121c0000000029003900";
         SubscribeCovCommand covCommand = new SubscribeCovCommandBuilder(sendToAddress, analogInput0)
-                .withSubscriptionId(new Octet("12"))
+                .withSubscriptionId(subscriptionId)
                 .withInvokeId(new Octet("0f"))
                 .withConfirmedNotifications(false)
                 .build();
@@ -43,7 +45,7 @@ public class SubscribeCovCommandBuilderTest {
         assertEquals("32", lifetimeHex.toString());
         String expected = "810a00190120ffff00ff00020f0509121c00000000290139" + lifetimeHex;
         SubscribeCovCommand covCommand = new SubscribeCovCommandBuilder(sendToAddress, analogInput0)
-                .withSubscriptionId(new Octet("12"))
+                .withSubscriptionId(subscriptionId)
                 .withInvokeId(new Octet("0f"))
                 .withConfirmedNotifications(true)
                 .withLifetime(lifetimeSeconds)
@@ -57,7 +59,7 @@ public class SubscribeCovCommandBuilderTest {
     @Test(expected = IllegalStateException.class)
     public void verifyLifetimeAndUnconfirmedIsIllegal()  {
         SubscribeCovCommand covCommand = new SubscribeCovCommandBuilder(sendToAddress, analogInput0)
-                .withSubscriptionId(new Octet("12"))
+                .withSubscriptionId(subscriptionId)
                 .withInvokeId(new Octet("0f"))
                 .withLifetime(5)
                 .withConfirmedNotifications(false)

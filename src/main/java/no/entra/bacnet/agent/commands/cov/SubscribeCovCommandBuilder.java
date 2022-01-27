@@ -16,14 +16,14 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 public class SubscribeCovCommandBuilder {
     private static final Logger log = getLogger(SubscribeCovCommandBuilder.class);
-    private double increment = 1.0;
+    private Double increment = null;
     private ArrayList<ObjectId> subscribeToSensorIds = new ArrayList<>();
     private PropertyIdentifier propertyIdentifier;
     private InetAddress sendToAddress;
     private Boolean confirmedNotifications = null;
     private Exception error = null;
     private Octet invokeId = null; // Identify multiple messages/segments for the same request.
-    private Octet subscriptionId = null; // Identify mulitple processes listening on bacnet notifications on a single client.
+    private Integer subscriptionId = null; // Identify multiple processes listening on bacnet notifications from a single client.
     private Integer lifetimeSeconds = null;
 
     public SubscribeCovCommandBuilder(InetAddress sendToAddress) {
@@ -61,7 +61,7 @@ public class SubscribeCovCommandBuilder {
         return this;
     }
 
-    public SubscribeCovCommandBuilder withSubscriptionId(Octet subscriptionId) {
+    public SubscribeCovCommandBuilder withSubscriptionId(int subscriptionId) {
         this.subscriptionId = subscriptionId;
         return this;
     }
@@ -104,9 +104,6 @@ public class SubscribeCovCommandBuilder {
         if (invokeId != null) {
             covCommand.setInvokeId(invokeId);
         }
-        if (subscriptionId != null) {
-            covCommand.setSubscriptionId(subscriptionId);
-        }
         return covCommand;
     }
 
@@ -119,7 +116,7 @@ public class SubscribeCovCommandBuilder {
         ObjectId sensorId = subscribeToSensorIds.get(0);
         if (confirmedNotifications) {
             try {
-                covCommand = new ConfirmedSubscribeCovCommand(sendToAddress, sensorId);
+                covCommand = new ConfirmedSubscribeCovCommand(sendToAddress, subscriptionId, sensorId);
                 covCommand.setLifetimeSeconds(lifetimeSeconds);
             } catch (IOException e) {
                 log.trace("Failed to build ConfirmedSubscribeCovCommand for sendToAddress: {}, and sensorId {}. Reason:",
@@ -128,7 +125,7 @@ public class SubscribeCovCommandBuilder {
             }
         } else {
             try {
-                covCommand = new UnConfirmedSubscribeCovCommand(sendToAddress, sensorId);
+                covCommand = new UnConfirmedSubscribeCovCommand(sendToAddress, subscriptionId, sensorId);
             } catch (IOException e) {
                 log.trace("Failed to build UnconfirmedSubscribeCovCommand for sendToAddress: {}, and sensorId {}. Reason:",
                         sendToAddress, sensorId, e.getMessage());
@@ -159,6 +156,7 @@ public class SubscribeCovCommandBuilder {
         SubscribeCovCommand covCommand = new SubscribeCovCommandBuilder(sendToAddress, analogValue1)
                 .withConfirmedNotifications(false)
                 .withLifetime(minutes5)
+                .withIncrement(0.5)
                 .build();
         try {
             covCommand.sendSubscribeCov();

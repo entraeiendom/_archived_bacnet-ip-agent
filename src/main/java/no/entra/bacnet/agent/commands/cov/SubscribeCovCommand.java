@@ -14,6 +14,9 @@ import static no.entra.bacnet.agent.utils.ByteHexConverter.hexStringToByteArray;
 import static no.entra.bacnet.json.utils.HexUtils.octetFromInt;
 import static org.slf4j.LoggerFactory.getLogger;
 
+/**
+ * Increment must be implemented in SubscribePropertyCovCommand
+ */
 public abstract class SubscribeCovCommand {
     private static final Logger log = getLogger(SubscribeCovCommand.class);
     public static final String BROADCAST_IP = "255.255.255.255";
@@ -21,32 +24,40 @@ public abstract class SubscribeCovCommand {
     private final ArrayList<ObjectId> subscribeToSensorIds;
     private final InetAddress sendToAddress;
     private final DatagramSocket socket;
-    private Octet subscriptionId; //aka invokeId or tag to track all subsequent notifications.
+    private final int subscriptionId;
+//    private Octet subscriptionId; //aka invokeId or tag to track all subsequent notifications.
     private Octet invokeId = new Octet("01");
     public static final int BACNET_DEFAULT_PORT = 47808;
     private byte[] buf = new byte[2048];
     private Integer lifetimeSeconds = null;
 
-    public SubscribeCovCommand(InetAddress sendToAddress, ObjectId... subscribeToSensorIds) throws IOException {
+    protected SubscribeCovCommand(InetAddress sendToAddress, ObjectId... subscribeToSensorIds) throws IOException {
+        this(sendToAddress,new Random().nextInt(255), subscribeToSensorIds);
+    }
+
+    public SubscribeCovCommand(InetAddress sendToAddress, int subscriptionId, ObjectId... subscribeToSensorIds) throws IOException {
         socket = new DatagramSocket(null);
         socket.setBroadcast(true);
         socket.setReuseAddress(true);
         SocketAddress inetAddress = new InetSocketAddress(BACNET_DEFAULT_PORT);
         socket.bind(inetAddress);
         this.sendToAddress = sendToAddress;
+        this.subscriptionId = subscriptionId;
         this.subscribeToSensorIds = mapList(subscribeToSensorIds);
-        int nextId = new Random().nextInt(255); //255 is max allowed
-        subscriptionId = octetFromInt(nextId);
+
     }
 
     protected SubscribeCovCommand(DatagramSocket socket, InetAddress sendToAddress, ObjectId... subscribeToSensorIds) throws IOException {
+        this(socket, sendToAddress, new Random().nextInt(255), subscribeToSensorIds);
+    }
+    protected SubscribeCovCommand(DatagramSocket socket, InetAddress sendToAddress, int subscriptionId, ObjectId... subscribeToSensorIds) throws IOException {
         this.socket = socket;
         SocketAddress inetAddress = new InetSocketAddress(BACNET_DEFAULT_PORT);
         socket.bind(inetAddress);
         this.sendToAddress = sendToAddress;
+        this.subscriptionId = subscriptionId;
         this.subscribeToSensorIds = mapList(subscribeToSensorIds);
         int nextId = new Random().nextInt(255); //255 is max allowed
-        subscriptionId = octetFromInt(nextId);
     }
 
     protected abstract String buildHexString() ;
@@ -91,12 +102,13 @@ public abstract class SubscribeCovCommand {
         return subscribeToSensorIds;
     }
 
-    public void setSubscriptionId(Octet id) {
-        this.subscriptionId = id;
+    public int getSubscriptionId() {
+        return subscriptionId;
     }
 
-    public Octet getSubscriptionId() {
-        return subscriptionId;
+    public Octet getSubscriptionIdHex() {
+        Octet subscriptionIdHex = octetFromInt(subscriptionId);
+        return subscriptionIdHex;
     }
 
     public Octet getInvokeId() {
@@ -130,7 +142,8 @@ public abstract class SubscribeCovCommand {
         try {
             ObjectId analogValue1 = new ObjectId(ObjectType.AnalogValue, "1");
             InetAddress sendToAddress = SubscribeCovCommand.inetAddressFromString(destination);
-            covCommand = new ConfirmedSubscribeCovCommand(sendToAddress, analogValue1);
+            int subscriptionId = new Random().nextInt(255);
+            covCommand = new ConfirmedSubscribeCovCommand(sendToAddress, subscriptionId, analogValue1);
 //            covCommand = new UnconfirmedSubscribeCovCommand();
 //            ObjectId analogValue0 = new ObjectId(ObjectType.AnalogValue, "0");
 //            covCommand = new UnconfirmedMultipleSubscribeCovCommand(sendToAddress, analogValue1, analogValue0);

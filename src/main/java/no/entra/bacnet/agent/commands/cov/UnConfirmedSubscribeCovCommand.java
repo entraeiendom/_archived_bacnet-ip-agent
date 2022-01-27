@@ -22,12 +22,12 @@ public class UnConfirmedSubscribeCovCommand extends SubscribeCovCommand {
     private static final Logger log = getLogger(UnConfirmedSubscribeCovCommand.class);
     public static final String UNCONFIRMED = "00";
 
-    public UnConfirmedSubscribeCovCommand(InetAddress sendToAddress, ObjectId subscribeToSensorId) throws IOException {
-        super(sendToAddress, subscribeToSensorId);
+    public UnConfirmedSubscribeCovCommand(InetAddress sendToAddress, int subscriptionId, ObjectId subscribeToSensorId) throws IOException {
+        super(sendToAddress, subscriptionId, subscribeToSensorId);
     }
 
-    public UnConfirmedSubscribeCovCommand(DatagramSocket socket, InetAddress sendToAddress, ObjectId subscribeToSensorId) throws IOException {
-        super(socket, sendToAddress, subscribeToSensorId);
+    public UnConfirmedSubscribeCovCommand(DatagramSocket socket, InetAddress sendToAddress, int subscriptionId, ObjectId subscribeToSensorId) throws IOException {
+        super(socket, sendToAddress, subscriptionId, subscribeToSensorId);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class UnConfirmedSubscribeCovCommand extends SubscribeCovCommand {
         String maxApduLengthHex = "02"; //TODO need to be able to set this.;
         //When a client have multiple processes subscribing to the server. Use this parameter to route notifications to the
         //corresponding client process. - Not much in use in a Java implementation.
-        String subscriberProcessIdentifier = getSubscriptionId().toString();
+        String subscriberProcessIdentifier = getSubscriptionIdHex().toString();
         String apdu = pduTypeHex + maxApduLengthHex + invokeIdHex + serviceChoiceHex + TAG0LENGTH1 +
                 subscriberProcessIdentifier + TAG1LENGTH4 + objectIdHex + TAG2LENGTH1 +
                 confirmEveryNotification + TAG3LENGTH1 + lifetimeHex;

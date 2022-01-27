@@ -1,6 +1,5 @@
 package no.entra.bacnet.agent.commands.cov;
 
-import no.entra.bacnet.Octet;
 import no.entra.bacnet.json.bvlc.BvlcFunction;
 import no.entra.bacnet.json.objects.ObjectId;
 import no.entra.bacnet.json.objects.ObjectIdMapper;
@@ -15,7 +14,6 @@ import static no.entra.bacnet.json.apdu.SDContextTag.TAG0LENGTH1;
 import static no.entra.bacnet.json.apdu.SDContextTag.TAG1LENGTH4;
 import static no.entra.bacnet.json.objects.PduType.ConfirmedRequest;
 import static no.entra.bacnet.json.services.ConfirmedServiceChoice.SubscribeCov;
-import static no.entra.bacnet.json.utils.HexUtils.octetFromInt;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /*
@@ -28,13 +26,11 @@ public class CancelSubscribeCovCommand extends SubscribeCovCommand {
     private final Integer lifetime = null;
     private Boolean confirmedNotifications = null;
 
-    public CancelSubscribeCovCommand(InetAddress sendToAddress, ObjectId sensorObjectId, Octet subscriptionId) throws IOException {
-        super(sendToAddress, sensorObjectId);
-        setSubscriptionId(subscriptionId);
+    public CancelSubscribeCovCommand(InetAddress sendToAddress, int subscriptionId, ObjectId sensorObjectId) throws IOException {
+        super(sendToAddress, subscriptionId, sensorObjectId);
     }
-    public CancelSubscribeCovCommand(DatagramSocket socket, InetAddress sendToAddress, ObjectId sensorObjectId, Octet subscriptionId) throws IOException {
-        super(socket, sendToAddress, sensorObjectId);
-        setSubscriptionId(subscriptionId);
+    public CancelSubscribeCovCommand(DatagramSocket socket, InetAddress sendToAddress, int subscriptionId, ObjectId sensorObjectId) throws IOException {
+        super(socket, sendToAddress, subscriptionId, sensorObjectId);
     }
 
     @Override
@@ -49,7 +45,7 @@ public class CancelSubscribeCovCommand extends SubscribeCovCommand {
         String maxApduLengthHex = "02"; //TODO need to be able to set this.;
         //When a client have multiple processes subscribing to the server. Use this parameter to route notifications to the
         //corresponding client process. - Not much in use in a Java implementation.
-        String subscriberProcessIdentifier = getSubscriptionId().toString();
+        String subscriberProcessIdentifier = getSubscriptionIdHex().toString();
         String apdu = pduTypeHex + maxApduLengthHex + invokeIdHex + serviceChoiceHex + TAG0LENGTH1 +
                 subscriberProcessIdentifier + TAG1LENGTH4 + objectIdHex;
         /*
@@ -84,9 +80,7 @@ public class CancelSubscribeCovCommand extends SubscribeCovCommand {
         Integer subscriptionId = Integer.valueOf(args[1]);
         InetAddress sendToAddress = SubscribeCovCommand.inetAddressFromString(destination);
         ObjectId analogValue1 = new ObjectId(ObjectType.AnalogValue, "1");
-        int oneDay = 24 * 60 * 60;
-        Octet subscriptionIdToCancel = octetFromInt(subscriptionId);
-        SubscribeCovCommand covCommand = new CancelSubscribeCovCommand(sendToAddress, analogValue1, subscriptionIdToCancel);
+        SubscribeCovCommand covCommand = new CancelSubscribeCovCommand(sendToAddress, subscriptionId, analogValue1);
         try {
             covCommand.sendSubscribeCov();
             Thread.sleep(10000);

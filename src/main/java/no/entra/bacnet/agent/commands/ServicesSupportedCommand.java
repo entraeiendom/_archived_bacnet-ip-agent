@@ -3,6 +3,8 @@ package no.entra.bacnet.agent.commands;
 import no.entra.bacnet.Octet;
 import no.entra.bacnet.agent.devices.DeviceId;
 import no.entra.bacnet.json.bvlc.BvlcFunction;
+import no.entra.bacnet.json.objects.ObjectId;
+import no.entra.bacnet.json.objects.ObjectType;
 import no.entra.bacnet.json.objects.PropertyIdentifier;
 import org.slf4j.Logger;
 
@@ -60,7 +62,7 @@ public class ServicesSupportedCommand {
 
     protected String buildHexString(Integer instanceNumber) {
         if (instanceNumber == null ) {
-            instanceNumber = 1;
+            instanceNumber = 8;
         }
         String apdu = "1007" + TAG2LENGTH4 + "00000000";
 
@@ -76,6 +78,8 @@ public class ServicesSupportedCommand {
         String serviceChoice = new Octet("0c").toString();
         String objectIdentifier = TAG0LENGTH4.toString(); //0c02000008
         int deviceId = Integer.valueOf(instanceNumber);
+        ObjectId deviceSensorId = new ObjectId(ObjectType.AnalogValue, "1");
+//        String instanceNumberHexString = ObjectIdMapper.toHexString(deviceSensorId);
         String instanceNumberHexString = "02" + intToHexString(deviceId,6);
         String propertyIdentifier =  TAG1LENGTH1 + PropertyIdentifier.ProtocolServicesSupported.getPropertyIdentifierHex(); //"1961";
         apdu = "0275" + invokeId + serviceChoice + objectIdentifier + instanceNumberHexString + propertyIdentifier;

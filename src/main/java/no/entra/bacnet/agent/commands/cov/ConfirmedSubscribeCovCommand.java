@@ -19,12 +19,12 @@ Subscribe to a single parameter for Change of Value(COV)
 public class ConfirmedSubscribeCovCommand extends SubscribeCovCommand {
     private static final Logger log = getLogger(ConfirmedSubscribeCovCommand.class);
 
-    public ConfirmedSubscribeCovCommand(InetAddress sendToAddress, ObjectId subscribeToSensorId) throws IOException {
-        super(sendToAddress, subscribeToSensorId);
+    public ConfirmedSubscribeCovCommand(InetAddress sendToAddress,int subscriptionId, ObjectId subscribeToSensorId) throws IOException {
+        super(sendToAddress, subscriptionId, subscribeToSensorId);
     }
 
-    public ConfirmedSubscribeCovCommand(DatagramSocket socket, InetAddress sendToAddress, ObjectId subscribeToSensorId) throws IOException {
-        super(socket, sendToAddress, subscribeToSensorId);
+    public ConfirmedSubscribeCovCommand(DatagramSocket socket, InetAddress sendToAddress, int subscriptionId, ObjectId subscribeToSensorId) throws IOException {
+        super(socket, sendToAddress, subscriptionId, subscribeToSensorId);
     }
 
     @Override
