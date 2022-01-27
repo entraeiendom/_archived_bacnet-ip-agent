@@ -1,6 +1,6 @@
 package no.entra.bacnet.agent.commands;
 
-import no.entra.bacnet.Octet;
+import no.entra.bacnet.octet.Octet;
 import org.slf4j.Logger;
 
 import java.io.IOException;

@@ -1,7 +1,7 @@
 package no.entra.bacnet.agent.sensors;
 
-import no.entra.bacnet.json.objects.ObjectId;
 import no.entra.bacnet.json.objects.PropertyIdentifier;
+import no.entra.bacnet.objects.ObjectId;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,8 +1,8 @@
 package no.entra.bacnet.agent.commands.cov;
 
 import no.entra.bacnet.json.bvlc.BvlcFunction;
-import no.entra.bacnet.json.objects.ObjectId;
-import no.entra.bacnet.json.objects.ObjectType;
+import no.entra.bacnet.objects.ObjectId;
+import no.entra.bacnet.objects.ObjectType;
 import org.slf4j.Logger;
 
 import java.io.IOException;
@@ -130,8 +130,8 @@ public class UnConfirmedMultipleSubscribeCovCommand extends SubscribeCovCommand 
             destination = args[0];
         }
         try {
-            ObjectId analogValue1 = new ObjectId(ObjectType.AnalogValue, "1");
-            ObjectId analogValue0 = new ObjectId(ObjectType.AnalogValue, "0");
+            ObjectId analogValue1 = new ObjectId(ObjectType.AnalogValue, 1);
+            ObjectId analogValue0 = new ObjectId(ObjectType.AnalogValue, 0);
             InetAddress sendToAddress = SubscribeCovCommand.inetAddressFromString(destination);
             covCommand = new UnConfirmedMultipleSubscribeCovCommand(sendToAddress, analogValue1, analogValue0);
             covCommand.execute();

@@ -1,9 +1,9 @@
 package no.entra.bacnet.agent.commands.cov;
 
-import no.entra.bacnet.Octet;
-import no.entra.bacnet.json.objects.ObjectId;
-import no.entra.bacnet.json.objects.ObjectType;
-import no.entra.bacnet.json.objects.PropertyIdentifier;
+import no.entra.bacnet.internal.properties.PropertyIdentifier;
+import no.entra.bacnet.objects.ObjectId;
+import no.entra.bacnet.objects.ObjectType;
+import no.entra.bacnet.octet.Octet;
 import org.slf4j.Logger;
 
 import java.io.IOException;
@@ -150,7 +150,7 @@ public class SubscribeCovCommandBuilder {
         }
         String destination = args[0];
         InetAddress sendToAddress = SubscribeCovCommand.inetAddressFromString(destination);
-        ObjectId analogValue1 = new ObjectId(ObjectType.AnalogValue, "1");
+        ObjectId analogValue1 = new ObjectId(ObjectType.AnalogValue, 1);
         int oneDay = 24 * 60 * 60;
         int minutes5 = 5 * 60;
         SubscribeCovCommand covCommand = new SubscribeCovCommandBuilder(sendToAddress, analogValue1)

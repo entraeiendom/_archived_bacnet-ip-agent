@@ -1,7 +1,7 @@
 package no.entra.bacnet.agent.commands.cov;
 
-import no.entra.bacnet.json.objects.ObjectId;
-import no.entra.bacnet.json.objects.ObjectType;
+import no.entra.bacnet.objects.ObjectId;
+import no.entra.bacnet.objects.ObjectType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,8 +19,8 @@ public class UnConfirmedMultipleSubscribeCovCommandTest {
     public void setUp() throws Exception {
         socket = mock(DatagramSocket.class);
 
-        ObjectId deviceSensorId1 = new ObjectId(ObjectType.AnalogValue, "1");
-        ObjectId deviceSensorId2 = new ObjectId(ObjectType.AnalogValue, "0");
+        ObjectId deviceSensorId1 = new ObjectId(ObjectType.AnalogValue, 1);
+        ObjectId deviceSensorId2 = new ObjectId(ObjectType.AnalogValue, 0);
         InetAddress sendToAddress = SubscribeCovCommand.inetAddressFromString("10.10.10.10");
         covCommand = new UnConfirmedMultipleSubscribeCovCommand(socket, sendToAddress, deviceSensorId1, deviceSensorId2);
     }

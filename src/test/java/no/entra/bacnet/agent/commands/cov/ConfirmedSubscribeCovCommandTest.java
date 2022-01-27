@@ -1,7 +1,7 @@
 package no.entra.bacnet.agent.commands.cov;
 
-import no.entra.bacnet.json.objects.ObjectId;
-import no.entra.bacnet.json.objects.ObjectType;
+import no.entra.bacnet.objects.ObjectId;
+import no.entra.bacnet.objects.ObjectType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,7 +23,7 @@ public class ConfirmedSubscribeCovCommandTest {
     public void setUp() throws Exception {
         socket = mock(DatagramSocket.class);
         subscriptionId = 18;
-        ObjectId analogInput0 = new ObjectId(ObjectType.AnalogInput, "0");
+        ObjectId analogInput0 = new ObjectId(ObjectType.AnalogInput, 0);
         InetAddress sendToAddress = SubscribeCovCommand.inetAddressFromString("10.10.10.10");
         covCommand = new ConfirmedSubscribeCovCommand(socket, sendToAddress, subscriptionId, analogInput0);
 

@@ -1,14 +1,14 @@
 package no.entra.bacnet.agent.commands.cov;
 
 import no.entra.bacnet.json.bvlc.BvlcFunction;
-import no.entra.bacnet.json.objects.ObjectId;
-import no.entra.bacnet.json.objects.ObjectIdMapper;
+import no.entra.bacnet.objects.ObjectId;
 import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
+import static no.entra.bacnet.internal.objects.ObjectIdMapper.toHexString;
 import static no.entra.bacnet.json.apdu.SDContextTag.*;
 import static no.entra.bacnet.json.objects.PduType.ConfirmedRequest;
 import static no.entra.bacnet.json.services.ConfirmedServiceChoice.SubscribeCov;
@@ -43,7 +43,7 @@ public class UnConfirmedSubscribeCovCommand extends SubscribeCovCommand {
      */
     protected String buildUnConfirmedCovSingleRequest(ObjectId deviceSensorId) {
         String hexString = null;
-        String objectIdHex = ObjectIdMapper.toHexString(deviceSensorId);
+        String objectIdHex = toHexString(deviceSensorId);
         String confirmEveryNotification = UNCONFIRMED;
         String lifetimeHex = octetFromInt(0).toString(); //indefinite
 

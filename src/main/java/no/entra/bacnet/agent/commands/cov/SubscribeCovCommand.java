@@ -1,8 +1,8 @@
 package no.entra.bacnet.agent.commands.cov;
 
-import no.entra.bacnet.Octet;
-import no.entra.bacnet.json.objects.ObjectId;
-import no.entra.bacnet.json.objects.ObjectType;
+import no.entra.bacnet.objects.ObjectId;
+import no.entra.bacnet.objects.ObjectType;
+import no.entra.bacnet.octet.Octet;
 import org.slf4j.Logger;
 
 import java.io.IOException;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import static no.entra.bacnet.agent.utils.ByteHexConverter.hexStringToByteArray;
-import static no.entra.bacnet.json.utils.HexUtils.octetFromInt;
+import static no.entra.bacnet.utils.HexUtils.octetFromInt;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
@@ -133,16 +133,20 @@ public abstract class SubscribeCovCommand {
 
     public static void main(String[] args) throws Exception {
         SubscribeCovCommand covCommand = null;
-
+        int subscriptionId;
         //Destination may also be fetched as the first program argument.
         String destination = BROADCAST_IP;
         if (args.length > 0) {
             destination = args[0];
         }
+        if (args.length > 1) {
+            subscriptionId = Integer.valueOf(args[1]);
+        } else {
+            subscriptionId = new Random().nextInt(255);
+        }
         try {
-            ObjectId analogValue1 = new ObjectId(ObjectType.AnalogValue, "1");
+            ObjectId analogValue1 = new ObjectId(ObjectType.AnalogValue, 1);
             InetAddress sendToAddress = SubscribeCovCommand.inetAddressFromString(destination);
-            int subscriptionId = new Random().nextInt(255);
             covCommand = new ConfirmedSubscribeCovCommand(sendToAddress, subscriptionId, analogValue1);
 //            covCommand = new UnconfirmedSubscribeCovCommand();
 //            ObjectId analogValue0 = new ObjectId(ObjectType.AnalogValue, "0");

@@ -1,15 +1,15 @@
 package no.entra.bacnet.agent.commands;
 
 import no.entra.bacnet.json.bvlc.BvlcFunction;
-import no.entra.bacnet.json.objects.ObjectId;
-import no.entra.bacnet.json.objects.ObjectIdMapper;
-import no.entra.bacnet.json.objects.ObjectType;
+import no.entra.bacnet.objects.ObjectId;
+import no.entra.bacnet.objects.ObjectType;
 import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.net.*;
 
 import static no.entra.bacnet.agent.utils.ByteHexConverter.hexStringToByteArray;
+import static no.entra.bacnet.internal.objects.ObjectIdMapper.toHexString;
 import static no.entra.bacnet.json.apdu.SDContextTag.TAG2LENGTH4;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -48,8 +48,8 @@ public class WhoHasCommand {
         X'2C' SD Context Tag 2 (Object Identifier, L=4)
         X'00000001' Analog Input, Instance Number=1
          */
-        ObjectId deviceSensorId = new ObjectId(ObjectType.AnalogValue, "1");
-        String supportedPropertyHex = ObjectIdMapper.toHexString(deviceSensorId);
+        ObjectId deviceSensorId = new ObjectId(ObjectType.AnalogValue, 1);
+        String supportedPropertyHex = toHexString(deviceSensorId);
         String apdu = "1007" + TAG2LENGTH4 + supportedPropertyHex;
         String npdu = "0120ffff00ff";
         int numberOfOctets = (apdu.length() + npdu.length() + 8) / 2;

@@ -1,7 +1,7 @@
 package no.entra.bacnet.agent.commands.cov;
 
-import no.entra.bacnet.json.objects.ObjectId;
 import no.entra.bacnet.json.objects.PropertyIdentifier;
+import no.entra.bacnet.objects.ObjectId;
 
 import java.io.IOException;
 import java.net.DatagramSocket;

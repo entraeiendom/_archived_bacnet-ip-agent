@@ -1,14 +1,14 @@
 package no.entra.bacnet.agent.commands.cov;
 
-import no.entra.bacnet.Octet;
-import no.entra.bacnet.json.objects.ObjectId;
-import no.entra.bacnet.json.objects.ObjectType;
+import no.entra.bacnet.objects.ObjectId;
+import no.entra.bacnet.objects.ObjectType;
+import no.entra.bacnet.octet.Octet;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.net.InetAddress;
 
-import static no.entra.bacnet.json.utils.HexUtils.octetFromInt;
+import static no.entra.bacnet.utils.HexUtils.octetFromInt;
 import static org.junit.Assert.*;
 
 public class SubscribeCovCommandBuilderTest {
@@ -20,7 +20,7 @@ public class SubscribeCovCommandBuilderTest {
     @Before
     public void setUp() throws Exception {
         subscriptionId = 18;
-        analogInput0 = new ObjectId(ObjectType.AnalogInput, "0");
+        analogInput0 = new ObjectId(ObjectType.AnalogInput, 0);
         sendToAddress = SubscribeCovCommand.inetAddressFromString("10.10.10.10");
     }
 

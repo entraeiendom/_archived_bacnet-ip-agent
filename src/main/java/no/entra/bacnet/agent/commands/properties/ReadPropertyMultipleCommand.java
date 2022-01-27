@@ -1,11 +1,11 @@
 package no.entra.bacnet.agent.commands.properties;
 
-import no.entra.bacnet.Octet;
 import no.entra.bacnet.agent.commands.BaseBacnetIpCommand;
 import no.entra.bacnet.agent.devices.DeviceId;
 import no.entra.bacnet.agent.sensors.SensorWithProperties;
+import no.entra.bacnet.internal.properties.PropertyIdentifier;
 import no.entra.bacnet.json.bvlc.BvlcFunction;
-import no.entra.bacnet.json.objects.PropertyIdentifier;
+import no.entra.bacnet.octet.Octet;
 import org.slf4j.Logger;
 
 import java.io.IOException;
@@ -14,9 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static no.entra.bacnet.agent.utils.ByteHexConverter.hexStringToByteArray;
-import static no.entra.bacnet.json.apdu.SDContextTag.*;
-import static no.entra.bacnet.json.utils.HexUtils.intToHexString;
-import static no.entra.bacnet.json.utils.HexUtils.octetFromInt;
+import static no.entra.bacnet.internal.apdu.SDContextTag.*;
+import static no.entra.bacnet.utils.HexUtils.intToHexString;
+import static no.entra.bacnet.utils.HexUtils.octetFromInt;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**

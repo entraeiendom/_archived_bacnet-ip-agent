@@ -1,8 +1,8 @@
 package no.entra.bacnet.agent.commands.cov;
 
-import no.entra.bacnet.Octet;
-import no.entra.bacnet.json.objects.ObjectId;
-import no.entra.bacnet.json.objects.ObjectType;
+import no.entra.bacnet.objects.ObjectId;
+import no.entra.bacnet.objects.ObjectType;
+import no.entra.bacnet.octet.Octet;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,7 +23,7 @@ public class CancelSubscribeCovCommandTest {
     @Before
     public void setUp() throws Exception {
         socket = mock(DatagramSocket.class);
-        ObjectId analogValue1 = new ObjectId(ObjectType.AnalogValue, "1");
+        ObjectId analogValue1 = new ObjectId(ObjectType.AnalogValue, 1);
         InetAddress sendToAddress = SubscribeCovCommand.inetAddressFromString("10.10.10.10");
         suscriptionId = 18;
         covCommand = new CancelSubscribeCovCommand(socket, sendToAddress, suscriptionId, analogValue1 );

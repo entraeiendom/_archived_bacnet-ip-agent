@@ -1,15 +1,15 @@
 package no.entra.bacnet.agent.commands.cov;
 
 import no.entra.bacnet.json.bvlc.BvlcFunction;
-import no.entra.bacnet.json.objects.ObjectId;
-import no.entra.bacnet.json.objects.ObjectIdMapper;
-import no.entra.bacnet.json.objects.ObjectType;
+import no.entra.bacnet.objects.ObjectId;
+import no.entra.bacnet.objects.ObjectType;
 import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
+import static no.entra.bacnet.internal.objects.ObjectIdMapper.toHexString;
 import static no.entra.bacnet.json.apdu.SDContextTag.TAG0LENGTH1;
 import static no.entra.bacnet.json.apdu.SDContextTag.TAG1LENGTH4;
 import static no.entra.bacnet.json.objects.PduType.ConfirmedRequest;
@@ -37,7 +37,7 @@ public class CancelSubscribeCovCommand extends SubscribeCovCommand {
     protected String buildHexString() {
         String hexString = null;
         ObjectId deviceSensorId = getSubscribeToSensorIds().get(0);
-        String objectIdHex = ObjectIdMapper.toHexString(deviceSensorId);
+        String objectIdHex = toHexString(deviceSensorId);
 
         String pduTypeHex = ConfirmedRequest.getPduTypeChar() + "0";
         String serviceChoiceHex = SubscribeCov.getServiceChoiceHex();
@@ -77,9 +77,14 @@ public class CancelSubscribeCovCommand extends SubscribeCovCommand {
                     "on command line. example: \"192.168.1.100 12\"");
         }
         String destination = args[0];
-        Integer subscriptionId = Integer.valueOf(args[1]);
+        int subscriptionId;
+        if (args.length > 1) {
+            subscriptionId = Integer.valueOf(args[1]);
+        } else {
+            throw new IllegalArgumentException("Missing subscriptionId. It must be argument 2");
+        }
         InetAddress sendToAddress = SubscribeCovCommand.inetAddressFromString(destination);
-        ObjectId analogValue1 = new ObjectId(ObjectType.AnalogValue, "1");
+        ObjectId analogValue1 = new ObjectId(ObjectType.AnalogValue, 1);
         SubscribeCovCommand covCommand = new CancelSubscribeCovCommand(sendToAddress, subscriptionId, analogValue1);
         try {
             covCommand.sendSubscribeCov();
