@@ -20,6 +20,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 When the parameters "lifetime" and "Issue Confirmed Notifications" are missing the server will understand this request
 as cancel subscription.
  */
+@Deprecated //use bacnet-sdk commands
 public class CancelSubscribeCovCommand extends SubscribeCovCommand {
     private static final Logger log = getLogger(CancelSubscribeCovCommand.class);
 

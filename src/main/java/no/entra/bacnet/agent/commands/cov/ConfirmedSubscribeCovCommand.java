@@ -16,6 +16,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 /*
 Subscribe to a single parameter for Change of Value(COV)
  */
+@Deprecated //use bacnet-sdk commands
 public class ConfirmedSubscribeCovCommand extends SubscribeCovCommand {
     private static final Logger log = getLogger(ConfirmedSubscribeCovCommand.class);
 

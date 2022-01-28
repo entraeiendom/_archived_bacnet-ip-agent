@@ -17,6 +17,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 /**
  * Increment must be implemented in SubscribePropertyCovCommand
  */
+@Deprecated //use bacnet-sdk commands
 public abstract class SubscribeCovCommand {
     private static final Logger log = getLogger(SubscribeCovCommand.class);
     public static final String BROADCAST_IP = "255.255.255.255";
